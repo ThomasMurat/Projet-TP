@@ -1,0 +1,25 @@
+#topMenuAU {
+    background-color: rgb(0, 123, 255);
+}
+#topMenuMU {
+    background-color: rgb(220, 53, 69);
+}
+footer {
+    height: 100px;
+    background-color: rgb(60, 66, 71);
+}
+#welcomeContainer {
+    z-index: 1;
+    color: white;
+    position: absolute;
+    background-color: rgba(60, 66, 71, 0.7);
+    border-radius: 20px;
+}
+.content {
+    margin-top: 74px;
+}
+@media screen and (min-width:991px) {
+#mainMenuList {
+    width: 100%;
+}
+}
