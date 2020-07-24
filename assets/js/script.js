@@ -9,15 +9,15 @@ function pageResize() {
 
     if(screenHeight > screenWidth) {
         if(document.getElementById('MUwelcomeImage')){
-            document.getElementById('MUwelcomeImage').src = '/assets/img/fondMUportrait.png';
+            document.getElementById('MUwelcomeImage').src = '/assets/img/MU/fondPortrait.png';
         }else{
-            document.getElementById('AUwelcomeImage').src = '/assets/img/fondAUportrait.jpg';
+            document.getElementById('AUwelcomeImage').src = '/assets/img/AU/fondPortrait.jpg';
         }   
     }else {
         if(document.getElementById('MUwelcomeImage')) {
-            document.getElementById('MUwelcomeImage').src = '/assets/img/fondMU.png';
+            document.getElementById('MUwelcomeImage').src = '/assets/img/MU/fond.png';
         }else{
-            document.getElementById('AUwelcomeImage').src = '/assets/img/fondAU.jpg';
+            document.getElementById('AUwelcomeImage').src = '/assets/img/AU/fond.jpg';
         }   
     }
 }

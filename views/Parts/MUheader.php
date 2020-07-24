@@ -12,7 +12,7 @@
             <header id="topMenuMU" class="float-left fixed-top col-12">
                 <div id="menu" class="row">
                     <div class="float-left d-flex align-content-center col-3 col-lg-2 text-center" id="switchUniverseButton">
-                        <a class="mx-auto my-auto" href="http://anymanga.fr/AU-<?= $contentName ?>.html"><img src="assets/img/SwitchButtonMU.png" title="Changer d'univers" alt=""></a>
+                        <a class="mx-auto my-auto" href="http://anymanga.fr/AU-<?= $contentName ?>.html"><img src="assets/img/MU/switchButton.png" title="Changer d'univers" alt=""></a>
                     </div>
                     <nav class="navbar navbar-expand-lg float-left col-6 col-lg-8 justify-content-center" id="mainMenu">
                         <h1 id="menuTitle"><a href="#" data-toggle="collapse" data-target="#mainMenuContent" class="navbar-toggler row float-left text-white text-center w-100">AnyManga</a></h1>

@@ -1,7 +1,7 @@
 <div class="col-12 d-flex content" id="welcome">
     <div class="row d-flex align-self-center">
-        <a class="col-xl-6 col-12" id="universAnime" href="AU-welcome.html"><div class="row"><img class="img-fluid" src="/assets/img/fondAU.jpg" /></div></a>
-        <a class="col-xl-6 col-12" id="universManga" href="MU-welcome.html"><div class="row"><img class="img-fluid" src="/assets/img/fondMU.png" /></div></a>
+        <a class="col-xl-6 col-12" id="universAnime" href="AU-welcome.html"><div class="row"><img class="img-fluid" src="/assets/img/AU/fond.jpg" /></div></a>
+        <a class="col-xl-6 col-12" id="universManga" href="MU-welcome.html"><div class="row"><img class="img-fluid" src="/assets/img/MU/fond.png" /></div></a>
         <div class="offset-lg-4 offset-1 col-10 col-lg-4 align-self-center" id="welcomeContainer">
             <h2 class="text-center">Bienvenue</h2>
             <p class="mx-3 text-justify">

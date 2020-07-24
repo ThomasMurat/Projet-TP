@@ -2,7 +2,7 @@
     <div class="w-100 d-flex align-self-center">
         <div class="col-12" id="universManga">
             <div class="row">
-                <img class="img-fluid w-100" id="MUwelcomeImage" src="/assets/img/fondMU.png" />
+                <img class="img-fluid w-100" id="MUwelcomeImage" src="/assets/img/MU/fond.png" />
                 <div class="offset-lg-4 offset-1 col-10 col-lg-4 align-self-center" id="welcomeContainer">
                     <h2 class="text-center">Bienvenue</h2>
                     <p class="mx-3 text-justify">

@@ -1,6 +1,6 @@
 -- Population de la table universe
 INSERT INTO `42pmz96_universes` (`universe`)
-VALUES ('manga'), ('anime');
+VALUES ('manga'), ('anime'), ('global');
 -- Population de la table status
 INSERT INTO `42pmz96_status` (`name`)
 VALUES ('en cours'), ('terminé'), ('à venir'), ('en pause');
@@ -12,7 +12,7 @@ INSERT INTO `42pmz96_productTypes` (`name`)
 VALUES ('oneshot'), ('serie'), ('ova'), ('film'), ('light novel'), ('cross over');
 -- Population de la table PostsTypes
 INSERT INTO `42pmz96_postsTypes` (`name`)
-VALUES ('évenement'), ('annonce'), ('info');
+VALUES ('évenement'), ('annonce'), ('info'), ('accueil');
 -- Population de la table producersTypes
 INSERT INTO `42pmz96_producerTypes` (`name`)
 VALUES ('studio'), ('éditeur'), ('scénariste'), ('déssinateur'), ('producteur'), ('réalisateur'), ('scénariste et déssinateur');
@@ -65,3 +65,11 @@ VALUES (1, 'Assassiné par des criminels, le corps du détective Yokoda est réc
 (39, 'Cette série raconte les aventures de Kirito qui se retrouve piégé dans un jeu massivement multi-joueurs, Sword Art Online.\r\n\r\nEn 2022, l\'humanité a réussi à créer une réalité virtuelle. Grâce à un casque, les humains peuvent se plonger entièrement dans le monde virtuel en étant comme déconnectés de la réalité, et Sword Art Online est le premier MMORPG a utiliser ce système. Mais voila que le premier jour de jeu, 10 000 personnes se retrouvent piégées dans cette réalité virtuelle par son créateur : Akihiko Kayaba. Le seul moyen d\'en sortir est de finir le jeu. Mais ce ne sera pas facile de sortir de ce monde virtuel puisque si un joueur perd la partie, il meurt également dans la vraie vie.\r\n\r\nKirito décide alors de partir à la conquête du jeu en solo, avec pour avantage le fait de faire partie des 1 000 ex-bêta-testeurs, mais arrivera-t-il à terminer les 99 donjons et leurs boss ?\r\n\r\n\"Même si cela semble être un jeu vidéo, ce n\'est pas un jeu\"\r\nAkihiko Kayaba - Créateur de \"Sword Art Online\"', '/assets/MU/swordArtOnline.jpg', 2, 21),
 (40, 'pas de license', '/assets/MU/licenses/nolicense.jpg', 1, 1),
 (41, 'pas de license', '/assets/AU/licenses/nolicense.jpg', 2, 1);
+-- Population table users
+INSERT INTO `42pmz96_users` (`id`, `username`, `password`, `mail`, `birthdate`, `subscribDate`, `id_42pmz96_roles`) VALUES
+(1, 'totojo', '20232023', 'totojo-1@hotmail.fr', '1992-06-18', '2020-07-24 15:07:00', 1);
+-- Population de la table posts
+INSERT INTO `42pmz96_posts` (`id`, `content`, `image`, `postDate`, `lastEditDate`, `title`, `id_42pmz96_universes`, `id_42pmz96_users`, `id_42pmz96_postsTypes`) VALUES
+(1, 'Bienvenue dans l\'univer Mange d\'AnyManga. Vous trouverez ici, tous ce qu\'il y a à savoir sur l\'univer du Manga: suivez l\'actualité, retrouvez vos oeuvres préférées, découvrez-en de nouvelles. N\'hésitez pas à changer d\'univer à tous moment pour découvrir si votre oeuvre favorite a été adapté en Animé. Devenez membre et enregistrer vos lectures passé et les nouvelles et profitez de nos listes découvertes. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 1, 1, 4),
+(2, 'Bienvenue dans l\'univers Animés d\'AnyManga. Vous trouverez ici, Tous ce qu\'il y a à savoir sur l\'univer des Animés. Suivez l\'actualité, parcourrez les oeuvres pour les découvrir ou les redécouvrir. N\'hésitez pas à changer d\'univer, et ainsi découvrir le manga à l\'origin de votre oeuvre préférée. Devenez membre epour créer votre liste de lecture passé et à venir mais aussi pour découvrir nos listes découvertes. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 2, 1, 4),
+(3, 'Bienvenue sur AnyManga. Vous trouverez ici toutes les oeuvres issues du monde de l\'animation japonaise. Nous vous invitons à vous inscrire ,et ainsi pouvoir profiter des différents outils que nous vous proposons, comme enregistrer une liste des oeuvres qui vous intéresses ou celles que vous avez déjà vus ou lus. Pour poursuivre votre visite veuillez choisir l\'univers de votre choix en cliquant sur l\'une des deux images présentées sur cette page. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 3, 1, 4);
