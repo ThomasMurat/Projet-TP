@@ -31,5 +31,5 @@
         </div>
     </div><?php       
     include $content;
-    include 'views/parts/footer.html' 
+    include 'views/parts/footer.php' 
 ?>

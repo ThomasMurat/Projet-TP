@@ -18,8 +18,8 @@
                         <h1 id="menuTitle"><a href="#" data-toggle="collapse" data-target="#mainMenuContent" class="navbar-toggler row float-left text-white text-center w-100">AnyManga</a></h1>
                         <div class="collapse navbar-collapse col-12" id="mainMenuContent">
                             <ul id="mainMenuList" class="navbar-nav row">
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="AU-animes.html">Animes</a></li>
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="AU-studios.html">Studios</a></li>
+                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="AU-productList.html">Animes</a></li>
+                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="AU-producerList.html">Studios</a></li>
                                 <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="AU-discover.html">Découverte</a></li>
                                 <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="AU-news.html">Actualités</a></li>
                             </ul>

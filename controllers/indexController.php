@@ -1,7 +1,7 @@
 <?php
 $univerList = array('AU', 'MU');
 $noSwitchableContentList = array('subscrib');
-$switchableContentList = array('welcome');
+$switchableContentList = array('welcome', 'productList', 'producerList');
 
 
 if(isset($_GET['univer']) && in_array($_GET['univer'], $univerList)) {
@@ -17,14 +17,14 @@ if(isset($_GET['content'])) {
         $content = 'views/parts/' . $contentName . '.php';
     }else if(in_array($_GET['content'], $switchableContentList)) {
         $contentName = htmlspecialchars($_GET['content']);
-        $content = 'views/parts/'. $univer . $contentName . '.html';
+        $content = 'views/parts/'. $univer . $contentName . '.php';
     }else {
         $contentName = 'welcome';
-        $content = 'views/parts/' . $univer . 'welcome.html';
+        $content = 'views/parts/' . $univer . 'welcome.php';
     }  
 }else {
     $contentName = 'welcome';
-    $content = 'views/parts/welcome.html';
+    $content = 'views/parts/welcome.php';
 }
 
 
