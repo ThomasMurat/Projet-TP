@@ -1,15 +1,23 @@
-<?php include 'controllers/subscribController.php'; 
-if(isset($_POST['postSubscribe']) && count($subscribFormErrors) == 0){
-    ?><p><?= 'Félicitation vous vous êtes inscrit avec succès' ?></p><?php
+<?php include 'models/users.php';
+include 'controllers/subscribController.php'; 
+if(isset($_POST['postSubscribe']) && count($subscribFormErrors) == 0){?>
+    <div class="offset-1 col-10 content" id="subscrib">
+        <p><?= $message ?></p>
+    </div><?php
 }else { ?>
     <div class="offset-1 col-10 content" id="subscrib">
-        <form action="<?= $univer ?>-subscrib.html" method="POST" class="w-100">
+        <form action="index.php?universe=<?= $universe ?>&content=subscrib" method="POST" class="w-100">
             <h1 class="text-center">Veuillez remplir tous les champs pour vous inscrire.</h1>
             <div id="subscribFormContent" class="row">
                 <div class="form-group col-12">
                     <label for="pseudo">Pseudo :</label>
                     <input type="text" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['pseudo']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="pseudo" name="pseudo" value="<?= (!empty($_POST['pseudo'])) ? $_POST['pseudo'] : '' ; ?>" />
                     <p class="text-danger"><?= (!empty($subscribFormErrors['pseudo'])) ? $subscribFormErrors['pseudo'] : '' ;?></p>
+                </div>
+                <div class="form-group col-12">
+                    <label for="birthDate">Date de naissance :</label>
+                    <input type="date" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['birthDate']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="birthDate" name="birthDate" value="<?= (!empty($_POST['birthDate'])) ? $_POST['birthDate'] : '' ; ?>" />
+                    <p class="text-danger"><?= (!empty($subscribFormErrors['birthDate'])) ? $subscribFormErrors['birthDate'] : '' ;?></p>
                 </div>
                 <div class="form-group col-12">
                     <label for="email">Adresse e-mail :</label>

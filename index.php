@@ -11,7 +11,7 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <form method="POST" action="<?= $univer . '-' . $contentName . '.html' ?>">
+                    <form method="POST" action="index.php?universe=<?= $universe ?>&content=<?= $contentName ?>">
                         <div class="row">
                             <div class="form-group col-12">
                                 <label for="username">Pseudo :</label>
@@ -22,7 +22,7 @@
                                 <input type="password" id="userPassword" class="form-control" name="userPassword" />
                             </div>
                             <div class="form-group text-center col-12">
-                                <input type="submit" class="btn btn-primary" value="Se connecter" />
+                                <input type="submit" class="btn btn-primary" name="login" value="Se connecter" />
                             </div>
                         </div>
                     </form>
@@ -31,5 +31,5 @@
         </div>
     </div><?php       
     include $content;
-    include 'views/parts/footer.php' 
+    include 'views/footer.php' 
 ?>
