@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" media="screen" type="text/css" href="assets/css/style.css" />
     </head>
-    <body onresize="pageResize()" class="container-fluid">
+    <body onresize="pageResize();<?=($contentName == 'welcome' || $_SERVER['REQUEST_URI'] == '/index.php') ? 'welcomeAdapt();': ''; ?>" class="container-fluid">
         <div class="row">
             <header id="topMenuMU" class="float-left fixed-top col-12">
                 <div id="menu" class="row">
@@ -30,11 +30,16 @@
                             <img src="assets/img/iconUser.png" title="Menu utilisateur" alt="Menu utilisateur">
                         </a>
                         <div class="collapse navbar-collapse" id="userMenuContent">
-                            <ul id="userMenuList" class="navbar-nav">
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=subscrib">S'inscrire</a></li>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" data-toggle="modal" data-target="#login" href="#">Connexion</a></li>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=profile">Mon profil</a></li>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=lists">Mes listes</a></li>
+                            <ul id="userMenuList" class="navbar-nav"><?php
+                            if($_SESSION['logedIn'] != 1) { ?>
+                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=subscrib">S'inscrire</a></li><?php
+                            } 
+                            if($_SESSION['logedIn'] == 1) { ?>
+                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= ($_SERVER['REQUEST_URI'] == 'index.php') ? 'index.php?' : $_SERVER['REQUEST_URI'] . '&logOut='; ?>">Déconnexion</a></li><?php
+                            }else { ?>
+                                <li class="nav-item d-flex"><a class="text-white text-center w-100" data-toggle="modal" data-target="#login" href="#">Connexion</a></li><?php
+                            } ?>                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=profile">Mon profil</a></li>
+                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=lists"><?= 'sessionvalue : ' . $_SESSION['logedIn'] ?></a></li>
                             </ul>
                         </div>
                     </nav>

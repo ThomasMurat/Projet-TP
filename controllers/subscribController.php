@@ -7,7 +7,7 @@ if(isset($_POST['postSubscribe'])) {
     if(!empty($_POST['pseudo'])){
         if(preg_match($nameRegex,$_POST['pseudo'])){
             $newUser->username = htmlspecialchars($_POST['pseudo']);
-            ($newUser->checkUserExist())? $subscribFormErrors['pseudo'] = 'Ce pseudo est déjà utilisé': '';
+            ($newUser->checkUserExist()) ? $subscribFormErrors['pseudo'] = 'Ce pseudo est déjà utilisé': '';
         }else{
             $subscribFormErrors['pseudo'] = 'Votre pseudo doit être de la forme : ';
         }

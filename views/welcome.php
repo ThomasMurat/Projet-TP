@@ -2,7 +2,7 @@
 include 'models/posts.php';
 include 'controllers/welcomeController.php'; 
 ?>
-<div class="col-12 <?= ($universe == 'global')? 'd-flex': '' ?> content" id="welcome">
+<div class="col-12 <?= ($universe == 'global')? 'd-flex': '' ?> content" onload="welcomeAdapt()" id="welcome">
     <div class="row d-flex align-self-center">
         <?= $welcomeBackground ?>
         <div class="offset-lg-4 offset-1 col-10 col-lg-4 align-self-center" id="welcomeContainer">

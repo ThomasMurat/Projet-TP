@@ -1,4 +1,4 @@
-<?php include 'models/users.php';
+<?php include_once 'models/users.php';
 include 'controllers/subscribController.php'; 
 if(isset($_POST['postSubscribe']) && count($subscribFormErrors) == 0){?>
     <div class="offset-1 col-10 content" id="subscrib">
