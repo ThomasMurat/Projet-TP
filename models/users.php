@@ -55,8 +55,7 @@ class users {
         );
         $getUserInfoQuery->bindValue(':id', $this->id, PDO::PARAM_INT);
         $getUserInfoQuery->execute();
-        $data = $getUserInfoQuery->fetch(PDO::FETCH_OBJ);
-        return $data;
+        return $getUserInfoQuery->fetch(PDO::FETCH_OBJ);
     }
     public function getUserPassword(){
         $checkUserPasswordQuery = $this->db->prepare(
