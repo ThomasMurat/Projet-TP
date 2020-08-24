@@ -18,10 +18,22 @@
                         <h1 id="menuTitle"><a href="#" data-toggle="collapse" data-target="#mainMenuContent" class="navbar-toggler row float-left text-white text-center w-100">AnyManga</a></h1>
                         <div class="collapse navbar-collapse col-12" id="mainMenuContent">
                             <ul id="mainMenuList" class="navbar-nav row">
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=anime&content=productList">Animes</a></li>
+                                <li class="nav-item dropdown col-lg-3 d-flex">
+                                    <a class="nav-link dropdown-toggle text-white text-center w-100" href="#" data-toggle="dropdown">Animes</a>
+                                    <div class="dropdown-menu w-100">
+                                        <a class="dropdown-item text-center w-100" href="index.php?universe=anime&content=productList&licenses=">Licenses</a>
+                                        <a class="dropdown-item text-center w-100" href="index.php?universe=anime&content=productList&product=">Oeuvres</a>
+                                    </div>
+                                </li>
                                 <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=anime&content=producerList">Studios</a></li>
                                 <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=anime&content=discover">Découverte</a></li>
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=anime&content=news">Actualités</a></li>
+                                <li class="nav-item dropdown col-lg-3 d-flex">
+                                    <a class="nav-link dropdown-toggle text-white text-center w-100" href="#" data-toggle="dropdown">Actualités</a>
+                                    <div class="dropdown-menu w-100">
+                                        <a class="dropdown-item text-center w-100" href="index.php?universe=anime&content=news&articles=">Articles</a>
+                                        <a class="dropdown-item text-center w-100" href="index.php?universe=anime&content=news&calendar=">Agenda</a>
+                                    </div>
+                                </li>                            
                             </ul>
                         </div> 
                     </nav>
