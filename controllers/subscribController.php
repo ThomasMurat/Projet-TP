@@ -25,12 +25,12 @@ if(isset($_POST['postSubscribe'])) {
     }
     if(!empty($_POST['email'])){
         if(filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)){
-            $email = htmlspecialchars($_POST['email']);
-            $newUser->mail = $email;
+            $mail = htmlspecialchars($_POST['email']);
+            $newUser->mail = $mail;
             if($newUser->checkMailExist()){
                 $subscribFormErrors['email'] = 'Cette adresse mail est déjà utilisé';
             }else{
-                (isset($_POST['emailConfirm']) && $_POST['emailConfirm'] == $email )? '': $subscribFormErrors['emailConfirm'] = 'l\'e-mail de confirmation ne correspond pas à votre e-mail';
+                (isset($_POST['emailConfirm']) && $_POST['emailConfirm'] == $mail )? '': $subscribFormErrors['emailConfirm'] = 'l\'e-mail de confirmation ne correspond pas à votre e-mail';
             }
         }else{
             $subscribFormErrors['email'] = 'Cette adresse n\'est pas valide ';
@@ -52,7 +52,7 @@ if(isset($_POST['postSubscribe'])) {
     }else{
         $subscribFormErrors['password'] = 'Vous n\'avez pas choisi de mot de passe';
     }
-    if(count($subscribFormErrors) == 0){
+    if(empty($subscribFormErrors)){
         $newUser->subscribDate = date('Y-m-d H:i:s');
         if($newUser->registerNewUser()){
             $message = 'Votre compte a bien été enregistré vous pouvez desormais vous connecter';

@@ -26,7 +26,7 @@ if(isset($_POST['postSubscribe']) && count($subscribFormErrors) == 0){?>
                 </div>
                 <div class="form-group col-12">
                     <label for="emailConfirm">Confirmer adresse e-mail :</label>
-                    <input type="email" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['emailConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="emailConfirm" name="emailConfirm" value="<?= (!empty($_POST['emailConfirm'])) ? $_POST['emailConfirm'] : '' ; ?>" />
+                    <input type="email" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['emailConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="emailConfirm" name="emailConfirm" />
                     <p class="text-danger"><?= (!empty($subscribFormErrors['emailConfirm'])) ? $subscribFormErrors['emailConfirm'] : '' ;?></p>
                 </div>
                 <div class="form-group col-12">
@@ -36,7 +36,7 @@ if(isset($_POST['postSubscribe']) && count($subscribFormErrors) == 0){?>
                 </div>
                 <div class="form-group col-12">
                     <label for="passwordConfirm">Confirmer mot de passe :</label>
-                    <input type="password" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['passwordConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="passwordConfirm" name="passwordConfirm" value="<?= (!empty($_POST['passwordConfirm'])) ? $_POST['passwordConfirm'] : '' ; ?>" />
+                    <input type="password" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['passwordConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="passwordConfirm" name="passwordConfirm" />
                     <p class="text-danger"><?= (!empty($subscribFormErrors['passwordConfirm'])) ? $subscribFormErrors['passwordConfirm'] : '' ;?></p>
                 </div>
                 <div class="form-group text-center col-12">

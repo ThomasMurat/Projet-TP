@@ -10,8 +10,10 @@ function validateDate($date, $format = 'Y-m-d'){
 //----------------------FIN DE PARTIE--------------------------------//
 
 //---------------PARTIE GERANT LA NAVIGATION---------------//
+//----Liste des univers:
 $univerList = array('manga', 'anime');
-$contentList = array('subscrib' => 'inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités');
+//----Liste des pages: nom du fichier => nom d'affichage
+$contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités');
 
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {
@@ -43,17 +45,21 @@ if(isset($_POST['login'])){
     include_once '../models/users.php';
 }
 
-//Vérification du formulaire de connexion
-$loginFormErrors = array();
+//----------------------Vérification du formulaire de connexion
+//On vérifie qu'une demanda de connexion a été envoyé
 if(isset($_POST['login'])){
-    $logedUser = new users();
-    if(!empty($_POST['username']) && !empty($_POST['password'])){
+    // on crée une instance de la classe users pour utilisé ses méthodes permettant de faire le liens avec la DB
+    $logedUser = new users(); 
+    if(!empty($_POST['username']) && !empty($_POST['password'])){ 
+        //On stock le pseudo envoyé dans l'attribut username pour appellé la méthode permettant de vérifier son existance
         $logedUser->username = htmlspecialchars($_POST['username']);
         if($logedUser->checkUserExist()){
+            // Si le pseudo existe on récupére le pw hashé de la DB à fin de le comparer au pw envoyer
             $logedUser->getUserPassword();
             if(password_verify($_POST['password'], $logedUser->password)){ ?>
                 <p>Vous êtes connecté</p><?php
                 unset($_SESSION['logedIn']);
+                unset($_SESSION['userInfo']);
                 $_SESSION['logedIn'] = TRUE;
                 $_SESSION['userInfo'] = $logedUser->getUserInfo();
             }else { ?>
@@ -71,6 +77,7 @@ if(isset($_POST['login'])){
 //Vérification du formulaire de Déconnexion
 if(isset($_GET['logOut'])){
     unset($_SESSION['logedIn']);
+    unset($_SESSION['userInfo']);
     $_SESSION['logedIn'] = FALSE;
 }
 //-----------------------FIN DE PARTIE---------------------------------------//
