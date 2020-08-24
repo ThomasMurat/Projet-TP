@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" media="screen" type="text/css" href="assets/css/style.css" />
     </head>
-    <body onresize="pageResize();<?=($contentName == 'welcome' || $_SERVER['REQUEST_URI'] == '/index.php') ? 'welcomeAdapt();': ''; ?>" class="container-fluid">
+    <body onresize="pageResize();<?=($contentName == 'welcome' || $_SERVER['REQUEST_URI'] == '/index.php') ? 'welcomeAdapt();': ''; ?>" class="container-fluid mangaUniverse">
         <div class="row">
             <header id="topMenuMU" class="float-left fixed-top col-12">
                 <div id="menu" class="row">
@@ -26,14 +26,8 @@
                                     </div>
                                 </li>                                
                                 <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=producerList">Mangaka</a></li>
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=profile">Découverte</a></li>
-                                <li class="nav-item dropdown col-lg-3 d-flex">
-                                    <a class="nav-link dropdown-toggle text-white text-center w-100" href="#" data-toggle="dropdown">Actualités</a>
-                                    <div class="dropdown-menu w-100">
-                                        <a class="dropdown-item text-center w-100" href="index.php?universe=manga&content=news&articles=">Articles</a>
-                                        <a class="dropdown-item text-center w-100" href="index.php?universe=manga&content=news&calendar=">Agenda</a>
-                                    </div>
-                                </li>                            
+                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=discover">Découverte</a></li>
+                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=news">Actualités</a></li>
                             </ul>
                         </div> 
                     </nav>
@@ -43,15 +37,14 @@
                         </a>
                         <div class="collapse navbar-collapse" id="userMenuContent">
                             <ul id="userMenuList" class="navbar-nav"><?php
-                            if($_SESSION['logedIn'] != 1) { ?>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=subscrib">S'inscrire</a></li><?php
-                            } 
-                            if($_SESSION['logedIn'] == 1) { ?>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= ($_SERVER['REQUEST_URI'] == 'index.php') ? 'index.php?' : $_SERVER['REQUEST_URI'] . '&logOut='; ?>">Déconnexion</a></li><?php
-                            }else { ?>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" data-toggle="modal" data-target="#login" href="#">Connexion</a></li><?php
-                            } ?>                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=profile">Mon profil</a></li>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=lists"><?= 'sessionvalue : ' . $_SESSION['logedIn'] ?></a></li>
+                                if(isset($_SESSION['logedIn']) && $_SESSION['logedIn']) { ?>
+                                    <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=profile">Mon profil</a></li>
+                                    <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=lists"><?= 'sessionvalue : ' . $_SESSION['logedIn'] ?></a></li>
+                                    <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= $link . '&logOut='; ?>">Déconnexion</a></li><?php
+                                }else { ?>
+                                    <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=subscrib">S'inscrire</a></li>
+                                    <li class="nav-item d-flex"><a class="text-white text-center w-100" data-toggle="modal" data-target="#login" href="#">Connexion</a></li><?php
+                                } ?>
                             </ul>
                         </div>
                     </nav>
