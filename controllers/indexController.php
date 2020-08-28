@@ -1,6 +1,7 @@
 <?php
 //----------------PARTIE GERANT LES PARAMETRE GLOBAUX----------------------//
-
+$nameRegex = '%^([\p{L}][^0-9]){1}[\' \-\p{L}]+$%';
+$passwordRegex = '%^[0-9a-zA-Z]+$%';
 //fonction permettant de vérifié la validité d'une date. à utiliser dans les vérification des différents formulaires.
 function validateDate($date, $format = 'Y-m-d'){
     $dt = DateTime::createFromFormat($format, $date);
@@ -13,7 +14,7 @@ function validateDate($date, $format = 'Y-m-d'){
 //----Liste des univers:
 $univerList = array('manga', 'anime');
 //----Liste des pages: nom du fichier => nom d'affichage
-$contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités');
+$contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités', 'editProfile' => 'Modifier Mon Profil');
 
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {
@@ -55,15 +56,19 @@ if(isset($_POST['login'])){
         $logedUser->username = htmlspecialchars($_POST['username']);
         if($logedUser->checkUserExist()){
             // Si le pseudo existe on récupére le pw hashé de la DB à fin de le comparer au pw envoyer
-            $logedUser->getUserPassword();
-            if(password_verify($_POST['password'], $logedUser->password)){ ?>
-                <p>Vous êtes connecté</p><?php
-                unset($_SESSION['logedIn']);
-                unset($_SESSION['userInfo']);
-                $_SESSION['logedIn'] = TRUE;
-                $_SESSION['userInfo'] = $logedUser->getUserInfo();
+            if($logedUser->getUserPassword()) {
+                $password = $logedUser->getUserPassword();
+                if(password_verify($_POST['password'], $password->password)){ ?>
+                    <p>Vous êtes connecté</p><?php
+                    unset($_SESSION['logedIn']);
+                    unset($_SESSION['userInfo']);
+                    $_SESSION['logedIn'] = TRUE;
+                    $_SESSION['userInfo'] = $logedUser->getUserInfoByUsername();
+                }else { ?>
+                    <p>Votre mot de passe ou votre pseudo est incorrect</p><?php
+                }
             }else { ?>
-                <p>Votre mot de passe ou votre pseudo est incorrect</p><?php
+                <p>Erreur de récupération du mot de passe</p><?php
             }
         }else { ?>
             <p>Votre mot de passe ou votre pseudo est incorrect</p><?php
@@ -76,8 +81,8 @@ if(isset($_POST['login'])){
 
 //Vérification du formulaire de Déconnexion
 if(isset($_GET['logOut'])){
-    unset($_SESSION['logedIn']);
-    unset($_SESSION['userInfo']);
-    $_SESSION['logedIn'] = FALSE;
+    session_destroy();
+    header('Location:' . $link);
+    exit; 
 }
 //-----------------------FIN DE PARTIE---------------------------------------//

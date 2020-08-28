@@ -1,11 +1,11 @@
-------------------------------------------------------------
---        Script MySQL.
-------------------------------------------------------------
+#------------------------------------------------------------
+#        Script MySQL.
+#------------------------------------------------------------
 
 
-------------------------------------------------------------
--- Table: 42pmz96_universes
-------------------------------------------------------------
+#------------------------------------------------------------
+# Table: 42pmz96_universes
+#------------------------------------------------------------
 
 CREATE TABLE `42pmz96_universes`(
         `id`       Int  Auto_increment  NOT NULL ,
@@ -14,9 +14,9 @@ CREATE TABLE `42pmz96_universes`(
 )ENGINE=InnoDB;
 
 
-------------------------------------------------------------
--- Table: 42pmz96_licenses
-------------------------------------------------------------
+#------------------------------------------------------------
+# Table: 42pmz96_licenses
+#------------------------------------------------------------
 
 CREATE TABLE `42pmz96_licenses`(
         `id`           Int  Auto_increment  NOT NULL ,
@@ -88,9 +88,9 @@ CREATE TABLE `42pmz96_roles`(
 CREATE TABLE `42pmz96_users`(
         `id`               Int  Auto_increment  NOT NULL ,
         `username`         Varchar (100) NOT NULL ,
-        `password`         Varchar (255) NOT NULL ,
-        `mail`             Varchar (255) NOT NULL ,
-        `birthdate`        Date NOT NULL ,
+        `password`         Varchar (255) ,
+        `mail`             Varchar (255) ,
+        `birthdate`        Date ,
         `subscribDate`     Datetime NOT NULL ,
         `image`            Varchar (255) ,
         `id_42pmz96_roles` Int NOT NULL
@@ -204,7 +204,7 @@ CREATE TABLE `42pmz96_comments`(
 	,CONSTRAINT 42pmz96_comments_PK PRIMARY KEY (`id`)
 
 	,CONSTRAINT 42pmz96_comments_42pmz96_products_FK FOREIGN KEY (`id_42pmz96_products`) REFERENCES 42pmz96_products(`id`)
-	,CONSTRAINT 42pmz96_comments_42pmz96_users0_FK FOREIGN KEY (id_42pmz96_users) REFERENCES 42pmz96_users(`id`)
+	,CONSTRAINT 42pmz96_comments_42pmz96_users0_FK FOREIGN KEY (`id_42pmz96_users`) REFERENCES 42pmz96_users(`id`)
 )ENGINE=InnoDB;
 
 
@@ -228,7 +228,7 @@ CREATE TABLE `42pmz96_posts`(
         `content`               Text NOT NULL ,
         `image`                 Varchar (255) ,
         `postDate`              Datetime NOT NULL ,
-        `lastEditDate`          Datetime NOT NULL ,
+        `lastEditDate`          Datetime ,
         `title`                 Varchar (100) NOT NULL ,
         `id_42pmz96_universes`  Int NOT NULL ,
         `id_42pmz96_users`      Int NOT NULL ,

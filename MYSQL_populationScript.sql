@@ -9,13 +9,13 @@ INSERT INTO `42pmz96_roles` (`role`)
 VALUES ('administateur'), ('membre'), ('rédacteur'), ('modérateur');
 -- Population de la table ProductsType
 INSERT INTO `42pmz96_productTypes` (`name`)
-VALUES ('oneshot'), ('serie'), ('ova'), ('film'), ('light novel'), ('cross over');
+VALUES ('oneshot'), ('serie'), ('ova'), ('film');
 -- Population de la table PostsTypes
 INSERT INTO `42pmz96_postsTypes` (`name`)
 VALUES ('évenement'), ('annonce'), ('info'), ('accueil');
 -- Population de la table producersTypes
 INSERT INTO `42pmz96_producerTypes` (`name`)
-VALUES ('studio'), ('éditeur'), ('scénariste'), ('déssinateur'), ('producteur'), ('réalisateur'), ('scénariste et déssinateur');
+VALUES ('studio'), ('magazine'), ('autheur'), ('animateur');
 -- Population de la table genres
 INSERT INTO `42pmz96_genres` (`name`)
 VALUES ('Action'), ('Art martiaux'), ('Aventure'), ('Comédie'), ('Drama'), ('Ecchi'), ('Ecole'), ('Enfant'), ('Fantastique'), ('Harem'), ('Historique'), ('Horreur'), ('Josei'), ('Magique'), ('Mecha'), ('Militaire'), ('Musique'), ('Mystère'), ('Policier'), ('Psychologique'), ('Romance'), ('Science fiction'), ('Seinen'), ('Shôjo'), ('Shônen'), ('Sport'), ('Super pouvoir'), ('Thriller'), ('Tranche de vie'), ('Yaoi'), ('Yuri');
@@ -65,9 +65,10 @@ VALUES (1, 'Assassiné par des criminels, le corps du détective Yokoda est réc
 (39, 'Cette série raconte les aventures de Kirito qui se retrouve piégé dans un jeu massivement multi-joueurs, Sword Art Online.\r\n\r\nEn 2022, l\'humanité a réussi à créer une réalité virtuelle. Grâce à un casque, les humains peuvent se plonger entièrement dans le monde virtuel en étant comme déconnectés de la réalité, et Sword Art Online est le premier MMORPG a utiliser ce système. Mais voila que le premier jour de jeu, 10 000 personnes se retrouvent piégées dans cette réalité virtuelle par son créateur : Akihiko Kayaba. Le seul moyen d\'en sortir est de finir le jeu. Mais ce ne sera pas facile de sortir de ce monde virtuel puisque si un joueur perd la partie, il meurt également dans la vraie vie.\r\n\r\nKirito décide alors de partir à la conquête du jeu en solo, avec pour avantage le fait de faire partie des 1 000 ex-bêta-testeurs, mais arrivera-t-il à terminer les 99 donjons et leurs boss ?\r\n\r\n\"Même si cela semble être un jeu vidéo, ce n\'est pas un jeu\"\r\nAkihiko Kayaba - Créateur de \"Sword Art Online\"', '/assets/MU/swordArtOnline.jpg', 2, 21),
 (40, 'pas de license', '/assets/MU/licenses/nolicense.jpg', 1, 1),
 (41, 'pas de license', '/assets/AU/licenses/nolicense.jpg', 2, 1);
--- Population table users
+-- Population table user
 INSERT INTO `42pmz96_users` (`id`, `username`, `password`, `mail`, `birthdate`, `subscribDate`, `id_42pmz96_roles`) VALUES
-(1, 'totojo', '20232023', 'totojo-1@hotmail.fr', '1992-06-18', '2020-07-24 15:07:00', 1);
+(2, 'test', '$2y$10$I1VwApaKWcQ3FteTZcf5p.yosYXFnOMT.rbgnoplHGw2CVMo.PrdK', 'test@hotmail.fr', '2000-03-10', '2020-08-14 16:14:48', 2),
+(1, 'totojo', '$2y$10$dSo6TFhEk/FGx3GwIhvib.a9eOP6hbZxH9bYNFN4sXtPhNqNkIiPi', 'totojo-1@hotmail.fr', '1992-06-18', '2020-08-25 12:12:08', 1);
 -- Population de la table posts
 INSERT INTO `42pmz96_posts` (`id`, `content`, `image`, `postDate`, `lastEditDate`, `title`, `id_42pmz96_universes`, `id_42pmz96_users`, `id_42pmz96_postsTypes`) VALUES
 (1, 'Bienvenue dans l\'univer Mange d\'AnyManga. Vous trouverez ici, tous ce qu\'il y a à savoir sur l\'univer du Manga: suivez l\'actualité, retrouvez vos oeuvres préférées, découvrez-en de nouvelles. N\'hésitez pas à changer d\'univer à tous moment pour découvrir si votre oeuvre favorite a été adapté en Animé. Devenez membre et enregistrer vos lectures passé et les nouvelles et profitez de nos listes découvertes. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 1, 1, 4),

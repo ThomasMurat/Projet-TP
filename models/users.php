@@ -6,6 +6,7 @@ class users {
     public $mail = '';
     public $birthDate = '';
     public $subscribDate = '';
+    public $image = '';
     public $role = '';
     private $db = NULL;
     public function __construct(){
@@ -37,13 +38,14 @@ class users {
     }
     public function registerNewUser(){
         $registerNewUserQuery = $this->db->prepare(
-            'INSERT INTO `42pmz96_users` (`username`, `password`, `mail`, `birthDate`, `subscribDate`, `id_42pmz96_roles`)
-            VALUES (:username, :password, :mail, :birthDate, :subscribDate, 2)'
+            'INSERT INTO `42pmz96_users` (`username`, `password`, `mail`, `birthDate`, `image`, `subscribDate`, `id_42pmz96_roles`)
+            VALUES (:username, :password, :mail, :birthDate, :image, :subscribDate, 2)'
         );
         $registerNewUserQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':password', $this->password, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':mail', $this->mail, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':birthDate', $this->birthDate, PDO::PARAM_STR);
+        $registerNewUserQuery->bindValue(':image', $this->image, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':subscribDate', $this->subscribDate, PDO::PARAM_STR);
         return $registerNewUserQuery->execute();
     }
@@ -57,6 +59,16 @@ class users {
         $getUserInfoQuery->execute();
         return $getUserInfoQuery->fetch(PDO::FETCH_OBJ);
     }
+    public function getUserInfoByUsername(){
+        $getUserInfoByUsernameQuery = $this->db->prepare(
+            'SELECT `username`, `mail`, `birthDate`, `subscribDate`, `image`
+            FROM `42pmz96_users`
+            WHERE `username` = :username'
+        );
+        $getUserInfoByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
+        $getUserInfoByUsernameQuery->execute();
+        return $getUserInfoByUsernameQuery->fetch(PDO::FETCH_OBJ);
+    }
     public function getUserPassword(){
         $checkUserPasswordQuery = $this->db->prepare(
             'SELECT `password`
@@ -65,7 +77,37 @@ class users {
         );
         $checkUserPasswordQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
         $checkUserPasswordQuery->execute();
-        $data = $checkUserPasswordQuery->fetch(PDO::FETCH_OBJ);
-        $this->password = $data->password;
+        return $checkUserPasswordQuery->fetch(PDO::FETCH_OBJ);
+        
+    }
+    public function updateUserImageByUsername(){
+        $updateUserImageByUsernameQuery = $this->db->prepare(
+            'UPDATE `42pmz96_users`
+            SET `image` = :image
+            WHERE `username` = :username'
+        );
+        $updateUserImageByUsernameQuery->bindValue(':image', $this->image, PDO::PARAM_STR);
+        $updateUserImageByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
+        return $updateUserImageByUsernameQuery->execute();
+    }
+    public function updateUserMailByUsername(){
+        $updateUserMailByUsernameQuery = $this->db->prepare(
+            'UPDATE `42pmz96_users`
+            SET `mail` = :mail
+            WHERE `username` = :username'
+        );
+        $updateUserMailByUsernameQuery->bindValue(':mail', $this->mail, PDO::PARAM_STR);
+        $updateUserMailByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
+        return $updateUserMailByUsernameQuery->execute();
+    }
+    public function updateUserPasswordByUsername(){
+        $updateUserMailByUsernameQuery = $this->db->prepare(
+            'UPDATE `42pmz96_users`
+            SET `password` = :password
+            WHERE `username` = :username'
+        );
+        $updateUserMailByUsernameQuery->bindValue(':password', $this->password, PDO::PARAM_STR);
+        $updateUserMailByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
+        return $updateUserMailByUsernameQuery->execute();
     }
 }

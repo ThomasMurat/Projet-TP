@@ -1,6 +1,4 @@
 <?php 
-$nameRegex = '%^([\p{L}][^0-9]){1}[\' \-\p{L}]+$%';
-$passwordRegex = '%^[0-9a-zA-Z]+$%';
 $subscribFormErrors = array();
 if(isset($_POST['postSubscribe'])) {
     $newUser = new users();
@@ -13,6 +11,35 @@ if(isset($_POST['postSubscribe'])) {
         }
     }else{
         $subscribFormErrors['pseudo'] = 'Vous n\'avez pas choisi de pseudo';
+    }
+    if (!empty($_FILES['file']) && $_FILES['file']['error'] == 0 && $newUser->username != '') {
+        // On stock dans $fileInfos les informations concernant le chemin du fichier.
+        $fileInfos = pathinfo($_FILES['file']['name']);
+        // On crée un tableau contenant les extensions autorisées.
+        $fileExtension = ['jpg', 'jpeg', 'png', 'svg'];
+        // On verifie si l'extension de notre fichier est dans le tableau des extension autorisées.
+        if (in_array($fileInfos['extension'], $fileExtension)) {
+            //On définit le chemin vers lequel uploader le fichier
+            $path = 'assets/img/users/';
+            //On crée une date pour différencier les fichiers
+            $date = date('Y-m-d_H-i-s');
+            //On crée le nouveau nom du fichier (celui qu'il aura une fois uploadé)
+            $fileNewName = $newUser->username . '_' . $date;
+            //On stocke dans une variable le chemin complet du fichier (chemin + nouveau nom + extension une fois uploadé) Attention : ne pas oublier le point
+            $fileFullPath = $path . $fileNewName . '.' . $fileInfos['extension'];
+            //move_uploaded_files : déplace le fichier depuis son emplacement temporaire ($_FILES['file']['tmp_name']) vers son emplacement définitif ($fileFullPath)
+            if (move_uploaded_file($_FILES['file']['tmp_name'], $fileFullPath)) {
+                //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
+                chmod($fileFullPath, 0644);
+                $newUser->image = $fileFullPath;
+            } else {
+                $subscribFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement';
+            }
+        } else {
+        $subscribFormErrors['file'] = 'Votre fichier n\'est pas du format attendu';
+        }
+    } else {
+        $newUser->image = 'assets/img/iconUser.png';
     }
     if(!empty($_POST['birthDate'])){
         if(validateDate($_POST['birthDate'])){

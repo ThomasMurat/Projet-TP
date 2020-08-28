@@ -22,7 +22,7 @@ include $header; ?>
                         <input type="password" id="password" class="form-control" name="password" />
                     </div>
                     <div class="form-group text-center col-12">
-                        <button id="loginBtn" class="btn btn-primary"  onclick="sendLogin()">Se connecter</button>
+                        <button id="loginBtn" class="btn btn-primary" onclick="sendLogin()">Se connecter</button>
                     </div>
                 </div>
             </div>

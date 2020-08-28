@@ -18,28 +18,38 @@
                         <h1 id="menuTitle"><a href="#" data-toggle="collapse" data-target="#mainMenuContent" class="navbar-toggler row float-left text-white text-center w-100">AnyManga</a></h1>
                         <div class="collapse navbar-collapse col-12" id="mainMenuContent">
                             <ul id="mainMenuList" class="navbar-nav row">
-                                <li class="nav-item dropdown col-lg-3 d-flex">
-                                    <a class="nav-link dropdown-toggle text-white text-center w-100" href="#" data-toggle="dropdown">Manga</a>
-                                    <div class="dropdown-menu w-100">
-                                        <a class="dropdown-item text-center w-100" href="index.php?universe=manga&content=productList&licenses=">Licenses</a>
-                                        <a class="dropdown-item text-center w-100" href="index.php?universe=manga&content=productList&product=">Oeuvres</a>
+                                <li class="nav-item col-lg-3 text-center">
+                                    <div class="float-left w-100">
+                                        <a class="text-white text-center w-100" href="#productsSubMenu" data-toggle="collapse">Anime</a>
                                     </div>
-                                </li>                                
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=producerList">Mangaka</a></li>
+                                    <div class="collapse hide float-left w-100" id="productsSubMenu">
+                                        <a class="float-left text-white text-center w-100" href="index.php?universe=manga&content=productList&licenses=">Licenses</a>
+                                        <a class="float-left text-white text-center w-100" href="index.php?universe=manga&content=productList&products=">Oeuvres</a>
+                                    </div>
+                                </li> 
+                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=producerList">Studios</a></li>
                                 <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=discover">Découverte</a></li>
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=news">Actualités</a></li>
+                                <li class="nav-item col-lg-3 text-center">
+                                    <div class="float-left w-100">
+                                        <a class="text-white text-center w-100" href="#newsSubMenu" data-toggle="collapse">Actualités</a>
+                                    </div>
+                                    <div class="collapse hide float-left w-100" id="newsSubMenu">
+                                        <a class="float-left text-white text-center w-100" href="index.php?universe=manga&content=news&articles=">Articles</a>
+                                        <a class="float-left text-white text-center w-100" href="index.php?universe=manga&content=news&calendar=">Agenda</a>
+                                    </div>
+                                </li>                            
                             </ul>
                         </div> 
                     </nav>
                     <nav class="navbar float-left col-3 col-lg-2 justify-content-center" id="userMenu">
                         <a type="button" data-toggle="collapse" data-target="#userMenuContent" class="navbar-toggler float-left" href="#">
-                            <img src="assets/img/iconUser.png" title="Menu utilisateur" alt="Menu utilisateur">
+                            <img id="userImage" class="img-fluid" src="<?= (isset($_SESSION['logedIn']) && $_SESSION['logedIn']) ? $_SESSION['userInfo']->image : 'assets/img/iconUser.png' ?>" title="Menu utilisateur" alt="Menu utilisateur">
                         </a>
                         <div class="collapse navbar-collapse" id="userMenuContent">
                             <ul id="userMenuList" class="navbar-nav"><?php
                                 if(isset($_SESSION['logedIn']) && $_SESSION['logedIn']) { ?>
                                     <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=profile">Mon profil</a></li>
-                                    <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=lists"><?= 'sessionvalue : ' . $_SESSION['logedIn'] ?></a></li>
+                                    <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=lists">Mes Listes</a></li>
                                     <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= $link . '&logOut='; ?>">Déconnexion</a></li><?php
                                 }else { ?>
                                     <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=manga&content=subscrib">S'inscrire</a></li>

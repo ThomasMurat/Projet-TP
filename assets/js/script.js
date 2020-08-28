@@ -2,8 +2,10 @@ pageResize();
 function pageResize() {
     var screenHeight = window.innerHeight;
     var headerHeight = document.getElementById('menu').clientHeight;
+    var footerHeight = document.getElementById('footer').clientHeight;
     var content = document.getElementsByClassName('content')[0];
     content.style.minHeight = screenHeight - (headerHeight + 100) + 'px';
+    content.style.marginTop = headerHeight + 'px';
 }
 function welcomeAdapt(){
     var screenHeight = window.innerHeight;
@@ -35,6 +37,4 @@ function sendLogin(){
     xhttp.open('POST', '../../controllers/indexController.php', true);
     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhttp.send('login=&username=' + username + '&password=' + password); 
-    document.getElementById('loginContent').innerHTML
-    //document.documentElement.innerHTML
 }
