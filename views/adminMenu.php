@@ -1,8 +1,8 @@
 <!-- Sidebar -->
-<nav id="sidebar" class="align-self-stretch float-left">
-    <div class="fixed-top" id="sidebarContent">
+<nav id="sidebar" class="row align-self-stretch float-left">
+    <div id="sidebarContent">
         <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
+            <h3>ADMINISTRATEUR</h3>
         </div>
         <ul class="list-unstyled components">
             <p>Dummy Heading</p>

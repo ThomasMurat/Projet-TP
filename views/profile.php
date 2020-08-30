@@ -1,11 +1,11 @@
 <?php
 include 'controllers/profileController.php'; ?>
-<div class="content w-100 d-flex align-items-center" id="profile"><?php
+<div class="content col-12 d-flex align-items-center justify-content-center" id="profile"><?php
     if(isset($_SESSION['logedIn']) && $_SESSION['logedIn']){ ?>
-        <div class="w-50 mx-auto jumbotron">
+        <div class="col-6 jumbotron">
             <h1 class="text-center display-4"><?= $_SESSION['userInfo']->username; ?></h1>
             <div class="text-center">
-                <img src="<?= $_SESSION['userInfo']->image; ?>"></img>
+                <img id="userProfileImage" src="<?= $_SESSION['userInfo']->image; ?>"></img>
             </div>
             <hr class="my-4">
             <p class="ml-5">Adresse mail : <?= $_SESSION['userInfo']->mail; ?></p>
@@ -20,7 +20,7 @@ include 'controllers/profileController.php'; ?>
             </div>
         </div><?php
     }else { ?>
-        <div class="w-50 mx-auto jumbotron">
+        <div class="col-6 jumbotron">
             <h1 class="text-center display-4">Vous devez être connecté pour accéder à cette page</h1>
         </div><?php
     } ?>

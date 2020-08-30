@@ -12,6 +12,10 @@ footer {
     max-height: 70px;
     max-width: 70px;
 }
+#userProfileImage {
+    max-height: 300px;
+    max-width: 300px;
+}
 #welcomeContainer {
     z-index: 1;
     color: white;
@@ -27,6 +31,7 @@ footer {
 
 #sidebar {
     z-index: 1;
+    margin-left: -250px;
     min-width: 250px;
     max-width: 250px;
     background: #7386D5;
@@ -37,21 +42,11 @@ footer {
     z-index: 2;
 }
 #sidebar.active {
-    margin-left: -250px;
+    margin-left: -15px;
 }
 @media screen and (min-width:991px) {
 #mainMenuList {
     width: 100%;
 }
 }
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #sidebarCollapse span {
-        display: none;
-    }
-}
+
