@@ -38,3 +38,16 @@ function sendLogin(){
     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhttp.send('login=&username=' + username + '&password=' + password); 
 }
+//side bar toggle
+$(document).ready(function () {
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+        $('#sidebarContent').toggleClass('fixed-top');
+    });
+});
+//side bar content follow
+follow();
+function follow(){
+    var headerHeight = document.getElementById('menu').clientHeight;
+    document.getElementById('sidebarContent').style.marginTop = headerHeight + 'px';
+}

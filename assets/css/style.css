@@ -19,11 +19,39 @@ footer {
     background-color: rgba(60, 66, 71, 0.7);
     border-radius: 20px;
 }
-.content {
-    margin-top: 74px;
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    z-index: 1;
+    min-width: 250px;
+    max-width: 250px;
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+}
+#sidebarCollapse {
+    z-index: 2;
+}
+#sidebar.active {
+    margin-left: -250px;
 }
 @media screen and (min-width:991px) {
 #mainMenuList {
     width: 100%;
 }
+}
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
 }

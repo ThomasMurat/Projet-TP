@@ -1,3 +1,4 @@
+    </div>
     <footer id="footer" class="col-12">
         
     </footer>

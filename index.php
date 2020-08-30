@@ -28,6 +28,12 @@ include $header; ?>
             </div>
         </div>
     </div>
-</div><?php   
-include $content;
+</div>
+<div class="content w-100 d-flex"><?php
+    if(isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateur'){
+        include 'views/adminMenu.php';
+    } ?>
+    <div class="row flex-fill"><?php  
+        include $content; ?>
+    </div><?php
 include 'views/footer.php'; 

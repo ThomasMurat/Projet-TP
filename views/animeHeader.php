@@ -9,7 +9,7 @@
     </head>
     <body onresize="pageResize();<?=($contentName == 'welcome' || $_SERVER['REQUEST_URI'] == '/index.php') ? 'welcomeAdapt();': ''; ?>" class="container-fluid animeUniverse">
         <div class="row">
-            <header id="topMenuAU" class="float-left fixed-top col-12">
+            <header id="topMenuAU" onresize="follow();" class="float-left fixed-top col-12">
                 <div id="menu" class="row">
                     <div class="float-left d-flex align-content-center col-3 col-lg-2 text-center" id="switchUniverseButton">
                         <a class="mx-auto my-auto" href="http://anymanga.fr/index.php?universe=manga&content=<?= $contentName ?>"><img src="assets/img/anime/switchButton.png" title="Changer d'univers" alt=""></a>
@@ -60,3 +60,5 @@
                     </nav>
                 </div>   
             </header>
+            
+            

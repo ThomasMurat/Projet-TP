@@ -61,8 +61,9 @@ class users {
     }
     public function getUserInfoByUsername(){
         $getUserInfoByUsernameQuery = $this->db->prepare(
-            'SELECT `username`, `mail`, `birthDate`, `subscribDate`, `image`
-            FROM `42pmz96_users`
+            'SELECT `username`, `mail`, `birthDate`, `subscribDate`, `image`, `role`
+            FROM `42pmz96_users` AS `use`
+                INNER JOIN `42pmz96_roles` AS `rol` ON `rol`.`id` = `use`.`id_42pmz96_roles`
             WHERE `username` = :username'
         );
         $getUserInfoByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
