@@ -7,7 +7,7 @@ class users {
     public $birthDate = '';
     public $subscribDate = '';
     public $image = '';
-    public $role = '';
+    public $id_42pmz96_roles = '';
     private $db = NULL;
     public function __construct(){
         try {
@@ -39,7 +39,7 @@ class users {
     public function registerNewUser(){
         $registerNewUserQuery = $this->db->prepare(
             'INSERT INTO `42pmz96_users` (`username`, `password`, `mail`, `birthDate`, `image`, `subscribDate`, `id_42pmz96_roles`)
-            VALUES (:username, :password, :mail, :birthDate, :image, :subscribDate, 2)'
+            VALUES (:username, :password, :mail, :birthDate, :image, :subscribDate, :id_42pmz96_roles)'
         );
         $registerNewUserQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':password', $this->password, PDO::PARAM_STR);
@@ -47,7 +47,16 @@ class users {
         $registerNewUserQuery->bindValue(':birthDate', $this->birthDate, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':image', $this->image, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':subscribDate', $this->subscribDate, PDO::PARAM_STR);
+        $registerNewUserQuery->bindValue(':id_42pmz96_roles', $this->id_42pmz96_roles, PDO::PARAM_INT);
         return $registerNewUserQuery->execute();
+    }
+    public function getUsersList(){
+        $getUsersList = $this->db->query(
+            'SELECT `use`.`id`, `username`, `mail`, `birthDate`, `subscribDate`, `role`
+            FROM `42pmz96_users` AS `use`
+                INNER JOIN `42pmz96_roles` AS `rol` ON `rol`.`id` = `use`.`id_42pmz96_roles` '
+        );
+        return $getUsersList->fetchAll(PDO::FETCH_OBJ);
     }
     public function getUserInfo(){
         $getUserInfoQuery = $this->db->prepare(

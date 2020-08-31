@@ -1,6 +1,6 @@
 <?php
 //----------------PARTIE GERANT LES PARAMETRE GLOBAUX----------------------//
-$nameRegex = '%^([\p{L}][^0-9]){1}[\' \-\p{L}]+$%';
+$nameRegex = '%^([\p{L}\-0-9]){8,}$%';
 $passwordRegex = '%^[0-9a-zA-Z]+$%';
 //fonction permettant de vérifié la validité d'une date. à utiliser dans les vérification des différents formulaires.
 function validateDate($date, $format = 'Y-m-d'){
@@ -14,7 +14,8 @@ function validateDate($date, $format = 'Y-m-d'){
 //----Liste des univers:
 $univerList = array('manga', 'anime');
 //----Liste des pages: nom du fichier => nom d'affichage
-$contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités', 'editProfile' => 'Modifier Mon Profil');
+$contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités', 'editProfile' => 'Modifier Mon Profil'
+                    ,'usersList' => 'Liste des Utilisateurs');
 
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {

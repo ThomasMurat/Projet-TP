@@ -38,6 +38,9 @@ footer {
     color: #fff;
     transition: all 0.3s;
 }
+#sidebarContent {
+    width: 250px;
+}
 #sidebarCollapse {
     z-index: 2;
 }

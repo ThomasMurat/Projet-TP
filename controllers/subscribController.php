@@ -1,5 +1,9 @@
 <?php 
 $subscribFormErrors = array();
+if(isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateur'){
+    $roles = new roles();
+    $rolesList = $roles->getRolesList();  
+}
 if(isset($_POST['postSubscribe'])) {
     $newUser = new users();
     if(!empty($_POST['pseudo'])){
@@ -78,6 +82,16 @@ if(isset($_POST['postSubscribe'])) {
         }
     }else{
         $subscribFormErrors['password'] = 'Vous n\'avez pas choisi de mot de passe';
+    }
+    if(!empty($_POST['role'])){
+        $roles->id = htmlspecialchars($_POST['role']);
+        if($roles->checkRoleExistByID()){
+            $newUser->id_42pmz96_roles = $roles->id;
+        }else {
+            $subscribFormErrors['role'] = 'Le rang choisie n\'existe pas';
+        }
+    }else {
+        $newUser->id_42pmz96_roles = 2;
     }
     if(empty($subscribFormErrors)){
         $newUser->subscribDate = date('Y-m-d H:i:s');

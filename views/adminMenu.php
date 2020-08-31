@@ -2,46 +2,63 @@
 <nav id="sidebar" class="row align-self-stretch float-left">
     <div id="sidebarContent">
         <div class="sidebar-header">
-            <h3>ADMINISTRATEUR</h3>
+            <p class="h4 text-center my-5">ADMINISTRATEUR</p>
         </div>
-        <ul class="list-unstyled components">
-            <p>Dummy Heading</p>
-            <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
+        <ul class="list-unstyled text-center">
+            <li>
+                <a href="#usersSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Utilsateurs</a>
+                <ul class="collapse list-unstyled" id="usersSubmenu">
                     <li>
-                        <a href="#">Home 1</a>
+                        <a href="index.php?content=subscrib" class="text-white">ajouter</a>
                     </li>
                     <li>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
+                        <a href="index.php?content=usersList" class="text-white">Liste</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#">About</a>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
+                <a href="#postsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Article</a>
+                <ul class="collapse list-unstyled" id="postsSubmenu">
                     <li>
-                        <a href="#">Page 1</a>
+                        <a href="#" class="text-white">ajouter</a>
                     </li>
                     <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
+                        <a href="#" class="text-white">Liste</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#">Portfolio</a>
+                <a href="#licensesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Licenses</a>
+                <ul class="collapse list-unstyled" id="licensesSubmenu">
+                    <li>
+                        <a href="#" class="text-white">ajouter</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-white">Liste</a>
+                    </li>
+                </ul>
             </li>
             <li>
-                <a href="#">Contact</a>
+                <a href="#producersSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Producteurs</a>
+                <ul class="collapse list-unstyled" id="producersSubmenu">
+                    <li>
+                        <a href="#" class="text-white">ajouter</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-white">Liste</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#productsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Produits</a>
+                <ul class="collapse list-unstyled" id="productsSubmenu">
+                    <li>
+                        <a href="#" class="text-white">ajouter</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-white">Liste</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>
