@@ -40,7 +40,7 @@ include $header; ?>
 <!------------------------Gestion du contenue principal de la page ------------>
 <div class="col-12 d-flex"><?php
     //------------------------Inclusion du menue d'administration
-    if(isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateur'){
+    if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){
         include 'views/adminMenu.php';
     } ?>
     <div class="row flex-fill"><?php 

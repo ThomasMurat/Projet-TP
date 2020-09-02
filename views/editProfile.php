@@ -10,14 +10,14 @@ if((isset($_POST['editImage']) || isset($_POST['editMail']) || isset($_POST['edi
             <a href="index.php?universe=<?= $universe ?>&content=profile">Retour vers mon profil</a>
         </div>
     </div><?php
-}else if(isset($_SESSION['logedIn']) && $_SESSION['logedIn']) { ?>
+}else if(isset($_SESSION['userProfile'])) { ?>
     <div class="content w-100" id="editProfile">
         <h1 class="text-center"><?= $title ?></h1>
         <form class="offset-1 my-5 border border-dark col-10" action="index.php?universe=<?= $universe ?>&content=editProfile" method="POST" enctype="multipart/form-data">
             <h2>Modifier mon image de profil</h2>
             <div id="subscribFormContent" class="row">
                 <div class="ml-5">
-                    <img src="<?= $_SESSION['userInfo']->image; ?>" />
+                    <img src="<?= $_SESSION['userProfile']['image']; ?>" />
                 </div>
                 <div class="form-group col-12">
                     <label for="file">Nouvelle image Profile :</label>
@@ -34,7 +34,7 @@ if((isset($_POST['editImage']) || isset($_POST['editMail']) || isset($_POST['edi
             <div id="subscribFormContent" class="row">
                 <div class="form-group col-12">
                     <label for="email">Adresse e-mail :</label>
-                    <input type="email" class="form-control <?=(isset($_POST['editMail'])) ? (!empty($editProfileFormErrors['email']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="email" name="email" value="<?= (!empty($_POST['email'])) ? $_POST['email'] : $_SESSION['userInfo']->mail ; ?>" />
+                    <input type="email" class="form-control <?=(isset($_POST['editMail'])) ? (!empty($editProfileFormErrors['email']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="email" name="email" value="<?= (!empty($_POST['email'])) ? $_POST['email'] : $_SESSION['userProfile']['mail'] ; ?>" />
                     <p class="text-danger"><?= (!empty($editProfileFormErrors['email'])) ? $editProfileFormErrors['email'] : '' ;?></p>
                 </div>
                 <div class="form-group col-12">

@@ -9,32 +9,39 @@ class users {
     public $image = '';
     public $id_42pmz96_roles = '';
     private $db = NULL;
+    private $table = '`42pmz96_users`';
     public function __construct(){
         $this->db = dataBase::getInstance();
     }
-    public function checkUserExist(){
-        $checkUserExistQuery = $this->db->prepare(
-            'SELECT COUNT(`username`) AS `isUserExist`
-            FROM `42pmz96_users`
-            WHERE `username` = :username');
-        $checkUserExistQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
-        $checkUserExistQuery->execute();
-        $data = $checkUserExistQuery->fetch(PDO::FETCH_OBJ);
-        return $data->isUserExist;
+    /**
+     * Function permettant de vérifié si la valeur d'un champ existe déjà dans la DB
+     *
+     * @param [string] $UQfield champ au valeurs uniques
+     * @return bool
+     */
+    public function checkUserValueUnavailability($UQfield = 'username'){
+        $checkvalueUnavailability = $this->db->prepare(
+            'SELECT COUNT(`id`) AS `isUnavailable`
+            FROM ' . $this->table . 
+           ' WHERE `' . $UQfield . '` = :' . $UQfield
+        );
+        if($UQfield == 'id'){
+            $checkvalueUnavailability->bindValue(':id', $this->id, PDO::PARAM_INT);
+        }else {
+            $checkvalueUnavailability->bindValue(':' . $UQfield, $this->$UQfield, PDO::PARAM_STR);
+        }
+        $checkvalueUnavailability->execute();
+        return $checkvalueUnavailability->fetch(PDO::FETCH_OBJ)->isUnavailable;
+       
     }
-    public function checkMailExist(){
-        $checkMailExistQuery = $this->db->prepare(
-            'SELECT COUNT(`mail`) AS `isMailExist`
-            FROM `42pmz96_users`
-            WHERE `mail` = :mail');
-        $checkMailExistQuery->bindValue(':mail', $this->mail, PDO::PARAM_STR);
-        $checkMailExistQuery->execute();
-        $data = $checkMailExistQuery->fetch(PDO::FETCH_OBJ);
-        return $data->isMailExist;
-    }
-    public function registerNewUser(){
+    /**
+     * Fonction permettant l'ajout d'un nouvel utilisateur
+     *
+     * @return bool
+     */
+    public function addUser(){
         $registerNewUserQuery = $this->db->prepare(
-            'INSERT INTO `42pmz96_users` (`username`, `password`, `mail`, `birthDate`, `image`, `subscribDate`, `id_42pmz96_roles`)
+            'INSERT INTO ' . $this->table . ' (`username`, `password`, `mail`, `birthDate`, `image`, `subscribDate`, `id_42pmz96_roles`)
             VALUES (:username, :password, :mail, :birthDate, :image, :subscribDate, :id_42pmz96_roles)'
         );
         $registerNewUserQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
@@ -46,61 +53,88 @@ class users {
         $registerNewUserQuery->bindValue(':id_42pmz96_roles', $this->id_42pmz96_roles, PDO::PARAM_INT);
         return $registerNewUserQuery->execute();
     }
+    /**
+     * Fonction permettant de récupérer la liste des utilisateurs
+     *
+     * @return array
+     */
     public function getUsersList(){
         $getUsersList = $this->db->query(
             'SELECT `use`.`id`, `username`, `mail`, `birthDate`, `subscribDate`, `role`
-            FROM `42pmz96_users` AS `use`
+            FROM ' . $this->table . ' AS `use`
                 INNER JOIN `42pmz96_roles` AS `rol` ON `rol`.`id` = `use`.`id_42pmz96_roles` '
         );
         return $getUsersList->fetchAll(PDO::FETCH_OBJ);
     }
-    public function getUserInfo(){
-        $getUserInfoQuery = $this->db->prepare(
-            'SELECT `username`, `mail`, `birthDate`, `subscribDate`
-            FROM `42pmz96_users`
-            WHERE `id` = :id'
-        );
-        $getUserInfoQuery->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $getUserInfoQuery->execute();
-        return $getUserInfoQuery->fetch(PDO::FETCH_OBJ);
-    }
-    public function getUserInfoByUsername(){
-        $getUserInfoByUsernameQuery = $this->db->prepare(
-            'SELECT `username`, `mail`, `birthDate`, `subscribDate`, `image`, `role`
-            FROM `42pmz96_users` AS `use`
+    /**
+     * Fonction permettant de récupérer toutes les informations sur un utilisateur
+     *
+     * @param string $UQfield champ au valeurs uniques
+     * @return object
+     */
+    public function getUserProfile($UQfield = 'username'){
+        ($UQfield == 'id') ? $joinfield = 'use`.`id' : $joinfield = $UQfield;
+        $getUserProfile = $this->db->prepare(
+            'SELECT `use`.`id` AS `userId`, `username`, `mail`, `birthDate`, `subscribDate`, `image`, `role`
+            FROM ' . $this->table . ' AS `use`
                 INNER JOIN `42pmz96_roles` AS `rol` ON `rol`.`id` = `use`.`id_42pmz96_roles`
-            WHERE `username` = :username'
+            WHERE `' . $joinfield . '` = :' . $UQfield
         );
-        $getUserInfoByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
-        $getUserInfoByUsernameQuery->execute();
-        return $getUserInfoByUsernameQuery->fetch(PDO::FETCH_OBJ);
+        if($UQfield == 'id'){
+            $getUserProfile->bindValue(':id', $this->id, PDO::PARAM_INT);
+        }else {
+            $getUserProfile->bindValue(':' . $UQfield, $this->$UQfield, PDO::PARAM_STR);
+        }
+        $getUserProfile->execute();
+        return $getUserProfile->fetch(PDO::FETCH_OBJ);
     }
-    public function getUserPassword(){
-        $checkUserPasswordQuery = $this->db->prepare(
+    /**
+     * Fonction permettant de récupérer le hash du mot de passe d'un utilisateur
+     *
+     * @param string $UQfield champ au valeurs uniques
+     * @return string
+     */
+    public function getUserPassword($UQfield = 'username'){
+        $getUserPassword = $this->db->prepare(
             'SELECT `password`
-            FROM `42pmz96_users`
-            WHERE `username` = :username'
+            FROM ' . $this->table .
+           ' WHERE `' . $UQfield . '` = :' . $UQfield
         );
-        $checkUserPasswordQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
-        $checkUserPasswordQuery->execute();
-        return $checkUserPasswordQuery->fetch(PDO::FETCH_OBJ);
+        if($UQfield == 'id'){
+            $getUserPassword->bindValue(':id', $this->id, PDO::PARAM_INT);
+        }else {
+            $getUserPassword->bindValue(':' . $UQfield, $this->$UQfield, PDO::PARAM_STR);
+        }
+        $getUserPassword->execute();
+        return $getUserPassword->fetch(PDO::FETCH_OBJ)->password;
         
     }
-    public function updateUserByUsername($fieldArray){
+    /**
+     * Fonction permettants de modifier les informations d'un utilisateur
+     *
+     * @param [array] $setFieldArray tableau des noms de champ à modifier
+     * @param string $UQfield champ au valeurs uniques
+     * @return bool
+     */
+    public function updateUser($setFieldArray,$UQfield = 'username'){
         $set = 'SET ';
-        foreach($fieldArray as $field => $value){
+        foreach($setFieldArray as $field){
             $setArray[$field] = '`' . $field . '` = :' . $field;
         }
         $set .= implode(',', $setArray);
-        $updateUserByUsername = $this->db->prepare(
-            'UPDATE `42pmz96_users` '
-            . ($set) .
-            ' WHERE `username` = :username'
+        $updateUser = $this->db->prepare(
+            'UPDATE ' . $this->table . 
+            ' ' . ($set) .
+            ' WHERE `' . $UQfield . '` = :' . $UQfield
         ); 
-        foreach($fieldArray as $field => $value){
-            $updateUserByUsername->bindValue(':'. $field , $value, PDO::PARAM_STR);
+        foreach($setFieldArray as $field){
+            $updateUser->bindValue(':'. $field , $this->$field, PDO::PARAM_STR);
         }
-        $updateUserByUsername->bindValue(':username', $this->username, PDO::PARAM_STR);
-        return $updateUserByUsername->execute();
+        if($UQfield == 'id'){
+            $updateUser->bindValue(':id', $this->id, PDO::PARAM_INT);
+        }else {
+            $updateUser->bindValue(':' . $UQfield, $this->$UQfield, PDO::PARAM_STR);
+        }
+        return $updateUser->execute();
     }
 }

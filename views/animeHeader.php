@@ -62,12 +62,12 @@
                 <!------------------------MENU DE NAVIGATION UTILISATEUR------------------------------>
                     <nav class="navbar float-left col-3 col-lg-2 justify-content-center" id="userMenu">
                         <a type="button" data-toggle="collapse" data-target="#userMenuContent" class="navbar-toggler float-left" href="#">
-                            <img id="userImage" class="img-fluid" src="<?= (isset($_SESSION['logedIn']) && $_SESSION['logedIn']) ? $_SESSION['userInfo']->image : 'assets/img/iconUser.png' ?>" title="Menu utilisateur" alt="Menu utilisateur">
+                            <img id="userImage" class="img-fluid" src="<?= (isset($_SESSION['userProfile'])) ? $_SESSION['userProfile']['image'] : 'assets/img/iconUser.png' ?>" title="Menu utilisateur" alt="Menu utilisateur">
                         </a>
                         <div class="collapse navbar-collapse" id="userMenuContent">
                             <ul id="userMenuList" class="navbar-nav"><?php
                             //------------------MENU DE NAVIGATION UTILISATEURS CONNECTER-------------------->
-                            if(isset($_SESSION['logedIn']) && $_SESSION['logedIn']) { ?>
+                            if(isset($_SESSION['userProfile'])) { ?>
                                 <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=anime&content=profile">Mon profil</a></li>
                                 <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=anime&content=lists">Mes Listes</a></li>
                                 <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= $link . '&logOut='; ?>">Déconnexion</a></li><?php

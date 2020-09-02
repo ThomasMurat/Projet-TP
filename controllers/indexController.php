@@ -1,6 +1,6 @@
 <?php
 //----------------PARTIE GERANT LES PARAMETRE GLOBAUX----------------------//
-$nameRegex = '%^([\p{L}\-0-9]){8,}$%';
+$nameRegex = '%^([\p{L}\-0-9]){6,}$%';
 $passwordRegex = '%^[0-9a-zA-Z]+$%';
 //fonction permettant de vérifié la validité d'une date. à utiliser dans les vérification des différents formulaires.
 function validateDate($date, $format = 'Y-m-d'){
@@ -56,14 +56,20 @@ if(isset($_POST['login'])){
     if(!empty($_POST['username']) && !empty($_POST['password'])){ 
         //On stock le pseudo envoyé dans l'attribut username pour appellé la méthode permettant de vérifier son existance
         $logedUser->username = htmlspecialchars($_POST['username']);
-        if($logedUser->checkUserExist()){
+        if($logedUser->checkUserValueUnavailability()){
             // Si le pseudo existe on récupére le pw hashé de la DB à fin de le comparer au pw envoyer
             if($logedUser->getUserPassword()) {
-                $password = $logedUser->getUserPassword();
-                if(password_verify($_POST['password'], $password->password)){ ?>
+                $hash = $logedUser->getUserPassword();
+                if(password_verify($_POST['password'], $hash)){ ?>
                     <p>Vous êtes connecté</p><?php
-                    $_SESSION['logedIn'] = TRUE;
-                    $_SESSION['userInfo'] = $logedUser->getUserInfoByUsername();
+                    $userProfile = $logedUser->getUserProfile();
+                    $_SESSION['userProfile']['id'] = $userProfile->userId;
+                    $_SESSION['userProfile']['username'] = $userProfile->username;
+                    $_SESSION['userProfile']['mail'] = $userProfile->mail;
+                    $_SESSION['userProfile']['birthDate'] = $userProfile->birthDate;
+                    $_SESSION['userProfile']['subscribDate'] = $userProfile->subscribDate;
+                    $_SESSION['userProfile']['image'] = $userProfile->image;
+                    $_SESSION['userProfile']['role'] = $userProfile->role;
                 }else { ?>
                     <p>Votre mot de passe ou votre pseudo est incorrect</p><?php
                 }

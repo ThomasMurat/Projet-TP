@@ -3,7 +3,7 @@ include_once 'models/users.php';
 include 'controllers/usersListController.php';
 ?>
 <div id="usersList" class="content col-12 d-flex align-items-center justify-content-center"><?php
-    if(isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateur'){ ?>
+    if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){ ?>
         <table class="table table-striped text-center container">
             <title>Liste des Utilisateur</title>
             <thead>

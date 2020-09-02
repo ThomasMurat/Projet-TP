@@ -1,18 +1,16 @@
-<?php
-include 'controllers/profileController.php'; ?>
 <div class="content col-12 d-flex align-items-center justify-content-center" id="profile"><?php
-    if(isset($_SESSION['logedIn']) && $_SESSION['logedIn']){ ?>
+    if(isset($_SESSION['userProfile'])){ ?>
         <div class="col-6 jumbotron">
-            <h1 class="text-center display-4"><?= $_SESSION['userInfo']->username; ?></h1>
+            <h1 class="text-center display-4"><?= $_SESSION['userProfile']['username']; ?></h1>
             <div class="text-center">
-                <img id="userProfileImage" src="<?= $_SESSION['userInfo']->image; ?>"></img>
+                <img id="userProfileImage" src="<?= $_SESSION['userProfile']['image']; ?>"></img>
             </div>
             <hr class="my-4">
-            <p class="ml-5">Adresse mail : <?= $_SESSION['userInfo']->mail; ?></p>
+            <p class="ml-5">Adresse mail : <?= $_SESSION['userProfile']['mail']; ?></p>
             <hr class="my-4">
-            <p class="ml-5">Date de naissance : <?= $_SESSION['userInfo']->birthDate; ?></p>
+            <p class="ml-5">Date de naissance : <?= $_SESSION['userProfile']['birthDate']; ?></p>
             <hr class="my-4">
-            <p class="ml-5">Date d'inscription : <?= $_SESSION['userInfo']->subscribDate; ?></p>
+            <p class="ml-5">Date d'inscription : <?= $_SESSION['userProfile']['subscribDate']; ?></p>
             <hr class="my-4">
             <div class="w-100 text-center">
                 <button class="btn btn-primary"><a class="text-white" href="index.php?universe=<?= $universe ?>&content=editProfile">Modifier mon profil</a></button>

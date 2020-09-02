@@ -7,9 +7,9 @@ if(isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateu
 if(isset($_POST['postSubscribe'])) {
     $newUser = new users();
     if(!empty($_POST['pseudo'])){
-        if(preg_match($nameRegex,$_POST['pseudo'])){
+        if(strlen($_POST['pseudo']) >= 6){
             $newUser->username = htmlspecialchars($_POST['pseudo']);
-            ($newUser->checkUserExist()) ? $subscribFormErrors['pseudo'] = 'Ce pseudo est déjà utilisé': '';
+            ($newUser->checkUserValueUnavailability()) ? $subscribFormErrors['pseudo'] = 'Ce pseudo est déjà utilisé': '';
         }else{
             $subscribFormErrors['pseudo'] = 'Votre pseudo doit être de la forme : ';
         }
@@ -58,7 +58,7 @@ if(isset($_POST['postSubscribe'])) {
         if(filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)){
             $mail = htmlspecialchars($_POST['email']);
             $newUser->mail = $mail;
-            if($newUser->checkMailExist()){
+            if($newUser->checkUserValueUnavailability('mail')){
                 $subscribFormErrors['email'] = 'Cette adresse mail est déjà utilisé';
             }else{
                 (isset($_POST['emailConfirm']) && $_POST['emailConfirm'] == $mail )? '': $subscribFormErrors['emailConfirm'] = 'l\'e-mail de confirmation ne correspond pas à votre e-mail';
@@ -70,7 +70,7 @@ if(isset($_POST['postSubscribe'])) {
         $subscribFormErrors['email'] = 'Vous n\'avez indiqué votre adresse e-mail';
     }
     if(!empty($_POST['password'])){
-        if(preg_match($passwordRegex,$_POST['password'])){
+        if(strlen($_POST['password']) >= 8){
             if(isset($_POST['passwordConfirm']) && $_POST['passwordConfirm'] == $_POST['password']){
                 $newUser->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             }else {
@@ -94,7 +94,7 @@ if(isset($_POST['postSubscribe'])) {
     }
     if(empty($subscribFormErrors)){
         $newUser->subscribDate = date('Y-m-d H:i:s');
-        if($newUser->registerNewUser()){
+        if($newUser->addUser()){
             $message = 'Votre compte a bien été enregistré vous pouvez desormais vous connecter';
         }else{
             $message = 'Une erreur est survenue lors de l\'enregistrement veuillez réessayer ultérieurement. Si le problème persiste veuillez contacter le staff technique';

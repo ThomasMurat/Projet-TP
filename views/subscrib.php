@@ -9,7 +9,7 @@ include 'controllers/subscribController.php'; ?>
         </div><?php
     }else { ?>
         <form class="offset-1 col-10" action="index.php?universe=<?= $universe ?>&content=subscrib" method="POST" enctype="multipart/form-data" class="w-100">
-            <h2 class="text-center"><?= (isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateur') ? 'Ajouter un Utilisateur' : 'Veuillez remplir tous les champs pour vous inscrire.' ?></h1>
+            <h2 class="text-center"><?= (isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur') ? 'Ajouter un Utilisateur' : 'Veuillez remplir tous les champs pour vous inscrire.' ?></h1>
             <div id="subscribFormContent" class="row">
                 <div class="form-group col-12">
                     <label for="pseudo">Pseudo :</label>
@@ -46,7 +46,7 @@ include 'controllers/subscribController.php'; ?>
                     <input type="password" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['passwordConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="passwordConfirm" name="passwordConfirm" />
                     <p class="text-danger"><?= (!empty($subscribFormErrors['passwordConfirm'])) ? $subscribFormErrors['passwordConfirm'] : '' ;?></p>
                 </div><?php
-                if(isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateur') { ?>
+                if(isset($_SESSION['userProfile']) && $_SESSION['userInfo']['role'] == 'administrateur') { ?>
                     <div class="form-group col-12">
                         <label for="role">Rang :</label>
                         <select type="password" class="form-control" id="role" name="role">

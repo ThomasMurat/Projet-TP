@@ -1,8 +1,9 @@
 <?php
-if(isset($_SESSION['logedIn']) && $_SESSION['logedIn']) {
+if(isset($_SESSION['userProfile'])) {
     $user = new users();
-    $user->username = $_SESSION['userInfo']->username;
+    $user->username = $_SESSION['userProfile']['username'];
     $editProfileFormErrors = array();
+    $inputArray = array();
 }
 
 if(isset($_POST['editImage'])){
@@ -18,17 +19,17 @@ if(isset($_POST['editImage'])){
             //On crée une date pour différencier les fichiers
             $date = date('Y-m-d_H-i-s');
             //On crée le nouveau nom du fichier (celui qu'il aura une fois uploadé)
-            $fileNewName = $_SESSION['userInfo']->username . '_' . $date;
+            $fileNewName = $_SESSION['userProfile']['username'] . '_' . $date;
             //On stocke dans une variable le chemin complet du fichier (chemin + nouveau nom + extension une fois uploadé) Attention : ne pas oublier le point
             $fileFullPath = $path . $fileNewName . '.' . $fileInfos['extension'];
             //move_uploaded_files : déplace le fichier depuis son emplacement temporaire ($_FILES['file']['tmp_name']) vers son emplacement définitif ($fileFullPath)
             if (move_uploaded_file($_FILES['file']['tmp_name'], $fileFullPath)) {
                 //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
                 chmod($fileFullPath, 0644);
-                $inputArray['image'] = $fileFullPath;
-                if($user->updateUserByUsername($inputArray)){
-                    unlink($_SESSION['userInfo']->image);
-                    $_SESSION['userInfo']->image = $fileFullPath;
+                $user->image = $fileFullPath;
+                if($user->updateUser(['image'])){
+                    unlink($_SESSION['userProfile']['image']);
+                    $_SESSION['userProfile']['image'] = $fileFullPath;
                     $message = 'Votre image de profil a bien été mis à jour';
                 }else {
                     $message = 'La mise à jour de votre image de profil a échoué';
@@ -47,13 +48,13 @@ if(isset($_POST['editImage'])){
 if(isset($_POST['editMail'])){
     if(!empty($_POST['email'])){
         if(filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)){
-            $inputArray['mail'] = htmlspecialchars($_POST['email']);
-            if($user->checkMailExist()){
+            $user->mail = htmlspecialchars($_POST['email']);
+            if($user->checkUserValueUnavailability('mail')){
                 $editProfileFormErrors['email'] = 'Cette adresse mail est déjà utilisé';
             }else{
-                if(isset($_POST['emailConfirm']) && $_POST['emailConfirm'] == $inputArray['mail'] ){
-                    if($user->updateUserByUsername($inputArray)) {
-                        $_SESSION['userInfo']->mail = $inputArray['mail'];
+                if(isset($_POST['emailConfirm']) && $_POST['emailConfirm'] == $user->mail ){
+                    if($user->updateUser(['mail'])) {
+                        $_SESSION['userProfile']['mail'] = $user->mail;
                         $message = 'Votre adresse mail a bien été mis à jour';
                     }else {
                         $message = 'Votre adresse mail n\'a pas pu être mis à jour';
@@ -73,12 +74,12 @@ if(isset($_POST['editMail'])){
 if(isset($_POST['editPassword'])) {
     if(!empty($_POST['oldPassword'])){
         if($user->getUserPassword()) {
-            $oldPassword = $user->getUserPassword();
-            if(!password_verify($_POST['oldPassword'], $oldPassword->password)){
+            $hash = $user->getUserPassword();
+            if(!password_verify($_POST['oldPassword'], $hash)){
                 $editProfileFormErrors['oldPassword'] = 'Votre mot de passe actuel n\'est pas bon';
             }
         }else {
-            $editProfileFormErrors['oldPassword'] = 'Erreur de récupération du mot de';
+            $editProfileFormErrors['oldPassword'] = 'Erreur de récupération du mot de passe';
         }
     }else{
         $editProfileFormErrors['oldPassword'] = 'Vous n\'avez pas renseigné votre mot de passe actuel';
@@ -87,7 +88,7 @@ if(isset($_POST['editPassword'])) {
         if(preg_match($passwordRegex,$_POST['password'])){
             $password = htmlspecialchars($_POST['password']);
             if(isset($_POST['passwordConfirm']) && $_POST['passwordConfirm'] == $password){
-                $inputArray['password'] = password_hash($password, PASSWORD_DEFAULT);
+               $user->password = password_hash($password, PASSWORD_DEFAULT);
             }else {
                 $editProfileFormErrors['passwordConfirm'] = 'Le mot de passe de confirmation ne correspond pas à votre mot de passe';
             }
@@ -98,7 +99,7 @@ if(isset($_POST['editPassword'])) {
         $editProfileFormErrors['password'] = 'Vous n\'avez pas choisi de mot de passe';
     }
     if(empty($editProfileFormErrors)) {
-        if($user->updateUserByUsername($inputArray)) {
+        if($user->updateUser(['password'])) {
             $message = 'votre mot de passe a bien été mis à jour';
         }else {
             $message = 'Votre mot de passe n\'a pas pu être mis à jour';

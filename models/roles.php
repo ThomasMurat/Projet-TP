@@ -3,14 +3,15 @@ class roles {
     public $id = 0;
     public $role = '';
     private $db = null;
+    private $table = '`42pmz96_roles`';
     public function __construct(){
         $this->db = dataBase::getInstance();
     }
     public function checkRoleExistByID(){
         $checkRoleExistByID = $this->db->prepare(
             'SELECT COUNT(`id`) AS `isRoleExiste`
-            FROM `42pmz96_roles`
-            WHERE `id` = :id'
+            FROM ' . $this->table . 
+           ' WHERE `id` = :id'
         );
         $checkRoleExistByID->bindValue(':id', $this->id, PDO::PARAM_INT);
         $checkRoleExistByID->execute();
@@ -19,7 +20,7 @@ class roles {
     public function getRolesList(){
         $getRolesList = $this->db->query(
             'SELECT `id`, `role`
-            FROM `42pmz96_roles`'
+            FROM ' . $this->table
         );
         return $getRolesList->fetchAll(PDO::FETCH_OBJ);
     }
