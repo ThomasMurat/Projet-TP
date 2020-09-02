@@ -25,8 +25,8 @@ if(isset($_POST['editImage'])){
             if (move_uploaded_file($_FILES['file']['tmp_name'], $fileFullPath)) {
                 //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
                 chmod($fileFullPath, 0644);
-                $user->image = $fileFullPath;
-                if($user->updateUserImageByUsername()){
+                $inputArray['image'] = $fileFullPath;
+                if($user->updateUserByUsername($inputArray)){
                     unlink($_SESSION['userInfo']->image);
                     $_SESSION['userInfo']->image = $fileFullPath;
                     $message = 'Votre image de profil a bien été mis à jour';
@@ -47,14 +47,13 @@ if(isset($_POST['editImage'])){
 if(isset($_POST['editMail'])){
     if(!empty($_POST['email'])){
         if(filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)){
-            $mail = htmlspecialchars($_POST['email']);
-            $user->mail = $mail;
+            $inputArray['mail'] = htmlspecialchars($_POST['email']);
             if($user->checkMailExist()){
                 $editProfileFormErrors['email'] = 'Cette adresse mail est déjà utilisé';
             }else{
-                if(isset($_POST['emailConfirm']) && $_POST['emailConfirm'] == $mail ){
-                    if($user->updateUserMailByUsername()) {
-                        $_SESSION['userInfo']->mail = $user->mail;
+                if(isset($_POST['emailConfirm']) && $_POST['emailConfirm'] == $inputArray['mail'] ){
+                    if($user->updateUserByUsername($inputArray)) {
+                        $_SESSION['userInfo']->mail = $inputArray['mail'];
                         $message = 'Votre adresse mail a bien été mis à jour';
                     }else {
                         $message = 'Votre adresse mail n\'a pas pu être mis à jour';
@@ -88,7 +87,7 @@ if(isset($_POST['editPassword'])) {
         if(preg_match($passwordRegex,$_POST['password'])){
             $password = htmlspecialchars($_POST['password']);
             if(isset($_POST['passwordConfirm']) && $_POST['passwordConfirm'] == $password){
-                $user->password = password_hash($password, PASSWORD_DEFAULT);
+                $inputArray['password'] = password_hash($password, PASSWORD_DEFAULT);
             }else {
                 $editProfileFormErrors['passwordConfirm'] = 'Le mot de passe de confirmation ne correspond pas à votre mot de passe';
             }
@@ -99,7 +98,7 @@ if(isset($_POST['editPassword'])) {
         $editProfileFormErrors['password'] = 'Vous n\'avez pas choisi de mot de passe';
     }
     if(empty($editProfileFormErrors)) {
-        if($user->updateUserPasswordByUsername()) {
+        if($user->updateUserByUsername($inputArray)) {
             $message = 'votre mot de passe a bien été mis à jour';
         }else {
             $message = 'Votre mot de passe n\'a pas pu être mis à jour';

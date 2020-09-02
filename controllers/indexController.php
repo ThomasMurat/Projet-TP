@@ -44,6 +44,7 @@ $link = 'index.php?universe=' . $universe . '&content=' . $contentName; // $link
 // inclusion du model et lancement de session pour la requête faite directement au controlleur avec la fonction ajax sendLogin().
 if(isset($_POST['login'])){
     session_start();
+    include_once '../models/dataBase.php';
     include_once '../models/users.php';
 }
 
@@ -61,8 +62,6 @@ if(isset($_POST['login'])){
                 $password = $logedUser->getUserPassword();
                 if(password_verify($_POST['password'], $password->password)){ ?>
                     <p>Vous êtes connecté</p><?php
-                    unset($_SESSION['logedIn']);
-                    unset($_SESSION['userInfo']);
                     $_SESSION['logedIn'] = TRUE;
                     $_SESSION['userInfo'] = $logedUser->getUserInfoByUsername();
                 }else { ?>

@@ -71,9 +71,8 @@ if(isset($_POST['postSubscribe'])) {
     }
     if(!empty($_POST['password'])){
         if(preg_match($passwordRegex,$_POST['password'])){
-            $password = htmlspecialchars($_POST['password']);
-            if(isset($_POST['passwordConfirm']) && $_POST['passwordConfirm'] == $password){
-                $newUser->password = password_hash($password, PASSWORD_DEFAULT);
+            if(isset($_POST['passwordConfirm']) && $_POST['passwordConfirm'] == $_POST['password']){
+                $newUser->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             }else {
                 $subscribFormErrors['passwordConfirm'] = 'Le mot de passe de confirmation ne correspond pas à votre mot de passe';
             }

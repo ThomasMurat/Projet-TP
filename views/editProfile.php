@@ -54,8 +54,6 @@ if((isset($_POST['editImage']) || isset($_POST['editMail']) || isset($_POST['edi
                     <label for="oldPassword">Ancien mot de passe :</label>
                     <input type="password" class="form-control <?=(isset($_POST['editPassword'])) ? (!empty($editProfileFormErrors['oldPassword']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="oldPassword" name="oldPassword" />
                     <p class="text-danger"><?= (!empty($editProfileFormErrors['oldPassword'])) ? $editProfileFormErrors['oldPassword'] : '' ;?></p>
-                    <p><?= $user->username ?></p>
-                    <p><?= $user->password ?></p>
                 </div>
                 <div class="form-group col-12">
                     <label for="password">Nouveau mot de passe :</label>

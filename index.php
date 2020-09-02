@@ -1,6 +1,7 @@
 <?php 
 session_start();
 //---------------------Inclusion du controller et des models associé à la page index 
+include_once 'models/dataBase.php';
 include_once 'models/users.php';
 include 'controllers/indexController.php';
 //----------------------FIN

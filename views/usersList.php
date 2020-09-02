@@ -2,9 +2,10 @@
 include_once 'models/users.php';
 include 'controllers/usersListController.php';
 ?>
-<div id="usersList" class="content"><?php
+<div id="usersList" class="content col-12 d-flex align-items-center justify-content-center"><?php
     if(isset($_SESSION['userInfo']) && $_SESSION['userInfo']->role == 'administrateur'){ ?>
-        <table>
+        <table class="table table-striped text-center container">
+            <title>Liste des Utilisateur</title>
             <thead>
                 <th>Pseudo</th>
                 <th>Mail</th>
@@ -21,7 +22,10 @@ include 'controllers/usersListController.php';
                         <td><?= $user->birthDate ?></td>
                         <td><?= $user->subscribDate ?></td>
                         <td><?= $user->role ?></td>
-                        <td><?= $user->id ?></td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm"><a class="text-white" href="#">chnager le rang</a></button>
+                            <button type="button" class="btn btn-danger btn-sm"><a class="text-white" href="#">Supprimer</a></button>
+                        </td>
                     </tr><?php
                 } ?>  
             </tbody>

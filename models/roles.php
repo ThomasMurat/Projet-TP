@@ -4,11 +4,7 @@ class roles {
     public $role = '';
     private $db = null;
     public function __construct(){
-        try {
-            $this->db = new PDO('mysql:host=localhost;dbname=anymanga;charset=utf8', 'root', '');
-        } catch (Exception $error) {
-            die($error->getMessage());
-        }
+        $this->db = dataBase::getInstance();
     }
     public function checkRoleExistByID(){
         $checkRoleExistByID = $this->db->prepare(

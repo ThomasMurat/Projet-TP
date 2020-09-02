@@ -10,11 +10,7 @@ class posts {
     public $postType = '';
     private $db = NULL;
     public function __construct(){
-        try {
-            $this->db = new PDO('mysql:host=localhost;dbname=anymanga;charset=utf8', 'root', '');
-        } catch (Exception $error) {
-            die($error->getMessage());
-        }
+        $this->db = dataBase::getInstance();
     }
     public function getWelcomeContent(){
         $getWelcomeContentQuery = $this->db->prepare(

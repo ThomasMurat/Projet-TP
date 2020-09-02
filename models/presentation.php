@@ -7,11 +7,7 @@ class licencesPresentation {
     public $license = '';
     private $db = NULL;
     public function __construct(){
-        try {
-            $this->db = new PDO('mysql:host=localhost;dbname=anymanga;charset=utf8', 'root', '');
-        } catch (Exception $error) {
-            die($error->getMessage());
-        }
+        $this->db = dataBase::getInstance();
     }
     public function getLicensesList(){
         $getLicensesListQuery = $this->db->prepare(

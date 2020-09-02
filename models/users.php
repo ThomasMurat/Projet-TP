@@ -10,11 +10,7 @@ class users {
     public $id_42pmz96_roles = '';
     private $db = NULL;
     public function __construct(){
-        try {
-            $this->db = new PDO('mysql:host=localhost;dbname=anymanga;charset=utf8', 'root', '');
-        } catch (Exception $error) {
-            die($error->getMessage());
-        }
+        $this->db = dataBase::getInstance();
     }
     public function checkUserExist(){
         $checkUserExistQuery = $this->db->prepare(
@@ -90,34 +86,21 @@ class users {
         return $checkUserPasswordQuery->fetch(PDO::FETCH_OBJ);
         
     }
-    public function updateUserImageByUsername(){
-        $updateUserImageByUsernameQuery = $this->db->prepare(
-            'UPDATE `42pmz96_users`
-            SET `image` = :image
-            WHERE `username` = :username'
-        );
-        $updateUserImageByUsernameQuery->bindValue(':image', $this->image, PDO::PARAM_STR);
-        $updateUserImageByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
-        return $updateUserImageByUsernameQuery->execute();
-    }
-    public function updateUserMailByUsername(){
-        $updateUserMailByUsernameQuery = $this->db->prepare(
-            'UPDATE `42pmz96_users`
-            SET `mail` = :mail
-            WHERE `username` = :username'
-        );
-        $updateUserMailByUsernameQuery->bindValue(':mail', $this->mail, PDO::PARAM_STR);
-        $updateUserMailByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
-        return $updateUserMailByUsernameQuery->execute();
-    }
-    public function updateUserPasswordByUsername(){
-        $updateUserMailByUsernameQuery = $this->db->prepare(
-            'UPDATE `42pmz96_users`
-            SET `password` = :password
-            WHERE `username` = :username'
-        );
-        $updateUserMailByUsernameQuery->bindValue(':password', $this->password, PDO::PARAM_STR);
-        $updateUserMailByUsernameQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
-        return $updateUserMailByUsernameQuery->execute();
+    public function updateUserByUsername($fieldArray){
+        $set = 'SET ';
+        foreach($fieldArray as $field => $value){
+            $setArray[$field] = '`' . $field . '` = :' . $field;
+        }
+        $set .= implode(',', $setArray);
+        $updateUserByUsername = $this->db->prepare(
+            'UPDATE `42pmz96_users` '
+            . ($set) .
+            ' WHERE `username` = :username'
+        ); 
+        foreach($fieldArray as $field => $value){
+            $updateUserByUsername->bindValue(':'. $field , $value, PDO::PARAM_STR);
+        }
+        $updateUserByUsername->bindValue(':username', $this->username, PDO::PARAM_STR);
+        return $updateUserByUsername->execute();
     }
 }
