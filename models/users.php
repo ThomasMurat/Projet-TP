@@ -106,8 +106,12 @@ class users {
             $getUserPassword->bindValue(':' . $UQfield, $this->$UQfield, PDO::PARAM_STR);
         }
         $getUserPassword->execute();
-        return $getUserPassword->fetch(PDO::FETCH_OBJ)->password;
-        
+        $data = $getUserPassword->fetch(PDO::FETCH_OBJ);
+        if(is_object($data)){
+            return $data->password;
+        }else {
+            return '';
+        }  
     }
     /**
      * Fonction permettants de modifier les informations d'un utilisateur

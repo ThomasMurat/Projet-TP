@@ -51,37 +51,37 @@ if(isset($_POST['login'])){
 //----------------------Vérification du formulaire de connexion
 //On vérifie qu'une demanda de connexion a été envoyé
 if(isset($_POST['login'])){
-    // on crée une instance de la classe users pour utilisé ses méthodes permettant de faire le liens avec la DB
-    $logedUser = new users(); 
-    if(!empty($_POST['username']) && !empty($_POST['password'])){ 
-        //On stock le pseudo envoyé dans l'attribut username pour appellé la méthode permettant de vérifier son existance
-        $logedUser->username = htmlspecialchars($_POST['username']);
-        if($logedUser->checkUserValueUnavailability()){
-            // Si le pseudo existe on récupére le pw hashé de la DB à fin de le comparer au pw envoyer
-            if($logedUser->getUserPassword()) {
-                $hash = $logedUser->getUserPassword();
-                if(password_verify($_POST['password'], $hash)){ ?>
-                    <p>Vous êtes connecté</p><?php
-                    $userProfile = $logedUser->getUserProfile();
-                    $_SESSION['userProfile']['id'] = $userProfile->userId;
-                    $_SESSION['userProfile']['username'] = $userProfile->username;
-                    $_SESSION['userProfile']['mail'] = $userProfile->mail;
-                    $_SESSION['userProfile']['birthDate'] = $userProfile->birthDate;
-                    $_SESSION['userProfile']['subscribDate'] = $userProfile->subscribDate;
-                    $_SESSION['userProfile']['image'] = $userProfile->image;
-                    $_SESSION['userProfile']['role'] = $userProfile->role;
-                }else { ?>
-                    <p>Votre mot de passe ou votre pseudo est incorrect</p><?php
-                }
-            }else { ?>
-                <p>Erreur de récupération du mot de passe</p><?php
-            }
-        }else { ?>
-            <p>Votre mot de passe ou votre pseudo est incorrect</p><?php
-        }
-    }else { ?>
-        <p>Vous n\'avez pas rempli tous les champs</p><?php
+    $user = new users();
+    $formErrors = array();
+    if(!empty($_POST['username'])){
+        //J'hydrate mon instance d'objet user
+        $user->username = htmlspecialchars($_POST['username']);
+    }else{
+        $formErrors['username'] = 'Veuillez renseigner votre pseudo';
+    }
+    if(empty($_POST['password'])){        
+        $formErrors['password'] = 'Veuillez renseigner votre mot de passe';
+    }
+    if(empty($formErrors)){
+        //On récupère le hash de l'utilisateur
+       $hash = $user->getUserPassword();
+       //Si le hash correspond au mot de passe saisi
+       if(password_verify($_POST['password'], $hash)){
+           //On récupère son profil
+            $userProfile = $user->getUserProfile();
+            //On met en session ses informations
+            $_SESSION['userProfile']['id'] = $userProfile->userId;
+            $_SESSION['userProfile']['username'] = $userProfile->username;
+            $_SESSION['userProfile']['mail'] = $userProfile->mail;
+            $_SESSION['userProfile']['birthDate'] = $userProfile->birthDate;
+            $_SESSION['userProfile']['subscribDate'] = $userProfile->subscribDate;
+            $_SESSION['userProfile']['image'] = $userProfile->image;
+            $_SESSION['userProfile']['role'] = $userProfile->role;
+       }else{
+           $formErrors['password'] = $formErrors['username'] = 'Votre mail ou votre mot de passe est incorrect';
+       }
     } ?>
+    <p><?= isset($formErrors['password']) ? $formErrors['password'] : 'Vous êtes bien connecté'; ?></p>
     <button type="button" class="btn btn-danger" onclick="location.reload();" data-dismiss="modal">fermer</button><?php
 }
 
@@ -91,4 +91,5 @@ if(isset($_GET['logOut'])){
     header('Location:' . $link);
     exit; 
 }
+
 //-----------------------FIN DE PARTIE---------------------------------------//
