@@ -20,10 +20,8 @@ $contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'pro
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {
     $universe = htmlspecialchars($_GET['universe']);  // $universe contient le nom de l'univers sélectionner.
-    $header = 'views/' . $universe . 'Header.php'; // $header contient le liens vers le fichier header de l'univers sélectionner.
 }else {
     $universe = 'global';
-    $header = 'views/mangaHeader.php';
 } 
 
 // On cherche ensuite quel page est demandé pour déterminé quel contenue(vue) doit être inclut.

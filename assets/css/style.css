@@ -1,21 +1,24 @@
-#topMenuAU {
+/*------ Header STYLE --------*/
+.animeUniverse #topMenu {
     background-color: rgb(0, 123, 255);
 }
-#topMenuMU {
+.mangaUniverse #topMenu, .globalUniverse #topMenu {
     background-color: rgb(220, 53, 69);
-}
-footer {
-    height: 100px;
-    background-color: rgb(60, 66, 71);
 }
 #userImage {
     max-height: 70px;
     max-width: 70px;
 }
-#userProfileImage {
-    max-height: 300px;
-    max-width: 300px;
+/*--------- Fin ------------*/
+
+/*------ Footer STYLE --------*/
+footer {
+    height: 100px;
+    background-color: rgb(60, 66, 71);
 }
+/*--------- Fin ------------*/
+
+/*------ Welcome STYLE --------*/
 #welcomeContainer {
     z-index: 1;
     color: white;
@@ -23,6 +26,12 @@ footer {
     background-color: rgba(60, 66, 71, 0.7);
     border-radius: 20px;
 }
+/*--------- Fin ------------*/
+#userProfileImage {
+    max-height: 300px;
+    max-width: 300px;
+}
+
 .wrapper {
     display: flex;
     width: 100%;

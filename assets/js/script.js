@@ -38,7 +38,7 @@ function sendLogin(){
             document.getElementById('loginContent').innerHTML = this.responseText;
        }
     };
-    xhttp.open('POST', '../../controllers/indexController.php', true);
+    xhttp.open('POST', 'controllers/indexController.php', true);
     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhttp.send('login=&username=' + username + '&password=' + password); 
 }
@@ -62,13 +62,20 @@ function checkFieldValidity(input){
     //Instanciation de l'objet XMLHttpRequest permettant de faire de l'AJAX
     var request = new XMLHttpRequest();
     //Les données sont envoyés en POST et c'est le controlleur qui va les traiter
-    request.open('POST', '../../controllers/subscribController.php', true);
+    request.open('POST', 'controllers/subscribController.php', true);
     //Au changement d'état de la demande d'AJAX
     request.onreadystatechange = function () {
         //Si on a bien fini de recevoir la réponse de PHP (4) et que le code retour HTTP est ok (200)
         if (request.readyState == 4 && request.status == 200) {
-            console.log(this.responseText);
-        };        
+            document.getElementById(input.name + 'Error').innerHTML = this.responseText;
+            if(this.responseText == ''){
+                input.classList.remove('is-invalid');
+                input.classList.add('is-valid');
+            }else {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+            };
+        }      
     }
     // Pour dire au serveur qu'il y a des données en POST à lire dans le corps
     request.setRequestHeader('Content-type','application/x-www-form-urlencoded');
