@@ -23,7 +23,7 @@ include 'controllers/subscribController.php'; ?>
                 </div>
                 <div class="form-group col-12">
                     <label for="birthDate">Date de naissance :</label>
-                    <input onblur="checkFieldValidity(this);" type="date" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['birthDate']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="birthDate" name="birthDate" value="<?= (!empty($_POST['birthDate'])) ? $_POST['birthDate'] : '' ; ?>" />
+                    <input onblur="checkFieldValidity(this);" type="text" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['birthDate']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="birthDate" name="birthDate" value="<?= (!empty($_POST['birthDate'])) ? $_POST['birthDate'] : '' ; ?>" />
                     <p id="birthDateError" class="text-danger"><?= (!empty($subscribFormErrors['birthDate'])) ? $subscribFormErrors['birthDate'] : '' ;?></p>
                 </div>
                 <div class="form-group col-12">

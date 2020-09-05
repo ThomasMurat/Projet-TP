@@ -19,8 +19,8 @@ include 'controllers/usersListController.php';
                     <tr>
                         <td><?= $user->username ?></td>
                         <td><?= $user->mail ?></td>
-                        <td><?= $user->birthDate ?></td>
-                        <td><?= $user->subscribDate ?></td>
+                        <td><?= formatDateFr($user->birthDate) ?></td>
+                        <td><?= formatDateFr($user->subscribDate) ?></td>
                         <td><?= $user->role ?></td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm"><a class="text-white" href="#">chnager le rang</a></button>

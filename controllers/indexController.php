@@ -7,6 +7,12 @@ function validateDate($date, $format = 'Y-m-d'){
     $dt = DateTime::createFromFormat($format, $date);
     return $dt && $dt->format($format) === $date;
 }
+function formatDateFr($date){
+    setlocale(LC_TIME, 'fra');
+    $timeStamp = strtotime($date);
+    return utf8_encode(strftime('%e %B %Y', $timeStamp));
+}
+
 
 //----------------------FIN DE PARTIE--------------------------------//
 
@@ -71,8 +77,8 @@ if(isset($_POST['login'])){
             $_SESSION['userProfile']['id'] = $userProfile->userId;
             $_SESSION['userProfile']['username'] = $userProfile->username;
             $_SESSION['userProfile']['mail'] = $userProfile->mail;
-            $_SESSION['userProfile']['birthDate'] = $userProfile->birthDate;
-            $_SESSION['userProfile']['subscribDate'] = $userProfile->subscribDate;
+            $_SESSION['userProfile']['birthDate'] = formatDateFr($userProfile->birthDate);
+            $_SESSION['userProfile']['subscribDate'] = formatDateFr($userProfile->subscribDate);
             $_SESSION['userProfile']['image'] = $userProfile->image;
             $_SESSION['userProfile']['role'] = $userProfile->role;
        }else{
