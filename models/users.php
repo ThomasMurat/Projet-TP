@@ -58,12 +58,39 @@ class users {
      *
      * @return array
      */
-    public function getUsersList(){
-        $getUsersList = $this->db->query(
+    public function getUsersList($searchArray = array()){
+        $where = '';
+        if(!empty($searchArray)){
+            $where = ' WHERE ';
+            $whereArray = array();
+            if(isset($searchArray['username'])){
+                $whereArray['username'] = ' `username` LIKE :username ';
+            }
+            if(isset($searchArray['mail'])){
+                $whereArray['mail'] = ' `mail` LIKE :mail ';
+            }
+            if(isset($searchArray['birthDate'])){
+                $whereArray['birthDate'] = ' `birthDate` > :birthDate ';
+            }
+            if(isset($searchArray['role'])){
+                $whereArray['id_42pmz96_roles'] = ' `id_42pmz96_roles` = :id_42pmz96_roles ';
+            }
+            $where .= implode(' AND ', $whereArray);
+        } 
+        $getUsersList = $this->db->prepare(
             'SELECT `use`.`id`, `username`, `mail`, `birthDate`, `subscribDate`, `role`
             FROM ' . $this->table . ' AS `use`
                 INNER JOIN `42pmz96_roles` AS `rol` ON `rol`.`id` = `use`.`id_42pmz96_roles` '
+            . $where
         );
+        foreach($searchArray as $field => $value){
+            if($field == 'id_42pmz96_roles'){
+                $getUsersList->bindValue(':id_42pmz96_roles', $value, PDO::PARAM_INT);
+            }else{
+                $getUsersList->bindValue(':' . $field, $value, PDO::PARAM_STR);
+            }
+        }
+        $getUsersList->execute();
         return $getUsersList->fetchAll(PDO::FETCH_OBJ);
     }
     /**

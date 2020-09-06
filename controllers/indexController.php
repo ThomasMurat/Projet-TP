@@ -2,11 +2,37 @@
 //----------------PARTIE GERANT LES PARAMETRE GLOBAUX----------------------//
 $nameRegex = '%^([\p{L}\-0-9]){6,}$%';
 $passwordRegex = '%^[0-9a-zA-Z]+$%';
-//fonction permettant de vérifié la validité d'une date. à utiliser dans les vérification des différents formulaires.
-function validateDate($date, $format = 'Y-m-d'){
-    $dt = DateTime::createFromFormat($format, $date);
-    return $dt && $dt->format($format) === $date;
+/**
+ * fonction permettant de vérifié la validité d'une date. à utiliser dans les vérification des différents formulaires.
+ *
+ * @param [string] $date date à vérifier (format: Y-m-d)
+ * @return bool
+ */
+function validateDate($date){
+    $dt = DateTime::createFromFormat('Y-m-d', $date);
+    return $dt && $dt->format('Y-m-d') === $date;
 }
+/**
+ * Fonction permettant de vérifier si une date se trouve dans l'intervale 0-100ans par rapport à la date actuelle
+ *
+ * @param [string] $date date à vérifier (format: Y-m-d)
+ * @return bool
+ */
+function birthDateLimit($date){
+    $timeStamp = strtotime($date);
+    $tooOld = strtotime('-100 years');
+    $response = true;
+    if($timeStamp > time() || $timeStamp < $tooOld){
+        $response = false;
+    }
+    return $response;   
+}
+/**
+ * fonction permmettant de formater la date en français avec le mois en toute lettre
+ *
+ * @param [string] $date
+ * @return string
+ */
 function formatDateFr($date){
     setlocale(LC_TIME, 'fra');
     $timeStamp = strtotime($date);
@@ -21,15 +47,13 @@ function formatDateFr($date){
 $univerList = array('manga', 'anime');
 //----Liste des pages: nom du fichier => nom d'affichage
 $contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités', 'editProfile' => 'Modifier Mon Profil'
-                    ,'usersList' => 'Liste des Utilisateurs');
+                    ,'usersList' => 'Liste des Utilisateurs', 'updateUser' => 'Modifier un Utilisateur');
 
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {
     $universe = htmlspecialchars($_GET['universe']);  // $universe contient le nom de l'univers sélectionner.
-}else {
-    $universe = 'global';
 } 
-
+$universeLink = 'index.php?universe=' . (isset($universe) ? $universe : 'manga');
 // On cherche ensuite quel page est demandé pour déterminé quel contenue(vue) doit être inclut.
 if(isset($_GET['content']) && isset($contentList[$_GET['content']])) {
     $contentName = htmlspecialchars($_GET['content']); // $contentName contient le nom de fichier(sans l'extention) correspondant au contenue(vue) sélectionné.
@@ -38,9 +62,8 @@ if(isset($_GET['content']) && isset($contentList[$_GET['content']])) {
     $contentName = 'welcome';
     $title = 'Bienvenue';
 }
+$link = $universeLink . '&content=' . $contentName; // $link contient le lien vers la page sélectionné
 
-$content = 'views/' . $contentName . '.php'; // $content contient le liens vers le fichier correspondant au contenue sélectionné.
-$link = 'index.php?universe=' . $universe . '&content=' . $contentName; // $link contient le lien vers la page sélectionné
 //-----------------FIN DE PARTIE------------------//
 
 //-------------------------PARTIE GERANT LA CONNEXION----------------------//

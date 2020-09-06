@@ -28,21 +28,6 @@ function welcomeAdapt(){
     }
 }
 
-//Function gérant la connection et le message de retour dans la fenêtre modal de connexion
-function sendLogin(){
-    var xhttp = new XMLHttpRequest();
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById('loginContent').innerHTML = this.responseText;
-       }
-    };
-    xhttp.open('POST', 'controllers/indexController.php', true);
-    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhttp.send('login=&username=' + username + '&password=' + password); 
-}
-
 //Function permettant la fermeture et l'ouverture du menu d'administration
 $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
@@ -52,12 +37,13 @@ $(document).ready(function () {
 });
 
 //Function permettant de placer le contenue du menu admin pour qu'il ne soit pas cacher dérrière la barre de nav principale
-follow();
 function follow(){
     var headerHeight = document.getElementById('menu').clientHeight;
     document.getElementById('sidebarContent').style.marginTop = headerHeight + 'px';
 }
 
+//--------------------------------AJAX----------------------------------------//
+//Function permettant l'affichage dynamique des message d'erreur du formulaire d'inscription
 function checkFieldValidity(input){
     //Instanciation de l'objet XMLHttpRequest permettant de faire de l'AJAX
     var request = new XMLHttpRequest();
@@ -81,4 +67,21 @@ function checkFieldValidity(input){
     request.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     //Les données envoyées en POST. Elles sont séparées par un &
     request.send('postSubscribe=&field='+ input.name + '&' + input.name + '=' + input.value);
+}    
+
+//Function gérant la connection et le message de retour dans la fenêtre modal de connexion
+function sendLogin(){
+    var xhttp = new XMLHttpRequest();
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('loginContent').innerHTML = this.responseText;
+       }
+    };
+    xhttp.open('POST', 'controllers/indexController.php', true);
+    xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhttp.send('login=&username=' + username + '&password=' + password); 
 }
+
+

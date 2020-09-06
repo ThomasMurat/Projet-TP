@@ -4,7 +4,7 @@ include_once 'models/roles.php';
 include 'controllers/subscribController.php'; ?>
     <div id="subscrib" class="content"><?php
     if(isset($_POST['postSubscribe']) && count($subscribFormErrors) == 0){ ?>
-        <div class="w-50 mx-auto jumbotron">
+        <div class="col-10 col-lg-6 mx-auto jumbotron">
             <h1 class="text-center display-4"><?= $message; ?></h1>
         </div><?php
     }else { ?>
@@ -37,29 +37,17 @@ include 'controllers/subscribController.php'; ?>
                     <p class="text-danger"><?= (!empty($subscribFormErrors['mailConfirm'])) ? $subscribFormErrors['mailConfirm'] : '' ;?></p>
                 </div>
                 <div class="form-group col-12">
-                    <label for="password">Mot de passe :</label>
-                    <input onblur="checkFieldValidity(this);" type="password" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['password']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="password" name="password" value="<?= (!empty($_POST['password'])) ? $_POST['password'] : '' ; ?>" />
-                    <p id="passwordError" class="text-danger"><?= (!empty($subscribFormErrors['password'])) ? $subscribFormErrors['password'] : '' ;?></p>
+                    <label for="role">Rang :</label>
+                    <select type="password" class="form-control" id="role" name="role">
+                        <option selected disabled>Choisir le rang</option><?php
+                        foreach($rolesList as $role){ ?>
+                            <option value="<?= $role->id ?>"><?= $role->role ?></option><?php
+                        } ?>
+                    </select>
+                    <p class="text-danger"><?= (!empty($subscribFormErrors['role'])) ? $subscribFormErrors['role'] : '' ;?></p>
                 </div>
-                <div class="form-group col-12">
-                    <label for="passwordConfirm">Confirmer mot de passe :</label>
-                    <input type="password" class="form-control <?=(isset($_POST['postSubscribe'])) ? (!empty($subscribFormErrors['passwordConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="passwordConfirm" name="passwordConfirm" />
-                    <p class="text-danger"><?= (!empty($subscribFormErrors['passwordConfirm'])) ? $subscribFormErrors['passwordConfirm'] : '' ;?></p>
-                </div><?php
-                if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur') { ?>
-                    <div class="form-group col-12">
-                        <label for="role">Rang :</label>
-                        <select type="password" class="form-control" id="role" name="role">
-                            <option selected disabled>Choisir le rang</option><?php
-                            foreach($rolesList as $role){ ?>
-                                <option value="<?= $role->id ?>"><?= $role->role ?></option><?php
-                            } ?>
-                        </select>
-                        <p class="text-danger"><?= (!empty($subscribFormErrors['role'])) ? $subscribFormErrors['role'] : '' ;?></p>
-                    </div><?php
-                } ?>
                 <div class="form-group text-center col-12">
-                    <input type="submit" class="btn btn-primary" name="postSubscribe" value="Confirmer" />
+                    <input type="submit" class="btn btn-primary" name="updateUser" value="Confirmer" />
                 </div>
             </div>
         </form><?php

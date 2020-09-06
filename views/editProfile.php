@@ -4,20 +4,20 @@ include 'controllers/editProfileController.php';
 ?>
 <?php 
 if((isset($_POST['editImage']) || isset($_POST['editMail']) || isset($_POST['editPassword'])) && empty($editProfileFormErrors)){ ?>
-    <div class="content d-flex align-items-center w-100" id="editProfile">
-        <div class="w-50 text-center mx-auto jumbotron">
+    <div class="content d-flex align-items-center col-12" id="editProfile">
+        <div class="col-10 col-lg-6 text-center mx-auto jumbotron">
             <h1 class="display-4"><?= $message ?></h1>
             <a href="index.php?universe=<?= $universe ?>&content=profile">Retour vers mon profil</a>
         </div>
     </div><?php
 }else if(isset($_SESSION['userProfile'])) { ?>
-    <div class="content w-100" id="editProfile">
+    <div class="content col-12" id="editProfile">
         <h1 class="text-center"><?= $title ?></h1>
         <form class="offset-1 my-5 border border-dark col-10" action="index.php?universe=<?= $universe ?>&content=editProfile" method="POST" enctype="multipart/form-data">
             <h2>Modifier mon image de profil</h2>
             <div id="subscribFormContent" class="row">
-                <div class="ml-5">
-                    <img src="<?= $_SESSION['userProfile']['image']; ?>" />
+                <div class="ml-3">
+                    <img id="userProfileImage" src="<?= $_SESSION['userProfile']['image']; ?>" />
                 </div>
                 <div class="form-group col-12">
                     <label for="file">Nouvelle image Profile :</label>
@@ -33,14 +33,14 @@ if((isset($_POST['editImage']) || isset($_POST['editMail']) || isset($_POST['edi
             <h2>Modifié mon adresse mail</h2>
             <div id="subscribFormContent" class="row">
                 <div class="form-group col-12">
-                    <label for="email">Adresse e-mail :</label>
-                    <input type="email" class="form-control <?=(isset($_POST['editMail'])) ? (!empty($editProfileFormErrors['email']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="email" name="email" value="<?= (!empty($_POST['email'])) ? $_POST['email'] : $_SESSION['userProfile']['mail'] ; ?>" />
-                    <p class="text-danger"><?= (!empty($editProfileFormErrors['email'])) ? $editProfileFormErrors['email'] : '' ;?></p>
+                    <label for="mail">Adresse e-mail :</label>
+                    <input type="email" class="form-control <?=(isset($_POST['editMail'])) ? (!empty($editProfileFormErrors['mail']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="mail" name="mail" value="<?= (!empty($_POST['mail'])) ? $_POST['mail'] : $_SESSION['userProfile']['mail'] ; ?>" />
+                    <p class="text-danger"><?= (!empty($editProfileFormErrors['mail'])) ? $editProfileFormErrors['mail'] : '' ;?></p>
                 </div>
                 <div class="form-group col-12">
-                    <label for="emailConfirm">Confirmer adresse e-mail :</label>
-                    <input type="email" class="form-control <?=(isset($_POST['editProfile'])) ? (!empty($editProfileFormErrors['emailConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="emailConfirm" name="emailConfirm" />
-                    <p class="text-danger"><?= (!empty($editProfileFormErrors['emailConfirm'])) ? $editProfileFormErrors['emailConfirm'] : '' ;?></p>
+                    <label for="mailConfirm">Confirmer adresse e-mail :</label>
+                    <input type="email" class="form-control <?=(isset($_POST['editProfile'])) ? (!empty($editProfileFormErrors['mailConfirm']))? 'is-invalid' : 'is-valid'  : '' ; ?>" id="mailConfirm" name="mailConfirm" />
+                    <p class="text-danger"><?= (!empty($editProfileFormErrors['mailConfirm'])) ? $editProfileFormErrors['mailConfirm'] : '' ;?></p>
                 </div>
                 <div class="form-group text-center col-12">
                     <input type="submit" class="btn btn-primary" name="editMail" value="Confirmer" />
@@ -72,8 +72,8 @@ if((isset($_POST['editImage']) || isset($_POST['editMail']) || isset($_POST['edi
         </form>
     </div><?php
 }else { ?>
-    <div class="content d-flex align-items-center w-100" id="editProfile">
-        <div class="w-50 text-center mx-auto jumbotron">
+    <div class="content d-flex align-items-center col-12" id="editProfile">
+        <div class="col-10 col-lg-6 text-center mx-auto jumbotron">
             <h1 class="display-4">Vous devez être connecté pour accéder à cette page</h1>
             <a href="index.php?universe=<?= $universe ?>&content=welcome">Retour vers la page d'accueil</a>
         </div>

@@ -11,6 +11,15 @@ if(isset($_POST['field'])){
         $dt = DateTime::createFromFormat($format, $date);
         return $dt && $dt->format($format) === $date;
     }
+    function birthDateLimit($date){
+        $timeStamp = strtotime($date);
+        $tooOld = strtotime('-100 years');
+        $response = true;
+        if($timeStamp > time() || $timeStamp < $tooOld){
+            $response = false;
+        }
+        return $response;   
+    }
 }
 if(isset($_POST['postSubscribe'])) {
     $newUser = new users();
@@ -33,7 +42,7 @@ if(isset($_POST['postSubscribe'])) {
         // On crée un tableau contenant les extensions autorisées.
         $fileExtension = ['jpg', 'jpeg', 'png', 'svg'];
         // On verifie si l'extension de notre fichier est dans le tableau des extension autorisées.
-        if (in_array($fileInfos['extension'], $fileExtension)) {
+        if (in_array(strtolower($fileInfos['extension']), $fileExtension)) {
             //On définit le chemin vers lequel uploader le fichier
             $path = 'assets/img/users/';
             //On crée une date pour différencier les fichiers
@@ -61,7 +70,11 @@ if(isset($_POST['postSubscribe'])) {
     //---------------------Vérification de la date de naissance-------------//
     if(!empty($_POST['birthDate'])){
         if(validateDate($_POST['birthDate'])){
-            $newUser->birthDate = htmlspecialchars($_POST['birthDate']);
+            if(birthDateLimit($_POST['birthDate'])){
+                $newUser->birthDate = htmlspecialchars($_POST['birthDate']);
+            }else {
+                $subscribFormErrors['birthDate'] = 'Vous devez avoir entre 0 et 100 ans pour vous inscrire';
+            }
         }else{
             $subscribFormErrors['birthDate'] = 'Cette date n\'est pas valide ';
         }
@@ -89,7 +102,7 @@ if(isset($_POST['postSubscribe'])) {
     if($ismailOk){
         if($_POST['mailConfirm'] == $_POST['mail']){
             //On hash le mot de passe avec la méthode de PHP
-            $newUser->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $newUser->mail = htmlspecialchars($_POST['mail']);
         }else{
             $subscribFormErrors['mail'] = $subscribFormErrors['mailConfirm'] = 'Votre adresse mail et l\'adresse mail de confirmation ne correspondes pas';
         }

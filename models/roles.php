@@ -17,6 +17,11 @@ class roles {
         $checkRoleExistByID->execute();
         return $checkRoleExistByID->fetch(PDO::FETCH_OBJ)->isRoleExiste;
     }
+    /**
+     * Fonction récupérant la list de tous les rôles existant pour les utilisateurs
+     *
+     * @return array
+     */
     public function getRolesList(){
         $getRolesList = $this->db->query(
             'SELECT `id`, `role`

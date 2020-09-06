@@ -3,28 +3,28 @@ session_start();
 //---------------------Inclusion du controller et des models associé à la page index 
 include_once 'models/dataBase.php';
 include_once 'models/users.php';
-include 'controllers/indexController.php'; ?>
-<!----------------------FIN----------------------------->
-
+include 'controllers/indexController.php'; 
+//----------------------FIN-----------------------------//
+?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
-        <title>AnyManga: Univer Anime-<?= $title ?></title>
+        <title>AnyManga: <?= isset($universe) ? 'Univer ' . $universe . '-' : '' ?><?= $title ?></title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" media="screen" type="text/css" href="assets/css/style.css" />
     </head>
-    <body onresize="pageResize();<?=($contentName == 'welcome' || $_SERVER['REQUEST_URI'] == '/index.php') ? 'welcomeAdapt();': ''; ?>" 
-          onload="pageResize();<?=($contentName == 'welcome' || $_SERVER['REQUEST_URI'] == '/index.php') ? 'welcomeAdapt();': ''; ?>"  
-          class="container-fluid <?= $universe ?>Universe">
+    <body onresize="pageResize();<?=($contentName == 'welcome' && isset($universe)) ? 'welcomeAdapt();': ''; ?>" 
+          onload="pageResize();<?=($contentName == 'welcome' && isset($universe)) ? 'welcomeAdapt();': ''; ?><?= (isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur') ? 'follow();' : '' ; ?>"  
+          class="container-fluid <?= isset($universe) ? $universe : 'manga'; ?>Universe">
         <div class="row">
             <!---------------------------------------MENU DE NAVIGATION----------------------------------------->
             <header id="topMenu" class="float-left fixed-top col-12">
                 <div id="menu" class="row">
                 <!-------------------------Button SWITCH UNIVERSE --------------------------->
                     <div class="float-left d-flex align-content-center col-3 col-lg-2 text-center" id="switchUniverseButton">
-                        <a class="mx-auto my-auto" href="http://anymanga.fr/index.php?universe=<?= ($universe != 'anime') ? 'anime' : 'manga' ;?>&content=<?= $contentName ?>"><img src="assets/img/<?= $universe ?>/switchButton.png" title="Changer d'univers" alt=""></a>
+                        <a class="mx-auto my-auto" href="http://anymanga.fr/index.php?universe=<?= (isset($universe) && $universe == 'anime') ? 'manga' : 'anime' ;?>&content=<?= $contentName ?>"><img src="assets/img/<?= isset($universe) ? $universe : 'manga'; ?>/switchButton.png" title="Changer d'univers" alt=""></a>
                     </div>
                 <!-------------------------FIN----------------------------------------------->
 
@@ -36,21 +36,21 @@ include 'controllers/indexController.php'; ?>
                             <!--------------------Sous menu pour les produits----------------->
                                 <li class="nav-item col-lg-3 text-center">
                                     <div class="float-left w-100">
-                                        <a class="text-white text-center w-100" href="#productsSubMenu" data-toggle="collapse"><?= ($universe == 'anime') ? 'Animés' : 'Manga' ?></a>
+                                        <a class="text-white text-center w-100" href="#productsSubMenu" data-toggle="collapse"><?= (isset($universe) && $universe == 'anime') ? 'Animés' : 'Manga' ?></a>
                                     </div>
                                     <div class="collapse hide float-left w-100" id="productsSubMenu">
-                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=productList&licenses=">Licenses</a>
-                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=productList&products=">Oeuvres</a>
+                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universeLink ?>&content=productList&licenses=">Licenses</a>
+                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universeLink ?>&content=productList&products=">Oeuvres</a>
                                     </div>
                                 </li> 
                             <!-------------------FIN du sous menu pour les produits----------------->
 
                             <!-------------------Sous menu pour les producteurs--------------------->
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=producerList">Studios</a></li>
+                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="<?= $universeLink ?>&content=producerList">Studios</a></li>
                             <!-------------------Fin du sous menu des producteur-------------------->
 
                             <!-------------------Sous menu pour les listes Découverte--------------->
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=discover">Découverte</a></li>
+                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="<?= $universeLink ?>&content=discover">Découverte</a></li>
                             <!-------------------FIN du sous menue des listes découverte------------>
 
                             <!-------------------Sous menu des Actualités--------------------------->
@@ -59,8 +59,8 @@ include 'controllers/indexController.php'; ?>
                                         <a class="text-white text-center w-100" href="#newsSubMenu" data-toggle="collapse">Actualités</a>
                                     </div>
                                     <div class="collapse hide float-left w-100" id="newsSubMenu">
-                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=news&articles=">Articles</a>
-                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=news&calendar=">Agenda</a>
+                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content=news&articles=">Articles</a>
+                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content=news&calendar=">Agenda</a>
                                     </div>
                                 </li> 
                             <!------------------FIN du sous menu des Actualités--------------------->                           
@@ -78,14 +78,14 @@ include 'controllers/indexController.php'; ?>
                             <ul id="userMenuList" class="navbar-nav"><?php
                             //------------------MENU DE NAVIGATION UTILISATEURS CONNECTER-------------------->
                             if(isset($_SESSION['userProfile'])) { ?>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=profile">Mon profil</a></li>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=lists">Mes Listes</a></li>
+                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= $universeLink ?>&content=profile">Mon profil</a></li>
+                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= $universeLink ?>&content=lists">Mes Listes</a></li>
                                 <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= $link . '&logOut='; ?>">Déconnexion</a></li><?php
                             //------------------FIN DU MENU DE NAVIGATION UTILISATEUR CONNECTER-------------->
 
                             //------------------MENU DE NAVIGATION UTILISATEUR NON-CONNECTER----------------->
                             }else { ?>
-                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="index.php?universe=<?= $universe ?>&content=subscrib">S'inscrire</a></li>
+                                <li class="nav-item d-flex"><a class="text-white text-center w-100" href="<?= $universeLink ?>&content=subscrib">S'inscrire</a></li>
                                 <li class="nav-item d-flex"><a class="text-white text-center w-100" data-toggle="modal" data-target="#login" href="#">Connexion</a></li><?php
                             } ?>
                             <!-----------------FIN DU MENU DE NAVIGATION UTILISATEUR NON-CONNECTER----------->
@@ -115,7 +115,7 @@ include 'controllers/indexController.php'; ?>
                                     <input type="password" id="password" class="form-control" name="password" />
                                 </div>
                                 <div class="form-group text-center col-12">
-                                    <button id="loginBtn" class="btn btn-primary" onclick="sendLogin()">Se connecter</button>
+                                    <button type="submit" id="loginBtn" class="btn btn-primary" onclick="sendLogin()">Se connecter</button>
                                 </div>
                             </div>
                         </div>
@@ -198,7 +198,7 @@ include 'controllers/indexController.php'; ?>
 
                 <!----------------------------Inclusion de la vue------------------------->
                 <div class="row flex-fill"><?php 
-                    include $content; ?>
+                    include 'views/' . $contentName . '.php'; ?>
                 </div>
                 <!----------------------FIN D'Inclusion de la vue------------------------->
             </div>

@@ -2,12 +2,12 @@
 include_once 'models/posts.php';
 include 'controllers/welcomeController.php'; 
 ?>
-<div class="col-12 content d-flex align-items-center" onload="welcomeAdapt()" id="welcome">
+<div class="col-12 content d-flex align-items-center" id="welcome">
     <div class="row flex-fill justify-content-center"><?php
             //-------------------AFFICHAGE DES DEUX UNIVERS---------------------//
-                if($universe == 'global'){ ?>
-                    <a class="col-xl-6 col-12" id="universAnime" href="index.php?universe=anime&content=welcome"><div class="row"><img class="img-fluid" id="AUWelcomeImage" src="/assets/img/anime/fond.jpg" /></div></a>
-                    <a class="col-xl-6 col-12" id="universManga" href="index.php?universe=manga&content=welcome"><div class="row"><img class="img-fluid" id="MUWelcomeImage" src="/assets/img/manga/fond.jpg" /></div></a><?php  
+                if(!isset($universe)){ ?>
+                    <a class="col-xl-6 col-12" id="universAnime" href="index.php?universe=anime&content=welcome"><div class="row"><img class="img-fluid" id="animeWelcomeImage" src="/assets/img/anime/fond.jpg" /></div></a>
+                    <a class="col-xl-6 col-12" id="universManga" href="index.php?universe=manga&content=welcome"><div class="row"><img class="img-fluid" id="mangaWelcomeImage" src="/assets/img/manga/fond.jpg" /></div></a><?php  
             //-------------------------------FIN------------------------------->
 
             //-------------------AFFICHAGE DU FOND CORRESPONDANT A L'UNIVERS CHOISI-------------->

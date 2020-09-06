@@ -1,6 +1,6 @@
 <div class="content col-12 d-flex align-items-center justify-content-center" id="profile"><?php
     if(isset($_SESSION['userProfile'])){ ?>
-        <div class="col-6 jumbotron">
+        <div class="col-10 col-lg-6 jumbotron">
             <h1 class="text-center display-4"><?= $_SESSION['userProfile']['username']; ?></h1>
             <div class="text-center">
                 <img id="userProfileImage" src="<?= $_SESSION['userProfile']['image']; ?>"></img>
@@ -18,7 +18,7 @@
             </div>
         </div><?php
     }else { ?>
-        <div class="col-6 jumbotron">
+        <div class="col-10 col-lg-6 jumbotron">
             <h1 class="text-center display-4">Vous devez être connecté pour accéder à cette page</h1>
         </div><?php
     } ?>
