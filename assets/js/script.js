@@ -42,6 +42,29 @@ function follow(){
     document.getElementById('sidebarContent').style.marginTop = headerHeight + 'px';
 }
 
+//Function permettant de définir le contenue de la modal d'action admin userList
+function fillmodal(action, id){
+    userActivateText = 'Êtes vous certain de vouloir réactiver ce compte';
+    userActivateTitle = 'Activer le compte';
+    userDesactivateText = 'Êtes vous certain de vouloir desactiver ce compte';
+    userDesactivateTitle = 'Desactiver le compte';
+    userDeleteTexte = 'Êtes vous sûre de vouloir supprimer ce compte? Cela entrainera la suppression de tout les élements liés à cet utilisateur';
+    userDeleteTitle = 'Supprimer le compte';
+    document.getElementById('userActionText').innerHTML = eval(action.id + 'Text');
+    document.getElementById('actionTitle').innerHTML = eval(action.id + 'Title');
+    document.getElementById('userId').value = id;
+    document.getElementById('userActionBtn').name = action.id;
+}
+//Function permettant de récupéere les id pour la modal d'action admin licensesList
+function fillLicenseModal(licId, presId){
+    if(isNaN(presId)){
+        document.getElementById('presId').value = 0;
+    }else {
+        document.getElementById('presId').value = presId;
+    }
+    document.getElementById('licId').value = licId;
+
+}
 //--------------------------------AJAX----------------------------------------//
 //Function permettant l'affichage dynamique des message d'erreur du formulaire d'inscription
 function checkFieldValidity(input){
@@ -83,5 +106,6 @@ function sendLogin(){
     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhttp.send('login=&username=' + username + '&password=' + password); 
 }
+
 
 

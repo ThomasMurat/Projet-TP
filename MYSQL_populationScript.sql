@@ -6,7 +6,7 @@ INSERT INTO `42pmz96_status` (`name`)
 VALUES ('en cours'), ('terminé'), ('à venir'), ('en pause');
 -- Population de la table roles
 INSERT INTO `42pmz96_roles` (`role`)
-VALUES ('administateur'), ('membre'), ('rédacteur'), ('modérateur');
+VALUES ('administrateur'), ('membre'), ('rédacteur'), ('modérateur');
 -- Population de la table ProductsType
 INSERT INTO `42pmz96_productTypes` (`name`)
 VALUES ('oneshot'), ('serie'), ('ova'), ('film');
@@ -16,9 +16,12 @@ VALUES ('évenement'), ('annonce'), ('info'), ('accueil');
 -- Population de la table producersTypes
 INSERT INTO `42pmz96_producerTypes` (`name`)
 VALUES ('studio'), ('magazine'), ('autheur'), ('animateur');
+-- Population de la table targets
+INSERT INTO `42pmz96_targets` (`target`) 
+VALUES ('Jôsei'), ('Kodomo'), ('Seinen'), ('Shôjo'), ('Shônen');
 -- Population de la table genres
 INSERT INTO `42pmz96_genres` (`name`)
-VALUES ('Action'), ('Art martiaux'), ('Aventure'), ('Comédie'), ('Drama'), ('Ecchi'), ('Ecole'), ('Enfant'), ('Fantastique'), ('Harem'), ('Historique'), ('Horreur'), ('Josei'), ('Magique'), ('Mecha'), ('Militaire'), ('Musique'), ('Mystère'), ('Policier'), ('Psychologique'), ('Romance'), ('Science fiction'), ('Seinen'), ('Shôjo'), ('Shônen'), ('Sport'), ('Super pouvoir'), ('Thriller'), ('Tranche de vie'), ('Yaoi'), ('Yuri');
+VALUES ('Action'), ('Art martiaux'), ('Aventure'), ('Comédie'), ('Drama'), ('Ecchi'), ('Ecole'), ('Fantastique'), ('Harem'), ('Historique'), ('Horreur'), ('Magique'), ('Mecha'), ('Militaire'), ('Musique'), ('Mystère'), ('Policier'), ('Psychologique'), ('Romance'), ('Science fiction'), ('Sport'), ('Super pouvoir'), ('Thriller'), ('Tranche de vie'), ('Yaoi'), ('Yuri');
 -- Population de la table licences
 INSERT INTO `42pmz96_licenses` (`name`, `creationDate`)
 VALUES ('Pas de license', '1900-01-01'), ('8 Man', '1963-11-7'), ('Absolute Duo', '2012-08-24'), ('Air Master', '1997-01-01'), ('Akiba\'s Trip', '2011-05-19'), ('Albator','1977-01-01'), ('Assassination Classroom','2012-07-02'), ('Beyblade', '1999-07-01'), ('Bleach', '2001-08-07'), ('Clamp', '1989-09-01'), ('Danganronpa', '2010-11-25'), ('Digimon', '1997-06-01'), ('Dragon Ball', '1984-12-03'), ('Fate Series', '2004-01-01'), ('Pokémon', '1996-02-01'), ('Final Fantasy', '1987-12-18'), ('Bakuman', '2008-08-11'), ('Love Hina', '1998-10-21'), ('Doraemon', '1969-08-08'), ('Détective Conan', '1994-01-19'), ('Sword Art Online', '2002-01-01');
@@ -66,11 +69,15 @@ VALUES (1, 'Assassiné par des criminels, le corps du détective Yokoda est réc
 (40, 'pas de license', '/assets/MU/licenses/nolicense.jpg', 1, 1),
 (41, 'pas de license', '/assets/AU/licenses/nolicense.jpg', 2, 1);
 -- Population table user
-INSERT INTO `42pmz96_users` (`id`, `username`, `password`, `mail`, `birthdate`, `subscribDate`, `id_42pmz96_roles`) VALUES
-(2, 'test', '$2y$10$I1VwApaKWcQ3FteTZcf5p.yosYXFnOMT.rbgnoplHGw2CVMo.PrdK', 'test@hotmail.fr', '2000-03-10', '2020-08-14 16:14:48', 2),
-(1, 'totojo', '$2y$10$dSo6TFhEk/FGx3GwIhvib.a9eOP6hbZxH9bYNFN4sXtPhNqNkIiPi', 'totojo-1@hotmail.fr', '1992-06-18', '2020-08-25 12:12:08', 1);
+INSERT INTO `42pmz96_users` (`id`, `username`, `password`, `mail`, `birthdate`, `subscribDate`, `image`, `id_42pmz96_roles`, `statu`) VALUES
+(1, 'totojo', '$2y$10$OxB8uUEasuKbudGo.eFOPeKyKLRqU5EcM3Qv4PsKQ1WkKggHuOqbC', 'totojo-1@hotmail.fr', '1992-06-18', '2020-08-25 12:12:08', 'assets/img/users/totojo_2020-08-27_11-29-44.jpg', 1, 1),
+(2, 'test', '$2y$10$I1VwApaKWcQ3FteTZcf5p.yosYXFnOMT.rbgnoplHGw2CVMo.PrdK', 'test@hotmail.fr', '2000-03-10', '2020-08-14 16:14:48', '/assets/img/iconUser.png', 2, 1),
+(3, 'moderateur', '$2y$10$kAW/0Za0GlugYqgKCKeYS.xJfdlE00EaLflXdJ./o9WNhPPNbgFVq', 'moderateur@gmail.com', '1996-12-25', '2020-08-26 10:04:22', 'assets/img/users/moderateur_2020-08-26_10-04-22.jpg', 4, 1),
+(4, 'tonyChopper', '$2y$10$hVUfyJLXsaI.kopqa6sCU.gAsChCOPEVIFTchRCajhZIuPgMrpkSK', 'tony@gmail.com', '2000-08-11', '2020-08-27 14:38:27', 'assets/img/iconUser.png', 2, 1),
+(5, 'Jeromeo', '$2y$10$kfzLB44fTD7stpYVEI8oEuIPwKp4N6BVtkh1DODaHSK4bKIjwM19W', 'jeromeoo@yhoo.com', '1983-09-10', '2020-09-07 12:33:23', 'assets/img/iconUser.png', 2, 1),
+(6, 'Mealya-Sama', '$2y$10$IgDugL68U0s6r5IXotKkGOXjBw9KfIxxMGX.8r80hyqK9XnzR88ei', 'matthieugrislin@hotmail.fr', '1995-08-02', '2020-09-08 08:15:38', 'assets/img/iconUser.png', 2, 1);
 -- Population de la table posts
-INSERT INTO `42pmz96_posts` (`id`, `content`, `image`, `postDate`, `lastEditDate`, `title`, `id_42pmz96_universes`, `id_42pmz96_users`, `id_42pmz96_postsTypes`) VALUES
-(1, 'Bienvenue dans l\'univer Mange d\'AnyManga. Vous trouverez ici, tous ce qu\'il y a à savoir sur l\'univer du Manga: suivez l\'actualité, retrouvez vos oeuvres préférées, découvrez-en de nouvelles. N\'hésitez pas à changer d\'univer à tous moment pour découvrir si votre oeuvre favorite a été adapté en Animé. Devenez membre et enregistrer vos lectures passé et les nouvelles et profitez de nos listes découvertes. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 1, 1, 4),
+INSERT INTO `42pmz96_posts` (`id`, `content`, `image`, `postDate`, `lastEditDate`, `title`, `id_42pmz96_universes`, `id_42pmz96_users`, `id_42pmz96_postsTypes`) 
+VALUES (1, 'Bienvenue dans l\'univer Mange d\'AnyManga. Vous trouverez ici, tous ce qu\'il y a à savoir sur l\'univer du Manga: suivez l\'actualité, retrouvez vos oeuvres préférées, découvrez-en de nouvelles. N\'hésitez pas à changer d\'univer à tous moment pour découvrir si votre oeuvre favorite a été adapté en Animé. Devenez membre et enregistrer vos lectures passé et les nouvelles et profitez de nos listes découvertes. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 1, 1, 4),
 (2, 'Bienvenue dans l\'univers Animés d\'AnyManga. Vous trouverez ici, Tous ce qu\'il y a à savoir sur l\'univer des Animés. Suivez l\'actualité, parcourrez les oeuvres pour les découvrir ou les redécouvrir. N\'hésitez pas à changer d\'univer, et ainsi découvrir le manga à l\'origin de votre oeuvre préférée. Devenez membre epour créer votre liste de lecture passé et à venir mais aussi pour découvrir nos listes découvertes. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 2, 1, 4),
 (3, 'Bienvenue sur AnyManga. Vous trouverez ici toutes les oeuvres issues du monde de l\'animation japonaise. Nous vous invitons à vous inscrire ,et ainsi pouvoir profiter des différents outils que nous vous proposons, comme enregistrer une liste des oeuvres qui vous intéresses ou celles que vous avez déjà vus ou lus. Pour poursuivre votre visite veuillez choisir l\'univers de votre choix en cliquant sur l\'une des deux images présentées sur cette page. ', NULL, '2020-07-24 16:00:00', '2020-07-24 16:00:00', 'Bienvenue', 3, 1, 4);

@@ -47,7 +47,8 @@ function formatDateFr($date){
 $univerList = array('manga', 'anime');
 //----Liste des pages: nom du fichier => nom d'affichage
 $contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités', 'editProfile' => 'Modifier Mon Profil'
-                    ,'usersList' => 'Liste des Utilisateurs', 'updateUser' => 'Modifier un Utilisateur');
+                    ,'usersList' => 'Liste des Utilisateurs', 'updateUser' => 'Modifier un Utilisateur'
+                    ,'licensesList' => 'Liste des Licenses' ,'updateLicenses' => 'Modifier une license', 'addLicense' => 'Ajouter une License');
 
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {
@@ -97,15 +98,19 @@ if(isset($_POST['login'])){
            //On récupère son profil
             $userProfile = $user->getUserProfile();
             //On met en session ses informations
-            $_SESSION['userProfile']['id'] = $userProfile->userId;
-            $_SESSION['userProfile']['username'] = $userProfile->username;
-            $_SESSION['userProfile']['mail'] = $userProfile->mail;
-            $_SESSION['userProfile']['birthDate'] = formatDateFr($userProfile->birthDate);
-            $_SESSION['userProfile']['subscribDate'] = formatDateFr($userProfile->subscribDate);
-            $_SESSION['userProfile']['image'] = $userProfile->image;
-            $_SESSION['userProfile']['role'] = $userProfile->role;
+            if($userProfile->statu){
+                $_SESSION['userProfile']['id'] = $userProfile->userId;
+                $_SESSION['userProfile']['username'] = $userProfile->username;
+                $_SESSION['userProfile']['mail'] = $userProfile->mail;
+                $_SESSION['userProfile']['birthDate'] = formatDateFr($userProfile->birthDate);
+                $_SESSION['userProfile']['subscribDate'] = formatDateFr($userProfile->subscribDate);
+                $_SESSION['userProfile']['image'] = $userProfile->image;
+                $_SESSION['userProfile']['role'] = $userProfile->role;
+            }else {
+                $formErrors['password'] = 'Ce compte est desactivé pour le réactivé ...';
+            }
        }else{
-           $formErrors['password'] = $formErrors['username'] = 'Votre mail ou votre mot de passe est incorrect';
+           $formErrors['password'] = $formErrors['username'] = 'Votre pseudo ou votre mot de passe est incorrect';
        }
     } ?>
     <p><?= isset($formErrors['password']) ? $formErrors['password'] : 'Vous êtes bien connecté'; ?></p>

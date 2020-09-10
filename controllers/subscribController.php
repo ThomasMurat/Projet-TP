@@ -162,8 +162,10 @@ if(isset($_POST['postSubscribe'])) {
             $isOk = false;
         }
         //Si c'est bon on ajoute l'utilisateur
-        if($isOk){
-            $newUser->addUser();
+        if($isOk && $newUser->addUser()){
+            $message = 'Votre compte a bien été enregistré.';
+        }else {
+            $message = 'Votre compte n\'a pas pu être créé';
         }
     }
     //----------------------Fin de validation----------------------------//

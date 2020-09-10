@@ -1,35 +1,26 @@
 <?php
-include_once 'models/users.php';
-include_once 'models/roles.php';
-include 'controllers/usersListController.php';
+include_once 'models/presentations.php';
+include_once 'models/licenses.php';
+include 'controllers/licensesListController.php';
 ?>
 <div id="usersList" class="content col-12 d-flex align-items-center justify-content-center"><?php
     if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){ ?>
         <div class="row justify-content-center">
             <form class="col-10 mb-1 border border-dark text-center" method="POST" action="<?= $link ?>">
                 <div class="mt-5">
-                    <label for="username">Pseudo :</label>
-                    <input type="text" id="username" name="username" />
-                    <label for="mail">Mail :</label>
-                    <input type="text" id="mail" name="mail" />
-                    <label for="age">Âge :</label>
-                    <input type="number" id="age" name="age" />
-                    <label for="role">Rang :</label>
-                    <select id="role" name="role">
-                        <option selected disabled>Choisir le rang</option><?php
-                        foreach($rolesList as $role){ ?>
-                            <option value="<?= $role->id ?>"><?= $role->role ?></option><?php
-                        } ?>
+                    <label for="name">titre :</label>
+                    <input type="text" id="name" name="name" />
+                    <label for="universe">univers :</label>
+                    <select name="universe">
+                        <option selected disabled>Choisir un univer</option>
+                        <option value="1">Manga</option>
+                        <option value="2">Anime</option>
                     </select>
-                    <label for="statu">Statu :</label>
-                    <select id="statu" name="statu">
-                        <option selected disabled>Choisir un statu</option>
-                        <option value="0">Desactivé</option>
-                        <option value="1">Activé</option>
-                    </select>
+                    <label for="creationDate">Depuis :</label>
+                    <input type="number" id="creationDate" name="creationDate" placeholder="YYYY" />
                 </div>
                 <div class="form-group text-center col-12">
-                    <input type="submit" class="btn btn-primary" name="searchUser" value="Rechercher" />
+                    <input type="submit" class="btn btn-primary" name="searchLicenses" value="Rechercher" />
                 </div>
                 <p class="text-center"><?= $resultsNb ?> Résultats</p>
             </form><?php
@@ -38,32 +29,23 @@ include 'controllers/usersListController.php';
                     <h1 class="text-center display-4">Aucun résultats pour cette recherche</h1>
                 </div><?php
             }else { ?>
-                <table class="table col-12 table-striped text-center container">
+                <table class="table col-10 table-striped text-center container">
                     <title>Liste des Utilisateur</title>
                     <thead>
-                        <th>Pseudo</th>
-                        <th>Mail</th>
-                        <th>Date de naissance</th>
-                        <th>Date d'inscription</th>
-                        <th>Rang</th>
-                        <th>Date de desactivation</th>
-                        <th>Statu</th>
+                        <th>Titre</th>
+                        <th>Date de création</th>
+                        <th>Univer</th>
                         <th>Actions</th>
                     </thead>
                     <tbody><?php
-                        foreach($usersList as $user){ ?>
+                        foreach($licensesList as $license){ ?>
                             <tr>
-                                <td><?= $user->username ?></td>
-                                <td><?= $user->mail ?></td>
-                                <td><?= formatDateFr($user->birthDate) ?></td>
-                                <td><?= formatDateFr($user->subscribDate) ?></td>
-                                <td><?= $user->role ?></td>
-                                <td><?= ($user->desactivationDate == null) ? '' : formatDateFr($user->desactivationDate); ?></td>
-                                <td><?= ($user->statu) ? 'activé' : 'Desactivé' ; ?></td>
+                                <td><?= $license->name ?></td>
+                                <td><?= formatDateFr($license->creationDate) ?></td>
+                                <td><?= $license->universe ?></td>
                                 <td>
-                                    <button  type="button" class="btn btn-primary btn-sm"><a class="text-white" href="<?= $universeLink ?>&content=updateUser&id=<?= $user->id ?>">modifier</a></button>
-                                    <button onclick="fillmodal(this,<?= $user->id ?>);" data-toggle="modal" data-target="#userAction" type="button" id="user<?= ($user->statu) ? 'Desactivate' : 'Activate'; ?>" class="btn btn-<?= ($user->statu) ? 'warning' : 'success' ?> btn-sm"><?= ($user->statu) ? 'Desactiver' : 'Activer'; ?></button>
-                                    <button onclick="fillmodal(this,<?= $user->id ?>);" data-toggle="modal" data-target="#userAction" type="button" id="userDelete" class="btn btn-danger btn-sm">Supprimer</button>
+                                    <button  type="button" class="btn btn-primary btn-sm"><a class="text-white" href="<?= $universeLink ?>&content=updateLicenses&id=<?= $license->presId ?>">modifier</a></button>
+                                    <button onclick="fillLicenseModal(<?= $license->licId ?>, <?= $license->presId ?>);" data-toggle="modal" data-target="#licensesAction" type="button" id="licenseDelete" class="btn btn-danger btn-sm">Supprimer</button>
                                 </td>
                             </tr><?php
                         } ?>  
@@ -103,20 +85,21 @@ include 'controllers/usersListController.php';
                 </div><?php
             } ?>
         </div>
-        <div class="modal" id="userAction">
+        <div class="modal" id="licensesAction">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p class="h4 modal-title" id="actionTitle"></p>
+                            <p class="h4 modal-title" id="actionTitle">Supprimer la licenses</p>
                         </div>
                         <form id="actionContent" method="POST" action="<?= $link ?>" class="modal-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <p id="userActionText"></p>
+                                    <p id="userActionText">Êtes-vous certain de vouloir supprimer la présentation de cette license? Ceci supprimera aussi la license s'il n'y a pas d'autres présentations pour cette license.</p>
                                 </div>
-                                <input type="hidden" id="userId" name="userId" />
+                                <input type="hidden" id="presId" name="presId" />
+                                <input type="hidden" id="licId" name="licId" />
                                 <div class="form-group text-center col-12">
-                                    <button type="submit" id="userActionBtn" name="" class="btn btn-primary">Confirmer</button>
+                                    <button type="submit" id="userActionBtn" name="deletePresentation" class="btn btn-primary">Confirmer</button>
                                     <button class="btn btn-danger" data-dismiss="modal">Annuler</button>
                                 </div>
                             </div>

@@ -8,6 +8,8 @@ class users {
     public $subscribDate = '';
     public $image = '';
     public $id_42pmz96_roles = '';
+    public $desactivationDate = '';
+    public $statu = 1;
     private $db = NULL;
     private $table = '`42pmz96_users`';
     public function __construct(){
@@ -41,8 +43,8 @@ class users {
      */
     public function addUser(){
         $registerNewUserQuery = $this->db->prepare(
-            'INSERT INTO ' . $this->table . ' (`username`, `password`, `mail`, `birthDate`, `image`, `subscribDate`, `id_42pmz96_roles`)
-            VALUES (:username, :password, :mail, :birthDate, :image, :subscribDate, :id_42pmz96_roles)'
+            'INSERT INTO ' . $this->table . ' (`username`, `password`, `mail`, `birthDate`, `image`, `subscribDate`, `id_42pmz96_roles`, `statu`)
+            VALUES (:username, :password, :mail, :birthDate, :image, :subscribDate, :id_42pmz96_roles, 1)'
         );
         $registerNewUserQuery->bindValue(':username', $this->username, PDO::PARAM_STR);
         $registerNewUserQuery->bindValue(':password', $this->password, PDO::PARAM_STR);
@@ -54,41 +56,49 @@ class users {
         return $registerNewUserQuery->execute();
     }
     /**
-     * Fonction permettant de récupérer la liste des utilisateurs
+     * Fonction permettant de récupérer une liste d'utilisateurs
      *
+     * @param array $searchArray tableau associatif propre à la recherche
+     * @param array $pageArray tableau associatif propre à la pagination
      * @return array
      */
-    public function getUsersList($searchArray = array()){
+    public function getUsersList($searchArray = array(), $pageArray = array()){
         $where = '';
         if(!empty($searchArray)){
             $where = ' WHERE ';
             $whereArray = array();
-            if(isset($searchArray['username'])){
-                $whereArray['username'] = ' `username` LIKE :username ';
-            }
-            if(isset($searchArray['mail'])){
-                $whereArray['mail'] = ' `mail` LIKE :mail ';
-            }
-            if(isset($searchArray['birthDate'])){
-                $whereArray['birthDate'] = ' `birthDate` > :birthDate ';
-            }
-            if(isset($searchArray['role'])){
-                $whereArray['id_42pmz96_roles'] = ' `id_42pmz96_roles` = :id_42pmz96_roles ';
+            foreach($searchArray as $fieldName => $value){
+                if($fieldName == 'username' || $fieldName == 'mail'){
+                    $whereArray[$fieldName] = ' `' . $fieldName . '` LIKE :' . $fieldName;
+                }
+                if($fieldName == 'birthDate'){
+                    $whereArray['birthDate'] = ' `birthDate` < :birthDate ';
+                }
+                if($fieldName == 'id_42pmz96_roles' || $fieldName == 'statu'){
+                    $whereArray[$fieldName] = ' `' . $fieldName . '` = :' . $fieldName;
+                }
             }
             $where .= implode(' AND ', $whereArray);
         } 
         $getUsersList = $this->db->prepare(
-            'SELECT `use`.`id`, `username`, `mail`, `birthDate`, `subscribDate`, `role`
+            'SELECT `use`.`id`, `username`, `mail`, `birthDate`, `subscribDate`, `role`, `desactivationDate`, `statu`
             FROM ' . $this->table . ' AS `use`
                 INNER JOIN `42pmz96_roles` AS `rol` ON `rol`.`id` = `use`.`id_42pmz96_roles` '
-            . $where
+        . $where . ' '
+        . (count($pageArray) == 2 ? 'LIMIT :limit OFFSET :offset' : '')
         );
-        foreach($searchArray as $field => $value){
-            if($field == 'id_42pmz96_roles'){
+        foreach($searchArray as $fieldName => $value){
+            if($fieldName == 'id_42pmz96_roles'){
                 $getUsersList->bindValue(':id_42pmz96_roles', $value, PDO::PARAM_INT);
+            }else if($fieldName == 'statu'){
+                $getUsersList->bindValue(':statu', $value, PDO::PARAM_BOOL);
             }else{
-                $getUsersList->bindValue(':' . $field, $value, PDO::PARAM_STR);
+                $getUsersList->bindValue(':' . $fieldName, $value, PDO::PARAM_STR);
             }
+        }
+        if (count($pageArray) == 2){
+            $getUsersList->bindvalue(':limit', $pageArray['limit'], PDO::PARAM_INT);
+            $getUsersList->bindvalue(':offset', $pageArray['offset'], PDO::PARAM_INT);
         }
         $getUsersList->execute();
         return $getUsersList->fetchAll(PDO::FETCH_OBJ);
@@ -102,7 +112,7 @@ class users {
     public function getUserProfile($UQfield = 'username'){
         ($UQfield == 'id') ? $joinfield = 'use`.`id' : $joinfield = $UQfield;
         $getUserProfile = $this->db->prepare(
-            'SELECT `use`.`id` AS `userId`, `username`, `mail`, `birthDate`, `subscribDate`, `image`, `role`
+            'SELECT `use`.`id` AS `userId`, `username`, `mail`, `birthDate`, `subscribDate`, `image`, `role`, `statu`, `desactivationDate`
             FROM ' . $this->table . ' AS `use`
                 INNER JOIN `42pmz96_roles` AS `rol` ON `rol`.`id` = `use`.`id_42pmz96_roles`
             WHERE `' . $joinfield . '` = :' . $UQfield
@@ -159,13 +169,25 @@ class users {
             ' WHERE `' . $UQfield . '` = :' . $UQfield
         ); 
         foreach($setFieldArray as $field){
-            $updateUser->bindValue(':'. $field , $this->$field, PDO::PARAM_STR);
+            if($field == 'statu'){
+                $updateUser->bindValue(':statu' , $this->statu, PDO::PARAM_BOOL);
+            }else {
+                $updateUser->bindValue(':'. $field , $this->$field, ($field == 'id_42pmz96_roles') ? PDO::PARAM_INT : PDO::PARAM_STR);
+            }
         }
-        if($UQfield == 'id'){
-            $updateUser->bindValue(':id', $this->id, PDO::PARAM_INT);
-        }else {
-            $updateUser->bindValue(':' . $UQfield, $this->$UQfield, PDO::PARAM_STR);
-        }
+        $updateUser->bindValue(':' . $UQfield, $this->$UQfield, ($UQfield == 'id') ? PDO::PARAM_INT : PDO::PARAM_STR);
         return $updateUser->execute();
+    }
+    /**
+     * Fonction permettant la suppression d'un utilisateur celon son id
+     *
+     * @return bool
+     */
+    public function deleteUser(){
+        $deleteUser = $this->db->prepare(
+            'DELETE FROM ' . $this->table .
+            ' WHERE `id` = :id');
+        $deleteUser->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $deleteUser->execute();
     }
 }

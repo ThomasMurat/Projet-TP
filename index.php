@@ -2,6 +2,7 @@
 session_start();
 //---------------------Inclusion du controller et des models associé à la page index 
 include_once 'models/dataBase.php';
+include_once 'models/transaction.php';
 include_once 'models/users.php';
 include 'controllers/indexController.php'; 
 //----------------------FIN-----------------------------//
@@ -163,7 +164,7 @@ include 'controllers/indexController.php';
                                             <a href="#" class="text-white">ajouter</a>
                                         </li>
                                         <li>
-                                            <a href="#" class="text-white">Liste</a>
+                                            <a href="<?= $universeLink ?>&content=licensesList" class="text-white">Liste</a>
                                         </li>
                                     </ul>
                                 </li>

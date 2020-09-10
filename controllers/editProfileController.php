@@ -75,6 +75,7 @@ if(isset($_SESSION['userProfile'])) {
             if($user->checkUserValueUnavailability('mail')){
                 if($user->updateUser(['mail'])){
                     $message = 'Votre mail a bien était mis à jour';
+                    $_SESSION['userProfile']['mail'] = $user->mail;
                 }else {
                     $message = 'votre mail n\'a pas pu être mis à jour';
                 }

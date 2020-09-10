@@ -8,7 +8,7 @@ include 'controllers/subscribController.php'; ?>
             <h1 class="text-center display-4"><?= $message; ?></h1>
         </div><?php
     }else { ?>
-        <form class="offset-1 col-10" action="index.php?universe=<?= isset($universe) ? $universe : 'manga'; ?>&content=subscrib" method="POST" enctype="multipart/form-data" class="w-100">
+        <form class="offset-1 col-10" action="index.php?universe=<?= isset($universe) ? $universe : 'manga'; ?>&content=subscrib" method="POST" enctype="multipart/form-data">
             <h2 class="text-center"><?= (isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur') ? 'Ajouter un Utilisateur' : 'Veuillez remplir tous les champs pour vous inscrire.' ?></h2>
             <div id="subscribFormContent" class="row">
                 <div class="form-group col-12">
