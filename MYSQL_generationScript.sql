@@ -163,20 +163,6 @@ CREATE TABLE 42pmz96_status(
 
 
 #------------------------------------------------------------
-# Table: 42pmz96_marks
-#------------------------------------------------------------
-
-CREATE TABLE 42pmz96_marks(
-        id               Int  Auto_increment  NOT NULL ,
-        mark             Int NOT NULL ,
-        id_42pmz96_users Int NOT NULL
-	,CONSTRAINT 42pmz96_marks_PK PRIMARY KEY (id)
-
-	,CONSTRAINT 42pmz96_marks_42pmz96_users_FK FOREIGN KEY (id_42pmz96_users) REFERENCES 42pmz96_users(id)
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: 42pmz96_products
 #------------------------------------------------------------
 
@@ -191,15 +177,13 @@ CREATE TABLE 42pmz96_products(
         id_42pmz96_licenses     Int NOT NULL ,
         id_42pmz96_universes    Int NOT NULL ,
         id_42pmz96_productTypes Int NOT NULL ,
-        id_42pmz96_status       Int NOT NULL ,
-        id_42pmz96_marks        Int NOT NULL
+        id_42pmz96_status       Int NOT NULL
 	,CONSTRAINT 42pmz96_products_PK PRIMARY KEY (id)
 
 	,CONSTRAINT 42pmz96_products_42pmz96_licenses_FK FOREIGN KEY (id_42pmz96_licenses) REFERENCES 42pmz96_licenses(id)
 	,CONSTRAINT 42pmz96_products_42pmz96_universes0_FK FOREIGN KEY (id_42pmz96_universes) REFERENCES 42pmz96_universes(id)
 	,CONSTRAINT 42pmz96_products_42pmz96_productTypes1_FK FOREIGN KEY (id_42pmz96_productTypes) REFERENCES 42pmz96_productTypes(id)
 	,CONSTRAINT 42pmz96_products_42pmz96_status2_FK FOREIGN KEY (id_42pmz96_status) REFERENCES 42pmz96_status(id)
-	,CONSTRAINT 42pmz96_products_42pmz96_marks3_FK FOREIGN KEY (id_42pmz96_marks) REFERENCES 42pmz96_marks(id)
 )ENGINE=InnoDB;
 
 
@@ -217,6 +201,22 @@ CREATE TABLE 42pmz96_comments(
 
 	,CONSTRAINT 42pmz96_comments_42pmz96_products_FK FOREIGN KEY (id_42pmz96_products) REFERENCES 42pmz96_products(id)
 	,CONSTRAINT 42pmz96_comments_42pmz96_users0_FK FOREIGN KEY (id_42pmz96_users) REFERENCES 42pmz96_users(id)
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: 42pmz96_marks
+#------------------------------------------------------------
+
+CREATE TABLE 42pmz96_marks(
+        id                  Int  Auto_increment  NOT NULL ,
+        mark                Int NOT NULL ,
+        id_42pmz96_products Int NOT NULL ,
+        id_42pmz96_users    Int NOT NULL
+	,CONSTRAINT 42pmz96_marks_PK PRIMARY KEY (id)
+
+	,CONSTRAINT 42pmz96_marks_42pmz96_products_FK FOREIGN KEY (id_42pmz96_products) REFERENCES 42pmz96_products(id)
+	,CONSTRAINT 42pmz96_marks_42pmz96_users0_FK FOREIGN KEY (id_42pmz96_users) REFERENCES 42pmz96_users(id)
 )ENGINE=InnoDB;
 
 

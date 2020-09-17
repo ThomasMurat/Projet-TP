@@ -56,6 +56,22 @@ class presentations {
         return $getLicenseProfile->fetch(PDO::FETCH_OBJ);
     }
     /**
+     * Fonction permettant d'ajouter une présentation
+     *
+     * @return void
+     */
+    public function addPresentation(){
+        $addPresentation = $this->db->prepare(
+            'INSERT INTO ' . $this->table . '(`presentation`, `image`, `id_42pmz96_universes`, `id_42pmz96_licenses`)
+            VALUES (:presentation, :image, :id_42pmz96_universes, :id_42pmz96_licenses)'
+        );
+        $addPresentation->bindValue(':presentation', $this->presentation, PDO::PARAM_STR);
+        $addPresentation->bindValue(':image', $this->image, PDO::PARAM_STR);
+        $addPresentation->bindValue(':id_42pmz96_universes', $this->id_42pmz96_universes, PDO::PARAM_INT);
+        $addPresentation->bindValue(':id_42pmz96_licenses', $this->id_42pmz96_licenses, PDO::PARAM_INT);
+        return $addPresentation->execute();
+    }
+    /**
      * Fonction permettant la modification d'une license
      *
      * @return void

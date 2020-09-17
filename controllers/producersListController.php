@@ -5,38 +5,25 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
     //---------------------Vérification des actions----------------------------//
 
     //---------------------Suppression----------------------------//
-    if(isset($_POST['deletePresentation'])){
-        $havePresentation = false;
-        $isLicense = false;
-        if(!empty($_POST['presId'])){
-            $presentations->id = htmlspecialchars($_POST['presId']);
-            $presentationProfile = $presentations->getLicenseProfile();
-            $havePresentation = true;  
-        }
-        if(!empty($_POST['licId'])){
-            $licenses->id = htmlspecialchars($_POST['licId']);
-            $isLicense = true;
-        }
-        if($isLicense){
-            if($havePresentation){
-                if($presentations->deletePresentation()) {
-                    if(!empty($presentationProfile->image)){
-                        unlink($presentationProfile->image);
-                    }
-                    $message = 'La présentation a bien été supprimée.'; 
+    if(isset($_POST['deleteProducer'])){
+        if(!empty($_POST['prodId'])){
+            $producer->id = htmlspecialchars($_POST['prodId']);
+            if($producer->checkProducerExist()){
+                $producerProfile = $producer->getProducerProfile();
+                if($producer->deleteProducer()){
+                    unlink($producerProfile->picture);
+                    $message = 'Le producteur a bien été supprimé.';
                 }else {
-                    $message = 'La présentation n\'a pas pu être supprimée.';
+                    $message = 'Le producteur n\'a pas pu être supprimé.';
                 }
             }else {
-                if($licenses->deleteLicense()){
-                    $message = 'La license a bien été supprimé';
-                }else {
-                    $message = 'La license n\'a pas pu être supprimée.';
-                }
-            }
+                $message = 'Ce producteur n\'éxiste pas.';
+            } 
         }else {
-            $message = 'Cette license n\'existe pas.';
-        } 
+            $message = 'aucun producteur sélectionné';
+        }
+        
+         
     }
     //-------------------Fin vérification des actions-------------------//
 

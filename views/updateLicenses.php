@@ -4,12 +4,12 @@ include_once 'models/presentations.php';
 include 'controllers/updatelicenseController.php'; ?>
 <div id="updatelicense" class="content col-12 d-flex align-items-center justify-content-center"><?php
     if(isset($_POST['updatelicense']) && count($updatelicenseFormErrors) == 0){ ?>
-        <div class="col-10 col-lg-6 text-center mx-auto jumbotron">
+        <div class="col-10 col-lg-6 text-center jumbotron">
             <h1 class="text-center display-4"><?= $message; ?></h1>
             <a class="text-center" href="<?= $universeLink ?>&content=licensesList">Retour vers la liste des Licenses</a>
         </div><?php
     }else if(isset($error)){ ?>
-        <div class="col-10 col-lg-6 text-center mx-auto jumbotron">
+        <div class="col-10 col-lg-6 text-center jumbotron">
             <h1 class="text-center display-4"><?= $error ?></h1>
         </div><?php
     }else { ?>
@@ -20,6 +20,9 @@ include 'controllers/updatelicenseController.php'; ?>
                     <label for="name">Titre :</label>
                     <input type="text" class="form-control <?= (isset($_POST['updatelicense'])) ? (!empty($updatelicenseFormErrors['name'])) ? 'is-invalid' : 'is-valid'  : '' ; ?>" id="name" name="name" value="<?= (!empty($_POST['licensename'])) ? $_POST['name'] : $presentationProfile->name ; ?>" />
                     <p id="nameError" class="text-danger"><?= (!empty($updatelicenseFormErrors['name'])) ? $updatelicenseFormErrors['name'] : '' ;?></p>
+                </div>
+                <div class="col-12 text-center">
+                    <img id="licenseImage" src="<?= $presentationProfile->image ?>"></img>
                 </div>
                 <div class="form-group col-12">
                     <label for="file">Image Licenses : (optionnel)</label>

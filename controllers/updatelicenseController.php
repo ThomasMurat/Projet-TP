@@ -22,7 +22,7 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                 //----------------------Fin Vérification du titre---------------//
             
                 //---------------------Vérification de l'image-------------------//
-                if (!empty($_FILES['file']) && $_FILES['file']['error'] == 0 && $newpresentation->presentationname != '') {
+                if (!empty($_FILES['file']) && $_FILES['file']['error'] == 0) {
                     // On stock dans $fileInfos les informations concernant le chemin du fichier.
                     $fileInfos = pathinfo($_FILES['file']['name']);
                     // On crée un tableau contenant les extensions autorisées.
@@ -30,11 +30,9 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                     // On verifie si l'extension de notre fichier est dans le tableau des extension autorisées.
                     if (in_array(strtolower($fileInfos['extension']), $fileExtension)) {
                         //On définit le chemin vers lequel uploader le fichier
-                        $path = 'assets/img/' . $presentation->universe . '/licenses/';
-                        //On crée une date pour différencier les fichiers
-                        $date = date('Y-m-d_H-i-s');
+                        $path = 'assets/img/' . $presentationProfile->universe . '/licenses/';
                         //On crée le nouveau nom du fichier (celui qu'il aura une fois uploadé)
-                        $fileNewName = $presentation->name . '_' . $date;
+                        $fileNewName = $presentationProfile->name;
                         //On stocke dans une variable le chemin complet du fichier (chemin + nouveau nom + extension une fois uploadé) Attention : ne pas oublier le point
                         $fileFullPath = $path . $fileNewName . '.' . $fileInfos['extension'];
                         //move_uploaded_files : déplace le fichier depuis son emplacement temporaire ($_FILES['file']['tmp_name']) vers son emplacement définitif ($fileFullPath)

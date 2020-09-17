@@ -48,7 +48,9 @@ $univerList = array('manga', 'anime');
 //----Liste des pages: nom du fichier => nom d'affichage
 $contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités', 'editProfile' => 'Modifier Mon Profil'
                     ,'usersList' => 'Liste des Utilisateurs', 'updateUser' => 'Modifier un Utilisateur'
-                    ,'licensesList' => 'Liste des Licenses' ,'updateLicenses' => 'Modifier une license', 'addLicense' => 'Ajouter une License');
+                    ,'licensesList' => 'Liste des Licenses' ,'updateLicenses' => 'Modifier une license', 'addLicense' => 'Ajouter une License'
+                    ,'addProducer' => 'Ajouter un producteur', 'producersList' => 'Liste des producteurs', 'updateProducer' => 'Modifier un producteur'
+                    ,'addPost' => 'Ajouter un article', 'updatePost' => 'Modifier un article', 'postsList' => 'Liste des articles');
 
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {

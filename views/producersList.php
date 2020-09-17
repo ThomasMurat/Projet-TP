@@ -1,27 +1,25 @@
 <?php
-include_once 'models/presentations.php';
-include_once 'models/licenses.php';
-include 'controllers/licensesListController.php';
+include_once 'models/producers.php';
+include_once 'models/producerTypes.php';
+include 'controllers/producersListController.php';
 ?>
-<div id="usersList" class="content col-12 d-flex align-items-center justify-content-center"><?php
+<div id="producersList" class="content col-12 d-flex align-items-center justify-content-center"><?php
     if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){ ?>
         <div class="row justify-content-center">
             <form class="col-10 mb-1 border border-dark text-center" method="POST" action="<?= $link ?>">
                 <div class="mt-4">
-                    <label for="name">titre :</label>
+                    <label for="name">Nom :</label>
                     <input type="text" id="name" name="name" />
-                    <label for="universe">univers :</label>
-                    <select name="universe">
-                        <option selected disabled>Choisir un univer</option>
-                        <option value="1">Manga</option>
-                        <option value="2">Anime</option>
-                        <option value="">Pas de presentation</option>
+                    <label for="categorie">Catégorie :</label>
+                    <select name="categorie">
+                        <option selected disabled>Choisir une catégorie</option><?php
+                        foreach($categoriesList as $categorie){ ?>
+                            <option value="<?= $categorie->id ?>"><?= $categorie->name ?></option><?php
+                        } ?>
                     </select>
-                    <label for="creationDate">Depuis :</label>
-                    <input type="number" id="creationDate" name="creationDate" placeholder="YYYY" />
                 </div>
                 <div class="form-group text-center col-12">
-                    <input type="submit" class="btn btn-primary" name="searchLicenses" value="Rechercher" />
+                    <input type="submit" class="btn btn-primary" name="searchProducers" value="Rechercher" />
                 </div>
                 <p class="text-center"><?= $resultsNb ?> Résultats</p>
             </form><?php
@@ -33,22 +31,18 @@ include 'controllers/licensesListController.php';
                 <table class="table col-10 table-striped text-center container">
                     <title>Liste des Utilisateur</title>
                     <thead>
-                        <th>Titre</th>
-                        <th>Date de création</th>
-                        <th>Univer</th>
+                        <th>Nom</th>
+                        <th>Catégorie</th>
                         <th>Actions</th>
                     </thead>
                     <tbody><?php
-                        foreach($licensesList as $license){ ?>
+                        foreach($producersList as $producer){ ?>
                             <tr>
-                                <td><?= $license->name ?></td>
-                                <td><?= formatDateFr($license->creationDate) ?></td>
-                                <td><?= $license->universe ?></td>
-                                <td><?php
-                                    if(!is_null($license->presId)){ ?>
-                                        <button  type="button" class="btn btn-primary btn-sm"><a class="text-white" href="<?= $universeLink ?>&content=updateLicenses&id=<?= $license->presId ?>">modifier</a></button><?php
-                                    } ?>
-                                    <button onclick="fillLicenseModal(<?= $license->licId ?>, <?= $license->presId ?>);" data-toggle="modal" data-target="#licensesAction" type="button" id="licenseDelete" class="btn btn-danger btn-sm">Supprimer</button>
+                                <td><?= $producer->prodName ?></td>
+                                <td><?= $producer->typName ?></td>
+                                <td>
+                                    <button  type="button" class="btn btn-primary btn-sm"><a class="text-white" href="<?= $universeLink ?>&content=updateProducer&id=<?= $producer->prodId ?>">modifier</a></button>
+                                    <button onclick="fillModalId(<?= $producer->prodId ?>);" data-toggle="modal" data-target="#producerAction" type="button" id="producerDelete" class="btn btn-danger btn-sm">Supprimer</button>
                                 </td>
                             </tr><?php
                         }  ?>  
@@ -88,21 +82,20 @@ include 'controllers/licensesListController.php';
                 </div><?php
             } ?>
         </div>
-        <div class="modal" id="licensesAction">
+        <div class="modal" id="producerAction">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <p class="h4 modal-title" id="actionTitle">Supprimer la licenses</p>
+                            <p class="h4 modal-title" id="actionTitle">Supprimer le Producteur</p>
                         </div>
                         <form id="actionContent" method="POST" action="<?= $link ?>" class="modal-body">
                             <div class="row">
                                 <div class="col-12">
-                                    <p id="userActionText">Êtes-vous certain de vouloir supprimer cette présentation? S'il n'y a aucune présentation pour cette license celle-ci sera supprimée.</p>
+                                    <p id="producerActionText">Êtes-vous certain de vouloir supprimer ce producteur? toutes les relations avec les produits seront aussi supprimé.</p>
                                 </div>
-                                <input type="hidden" id="presId" name="presId" />
-                                <input type="hidden" id="licId" name="licId" />
+                                <input type="hidden" id="deleteId" name="prodId" />
                                 <div class="form-group text-center col-12">
-                                    <button type="submit" id="userActionBtn" name="deletePresentation" class="btn btn-primary">Confirmer</button>
+                                    <button type="submit" id="userActionBtn" name="deleteProducer" class="btn btn-primary">Confirmer</button>
                                     <button class="btn btn-danger" data-dismiss="modal">Annuler</button>
                                 </div>
                             </div>

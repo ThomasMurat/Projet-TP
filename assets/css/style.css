@@ -27,7 +27,7 @@ footer {
     border-radius: 20px;
 }
 /*--------- Fin ------------*/
-#userProfileImage {
+#userProfileImage, #licenseImage {
     max-height: 300px;
     max-width: 300px;
 }

@@ -29,6 +29,33 @@ class licenses {
         return $checkLicensesValueUnavailability->fetch(PDO::FETCH_OBJ)->isUnavailable; 
     }
     /**
+     * Fonction récupérant le nom de la license correspondant à l'id envoyer
+     *
+     * @return string
+     */
+    public function getLicenseName(){
+        $getLicenseName = $this->db->prepare(
+            'SELECT `name`
+            FROM ' . $this->table .
+            ' WHERE `id` = :id'
+        );
+        $getLicenseName->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $getLicenseName->execute();
+        return $getLicenseName->fetch(PDO::FETCH_OBJ)->name;
+    } 
+    /**
+     * Fonction récupérant la liste des noms des licenses
+     *
+     * @return array
+     */
+    public function getLicensesNameList(){
+        $getLicensesNameList = $this->db->query(
+            'SELECT `id`, `name`
+            FROM ' . $this->table
+        );
+        return $getLicensesNameList->fetchAll(PDO::FETCH_OBJ);
+    }
+    /**
      * Fonction permettant de récupérer une liste de licence et toute leurs infos
      *
      * @param [array] $searchArray tableau associatif propre à la recherche
@@ -76,6 +103,20 @@ class licenses {
         $getLicensesListQuery->execute();
         return $getLicensesListQuery->fetchAll(PDO::FETCH_OBJ);
     }
+    /**
+     * Function permettant d'insérer une License
+     *
+     * @return bool
+     */
+    public function addLicense(){
+        $addLicense = $this->db->Prepare(
+            'INSERT INTO ' . $this->table . ' (`name`, `creationDate`)
+            VALUES (:name, :creationDate)'
+        );
+        $addLicense->bindValue(':name', $this->name, PDO::PARAM_STR);
+        $addLicense->bindValue(':creationDate', $this->creationDate, PDO::PARAM_STR);
+        return $addLicense->execute();
+    } 
     /**
      * Fonction permettant la modification d'une license
      *

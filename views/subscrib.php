@@ -2,7 +2,7 @@
 include_once 'models/users.php';
 include_once 'models/roles.php';
 include 'controllers/subscribController.php'; ?>
-    <div id="subscrib" class="content"><?php
+<div id="subscrib" class="content"><?php
     if(isset($_POST['postSubscribe']) && count($subscribFormErrors) == 0){ ?>
         <div class="w-50 mx-auto jumbotron">
             <h1 class="text-center display-4"><?= $message; ?></h1>
@@ -64,4 +64,4 @@ include 'controllers/subscribController.php'; ?>
             </div>
         </form><?php
     } ?>
-    </div>
+</div>

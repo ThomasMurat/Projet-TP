@@ -65,6 +65,11 @@ function fillLicenseModal(licId, presId){
     document.getElementById('licId').value = licId;
 
 }
+//Function permettant de récupéere les id pour la modal d'action
+function fillModalId(id){
+    document.getElementById('deleteId').value = id;
+}
+
 //--------------------------------AJAX----------------------------------------//
 //Function permettant l'affichage dynamique des message d'erreur du formulaire d'inscription
 function checkFieldValidity(input){

@@ -3,6 +3,7 @@ session_start();
 //---------------------Inclusion du controller et des models associé à la page index 
 include_once 'models/dataBase.php';
 include_once 'models/transaction.php';
+include_once 'models/universes.php';
 include_once 'models/users.php';
 include 'controllers/indexController.php'; 
 //----------------------FIN-----------------------------//
@@ -150,10 +151,10 @@ include 'controllers/indexController.php';
                                     <a href="#postsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Article</a>
                                     <ul class="collapse list-unstyled" id="postsSubmenu">
                                         <li>
-                                            <a href="#" class="text-white">ajouter</a>
+                                            <a href="<?= $universeLink ?>&content=addPost" class="text-white">ajouter</a>
                                         </li>
                                         <li>
-                                            <a href="#" class="text-white">Liste</a>
+                                            <a href="<?= $universeLink ?>&content=postsList" class="text-white">Liste</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -161,7 +162,7 @@ include 'controllers/indexController.php';
                                     <a href="#licensesSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Licenses</a>
                                     <ul class="collapse list-unstyled" id="licensesSubmenu">
                                         <li>
-                                            <a href="#" class="text-white">ajouter</a>
+                                            <a href="<?= $universeLink ?>&content=addLicense" class="text-white">ajouter</a>
                                         </li>
                                         <li>
                                             <a href="<?= $universeLink ?>&content=licensesList" class="text-white">Liste</a>
@@ -172,10 +173,10 @@ include 'controllers/indexController.php';
                                     <a href="#producersSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Producteurs</a>
                                     <ul class="collapse list-unstyled" id="producersSubmenu">
                                         <li>
-                                            <a href="#" class="text-white">ajouter</a>
+                                            <a href="<?= $universeLink ?>&content=addProducer" class="text-white">ajouter</a>
                                         </li>
                                         <li>
-                                            <a href="#" class="text-white">Liste</a>
+                                            <a href="<?= $universeLink ?>&content=producersList" class="text-white">Liste</a>
                                         </li>
                                     </ul>
                                 </li>

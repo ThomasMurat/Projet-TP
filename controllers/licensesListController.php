@@ -2,6 +2,44 @@
 if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){
     $presentations = new presentations();
     $licenses = new licenses();
+    //---------------------Vérification des actions----------------------------//
+
+    //---------------------Suppression----------------------------//
+    if(isset($_POST['deletePresentation'])){
+        $havePresentation = false;
+        $isLicense = false;
+        if(!empty($_POST['presId'])){
+            $presentations->id = htmlspecialchars($_POST['presId']);
+            $presentationProfile = $presentations->getLicenseProfile();
+            $havePresentation = true;  
+        }
+        if(!empty($_POST['licId'])){
+            $licenses->id = htmlspecialchars($_POST['licId']);
+            $isLicense = true;
+        }
+        if($isLicense){
+            if($havePresentation){
+                if($presentations->deletePresentation()) {
+                    if(!empty($presentationProfile->image)){
+                        unlink($presentationProfile->image);
+                    }
+                    $message = 'La présentation a bien été supprimée.'; 
+                }else {
+                    $message = 'La présentation n\'a pas pu être supprimée.';
+                }
+            }else {
+                if($licenses->deleteLicense()){
+                    $message = 'La license a bien été supprimé';
+                }else {
+                    $message = 'La license n\'a pas pu être supprimée.';
+                }
+            }
+        }else {
+            $message = 'Cette license n\'existe pas.';
+        } 
+    }
+    //-------------------Fin vérification des actions-------------------//
+
     //-------------------------Paramètres de pagination-----------------------//
     if (isset($_GET['page'])){
         $page = $_GET['page'];
@@ -41,37 +79,4 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
     }
     $pageNb = ceil($resultsNb / $pageParam['limit']);
     //-----------------------Fin de l'affichage de la liste--------------------//
-
-    //---------------------Vérification des actions----------------------------//
-    //---------------------Suppression----------------------------//
-    if(isset($_POST['deletePresentation'])){
-        $havePresentation = false;
-        $isLicense = false;
-        if(!empty($_POST['presId'])){
-            $presentations->id = htmlspecialchars($_POST['presId']);
-            $havePresentation = true;  
-        }
-        if(!empty($_POST['licId'])){
-            $licenses->id = htmlspecialchars($_POST['licId']);
-            $isLicense = true;
-        }
-        if($isLicense){
-            if($havePresentation){
-                if($presentations->deletePresentation()) {
-                    $message = 'La présentation a bien été supprimée.'; 
-                }else {
-                    $message = 'La présentation n\'a pas pu être supprimée.';
-                }
-            }else {
-                if($licenses->deleteLicense()){
-                    $message = 'La license a bien été supprimé';
-                }else {
-                    $message = 'La license n\'a pas pu être supprimée.';
-                }
-            }
-        }else {
-            $message = 'Cette license n\'existe pas.';
-        } 
-    }
-    //-------------------Fin vérification des actions-------------------//
 }
