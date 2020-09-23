@@ -27,7 +27,7 @@ include 'controllers/addProducerController.php'; ?>
                                 <option value="<?= $categorie->id ?>"><?= $categorie->name ?></option><?php
                             } ?>
                         </select>
-                        <p id="universeError" class="text-danger"><?= (!empty($addProducerFormErrors['universe'])) ? $addProducerFormErrors['universe'] : '' ;?></p>
+                        <p id="universeError" class="text-danger"><?= (!empty($addProducerFormErrors['categorie'])) ? $addProducerFormErrors['categorie'] : '' ;?></p>
                     </div>
                     <div class="form-group col-12">
                         <label for="file">Image :</label>

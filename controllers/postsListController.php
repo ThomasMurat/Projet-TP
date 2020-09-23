@@ -42,7 +42,7 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
 
     //----------------------------Vérification de la recherche----------------------//
     $searchInput = array();
-    if(isset($_POST['searchPost'])){
+    if(isset($_POST['searchPosts'])){
         if(!empty($_POST['title'])){
             $searchInput['title'] = '%' . htmlspecialchars($_POST['title']) . '%';
         }

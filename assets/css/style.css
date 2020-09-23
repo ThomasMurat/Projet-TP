@@ -31,7 +31,18 @@ footer {
     max-height: 300px;
     max-width: 300px;
 }
-
+.mangacolor2 {
+    background-color: rgb(189, 42, 71);
+}
+.animecolor2 {
+    background-color: rgb(49, 98, 204);
+}
+#licImg {
+    height: 400px;
+}
+#presentation img {
+    height: 600px;
+}
 .wrapper {
     display: flex;
     width: 100%;

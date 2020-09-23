@@ -55,7 +55,7 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
             $addProducerFormErrors['file'] = 'Votre fichier n\'est pas du format attendu';
             }
         } else {
-            $presentation->picture = '';
+            $producer->picture = '';
         }
         
         //-----------------------Fin Vérification de l'image---------------------//
@@ -64,7 +64,7 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
         if(!empty($_POST['description'])){
             $producer->description = htmlspecialchars($_POST['description']);
         }else {
-            $addProducerFormErrors['description'] = 'Vous n\'avez pas remplis la description';
+            $producer->description = '';
         }
         //------------------------Fin vérification du texte----------------------//
         

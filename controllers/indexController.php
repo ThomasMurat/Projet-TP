@@ -46,17 +46,20 @@ function formatDateFr($date){
 //----Liste des univers:
 $univerList = array('manga', 'anime');
 //----Liste des pages: nom du fichier => nom d'affichage
-$contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'discover' => 'Liste Découverte', 'news' => 'Actualités', 'editProfile' => 'Modifier Mon Profil'
+$contentList = array('subscrib' => 'Inscription', 'welcome' => 'Bienvenue', 'liste-licences' => 'Liste des Licences', 'presentation' => 'Présentation', 'productList' => 'Liste des Oeuvres', 'producerList' => 'Liste des auteurs', 'profile' => 'Mon Profil', 'editProfile' => 'Modifier Mon Profil'
                     ,'usersList' => 'Liste des Utilisateurs', 'updateUser' => 'Modifier un Utilisateur'
                     ,'licensesList' => 'Liste des Licenses' ,'updateLicenses' => 'Modifier une license', 'addLicense' => 'Ajouter une License'
                     ,'addProducer' => 'Ajouter un producteur', 'producersList' => 'Liste des producteurs', 'updateProducer' => 'Modifier un producteur'
-                    ,'addPost' => 'Ajouter un article', 'updatePost' => 'Modifier un article', 'postsList' => 'Liste des articles');
+                    ,'addPost' => 'Ajouter un article', 'updatePost' => 'Modifier un article', 'postsList' => 'Liste des articles'
+                    ,'addProduct' => 'Ajouter un produit');
 
 // On définit l'univer dans lequel l'utilisateur se trouve pour définir quel header doit être inclut.
 if(isset($_GET['universe']) && in_array($_GET['universe'], $univerList)) {
     $universe = htmlspecialchars($_GET['universe']);  // $universe contient le nom de l'univers sélectionner.
+}else {
+    $universe = 'manga';
 } 
-$universeLink = 'index.php?universe=' . (isset($universe) ? $universe : 'manga');
+$universeLink = 'index.php?universe=' . $universe;
 // On cherche ensuite quel page est demandé pour déterminé quel contenue(vue) doit être inclut.
 if(isset($_GET['content']) && isset($contentList[$_GET['content']])) {
     $contentName = htmlspecialchars($_GET['content']); // $contentName contient le nom de fichier(sans l'extention) correspondant au contenue(vue) sélectionné.
@@ -74,12 +77,13 @@ $link = $universeLink . '&content=' . $contentName; // $link contient le lien ve
 // inclusion du model et lancement de session pour la requête faite directement au controlleur avec la fonction ajax sendLogin().
 if(isset($_POST['login'])){
     session_start();
+    include_once '../config.php';
     include_once '../models/dataBase.php';
     include_once '../models/users.php';
 }
 
 //----------------------Vérification du formulaire de connexion
-//On vérifie qu'une demanda de connexion a été envoyé
+//On vérifie qu'une demande de connexion a été envoyé
 if(isset($_POST['login'])){
     $user = new users();
     $formErrors = array();

@@ -38,9 +38,9 @@ class posts {
                 INNER JOIN `42pmz96_universes` AS `uni` ON `pos`.`id_42pmz96_universes` = `uni`.`id`
             WHERE `name` = \'accueil\' AND `id_42pmz96_universes` = :id_42pmz96_universes'
         );
-        $getWelcomeContentQuery->bindValue(':id_42pmz96_universes', $this->id_42pmz96_universes, PDO::PARAM_STR);
+        $getWelcomeContentQuery->bindValue(':id_42pmz96_universes', $this->id_42pmz96_universes, PDO::PARAM_INT);
         $getWelcomeContentQuery->execute();
-        $this->content = $getWelcomeContentQuery->fetch(PDO::FETCH_OBJ)->content;
+        return $getWelcomeContentQuery->fetch(PDO::FETCH_OBJ)->content;
     }
     /**
      * Récupére les informations propre à un Article
@@ -75,11 +75,9 @@ class posts {
             foreach($searchArray as $fieldName => $value){
                 if($fieldName == 'title' || $fieldName == 'username'){
                     $whereArray[$fieldName] = ' `' . $fieldName . '` LIKE :' . $fieldName;
-                }
-                if($fieldName == 'lastEditDate'){
+                }else if($fieldName == 'lastEditDate'){
                     $whereArray[$fieldName] =  '`lastEditDate` < :lastEditDate ';
-                }
-                if($fieldName == 'id_42pmz96_postsTypes' || $fieldName == 'id_42pmz96_universes'){
+                }else {
                     $whereArray[$fieldName] = ' `' . $fieldName . '` = :' . $fieldName;
                 }
             }

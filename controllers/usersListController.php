@@ -3,6 +3,47 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
     $users = new users();
     $roles = new roles();
     $rolesList = $roles->getRolesList();
+    //---------------------Vérification des actions----------------------------//
+    //---------------------Activation---------------------------------------//
+    if(isset($_POST['userActivate']) && !empty($_POST['userId'])){
+        $users->id = htmlspecialchars($_POST['userId']);
+        $users->statu = 1;
+        $users->desactivationDate = null;
+        if($users->checkUserValueUnavailability('id')){
+            if($users->updateUser(['statu', 'desactivationDate'], 'id')){
+                $message = 'Le compte a bien été activé';
+            }else {
+                $message = 'Le compte n\'a pas pu être activé';
+            }
+        }
+    }
+    //--------------------Desactivation-----------------------------------//
+    if(isset($_POST['userDesactivate']) && !empty($_POST['userId'])){
+        $users->id = htmlspecialchars($_POST['userId']);
+        $users->statu = 0;
+        $users->desactivationDate = date('Y-m-d H:i:s');
+        if($users->checkUserValueUnavailability('id')){
+            if($users->updateUser(['statu', 'desactivationDate'], 'id')){
+                $message = 'Le compte a bien été desactivé';
+            }else {
+                $message = 'Le compte n\'a pas pu être desactivé';
+            }
+        }
+    }
+    //---------------------Suppression----------------------------//
+    if(isset($_POST['userDelete']) && !empty($_POST['userId'])){
+        $users->id = htmlspecialchars($_POST['userId']);
+        if($users->checkUserValueUnavailability('id')){
+            if($users->deleteUser()){
+                unlink($users->getUserProfile('id')->image);
+                $message = 'Le compte a bien été supprimé';
+            }else {
+                $message = 'Le compte n\'a pas pu être supprimé';
+            }
+        }
+    }
+    //-------------------Fin vérification des actions-------------------//
+    
     //-------------------------Paramètres de pagination-----------------------//
     if (isset($_GET['page'])){
         $page = $_GET['page'];
@@ -48,45 +89,4 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
     }
     $pageNb = ceil($resultsNb / $pageParam['limit']);
     //-----------------------Fin de l'affichage de la liste--------------------//
-
-    //---------------------Vérification des actions----------------------------//
-    //---------------------Activation---------------------------------------//
-    if(isset($_POST['userActivate']) && !empty($_POST['userId'])){
-        $users->id = htmlspecialchars($_POST['userId']);
-        $users->statu = 1;
-        $users->desactivationDate = null;
-        if($users->checkUserValueUnavailability('id')){
-            if($users->updateUser(['statu', 'desactivationDate'], 'id')){
-                $message = 'Le compte a bien été activé';
-            }else {
-                $message = 'Le compte n\'a pas pu être activé';
-            }
-        }
-    }
-    //--------------------Desactivation-----------------------------------//
-    if(isset($_POST['userDesactivate']) && !empty($_POST['userId'])){
-        $users->id = htmlspecialchars($_POST['userId']);
-        $users->statu = 0;
-        $users->desactivationDate = date('Y-m-d H:i:s');
-        if($users->checkUserValueUnavailability('id')){
-            if($users->updateUser(['statu', 'desactivationDate'], 'id')){
-                $message = 'Le compte a bien été desactivé';
-            }else {
-                $message = 'Le compte n\'a pas pu être desactivé';
-            }
-        }
-    }
-    //---------------------Suppression----------------------------//
-    if(isset($_POST['userDelete']) && !empty($_POST['userId'])){
-        $users->id = htmlspecialchars($_POST['userId']);
-        if($users->checkUserValueUnavailability('id')){
-            if($users->deleteUser()){
-                unlink($users->getUserProfile('id')->image);
-                $message = 'Le compte a bien été supprimé';
-            }else {
-                $message = 'Le compte n\'a pas pu être supprimé';
-            }
-        }
-    }
-    //-------------------Fin vérification des actions-------------------//
 }

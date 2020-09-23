@@ -64,17 +64,16 @@ class licenses {
      */
     public function getLicensesList($searchArray, $pageArray = array()){
         $where = '';
+        $whereArray = array();
         if(!empty($searchArray)){
             $where = ' WHERE ';
             $whereArray = array();
             foreach($searchArray as $fieldName => $value){
                 if($fieldName == 'name'){
                     $whereArray[$fieldName] = ' `' . $fieldName . '` LIKE :' . $fieldName;
-                }
-                if($fieldName == 'creationDate'){
+                }else if($fieldName == 'creationDate'){
                     $whereArray['creationDate'] = ' `creationDate` > :creationDate ';
-                }
-                if($fieldName == 'id_42pmz96_universes' || $fieldName == 'id_42pmz96_licenses'){
+                }else{
                     $whereArray[$fieldName] = ' `' . $fieldName . '` = :' . $fieldName;
                 }
             }
@@ -85,9 +84,10 @@ class licenses {
                     ,`name`, `creationDate` 
             FROM ' . $this->table . ' AS `lic`
                 LEFT JOIN `42pmz96_presentations` AS `pre` ON `id_42pmz96_licenses` = `lic`.`id`
-                LEFT JOIN `42pmz96_universes` AS `uni` ON `id_42pmz96_universes` = `uni`.`id`'
-            . $where . ' '
-            . (count($pageArray) == 2 ? 'LIMIT :limit OFFSET :offset' : '')
+                LEFT JOIN `42pmz96_universes` AS `uni` ON `id_42pmz96_universes` = `uni`.`id` '
+            . $where . 
+            ' ORDER BY `name` '
+            . (count($pageArray) == 2 ? ' LIMIT :limit OFFSET :offset' : '')  
         );
         foreach($searchArray as $fieldName => $value){
             if($fieldName == 'id_42pmz96_universes' || $fieldName == 'id_42pmz96_licenses'){

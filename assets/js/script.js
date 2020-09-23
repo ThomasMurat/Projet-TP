@@ -63,7 +63,6 @@ function fillLicenseModal(licId, presId){
         document.getElementById('presId').value = presId;
     }
     document.getElementById('licId').value = licId;
-
 }
 //Function permettant de récupéere les id pour la modal d'action
 function fillModalId(id){

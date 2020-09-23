@@ -10,8 +10,8 @@ include 'controllers/postsListController.php';
                 <div class="mt-4">
                     <label for="title">Titre :</label>
                     <input type="text" id="title" name="title" />
-                    <label for="title">Auteur :</label>
-                    <input type="text" id="title" name="title" />
+                    <label for="username">Auteur :</label>
+                    <input type="text" id="username" name="username" />
                     <label for="universe">univers :</label>
                     <select name="universe">
                         <option selected disabled>Choisir un univer</option><?php
@@ -30,7 +30,7 @@ include 'controllers/postsListController.php';
                     <input type="number" id="lastEditDate" name="lastEditDate" placeholder="YYYY" />
                 </div>
                 <div class="form-group text-center col-12">
-                    <input type="submit" class="btn btn-primary" name="searchLicenses" value="Rechercher" />
+                    <input type="submit" class="btn btn-primary" name="searchPosts" value="Rechercher" />
                 </div>
                 <p class="text-center"><?= $resultsNb ?> Résultats</p>
             </form><?php

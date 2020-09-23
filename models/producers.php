@@ -59,7 +59,7 @@ class producers {
             $whereArray = array();
             foreach($searchArray as $fieldName => $value){
                 if($fieldName == 'name'){
-                    $whereArray[$fieldName] = ' `' . $fieldName . '` LIKE :' . $fieldName;
+                    $whereArray[$fieldName] =  '`prod`.`' . $fieldName . '` LIKE :' . $fieldName;
                 }
                 if($fieldName == 'id_42pmz96_producerTypes'){
                     $whereArray[$fieldName] = ' `' . $fieldName . '` = :' . $fieldName;
@@ -67,6 +67,7 @@ class producers {
             }
             $where .= implode(' AND ', $whereArray);
         }
+        $query = 
         $getProducersList = $this->db->prepare(
             'SELECT `prod`.`id` AS `prodId`, `prod`.`name` AS `prodName`, `typ`.`name`AS `typName`
             FROM ' . $this->table . ' AS `prod`

@@ -13,6 +13,9 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                 if($presentationProfile->name != $_POST['name']){
                     if(!empty($_POST['name'])){
                         $licenses->name = htmlspecialchars($_POST['name']);
+                        if($licenses->checkLicensesValueUnavailability('name')){
+                            $updatelicenseFormErrors['name'] = 'Ce titre est déjà utilisé';
+                        }
                     }else{
                         $updatelicenseFormErrors['name'] = 'Vous n\'avez pas choisi de titre';
                     }
@@ -77,14 +80,12 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                 //-------------------Fin vérification du mail----------------------//
             
                 //----------------------Validation du formulaire---------------------//
-                var_dump($updatelicenseFormErrors);
                 if(empty($updatelicenseFormErrors)){
                     if($presentationProfile->name != $_POST['name'] && $licenses->checkLicensesValueUnavailability('name')){
                         $updatelicenseFormErrors['name'] = 'Ce titre existe déjà';
                     }else{
                         $transaction = new transaction();
                         try {
-                            var_dump($updatelicenseFormErrors);
                             $transaction->beginTransaction();
                             $presentation->updatePresentation();
                             $licenses->updateLicense();

@@ -5,6 +5,7 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
     $rolesList = $roles->getRolesList();  
 }
 if(isset($_POST['field'])){
+    include '../config.php'; 
     include '../models/dataBase.php';
     include '../models/users.php';
     function validateDate($date, $format = 'Y-m-d'){

@@ -72,20 +72,20 @@ class presentations {
         return $addPresentation->execute();
     }
     /**
-     * Fonction permettant la modification d'une license
+     * Fonction permettant la modification d'une présentation
      *
      * @return void
      */
     public function updatePresentation(){
-        $updateUser = $this->db->prepare(
+        $updatePresentation = $this->db->prepare(
             'UPDATE ' . $this->table . 
             ' SET `presentation`= :presentation, `image` = :image
             WHERE `id` = :id'
         ); 
-        $updateUser->bindValue(':presentation' , $this->presentation, PDO::PARAM_STR);
-        $updateUser->bindValue(':image' , $this->image, PDO::PARAM_STR);
-        $updateUser->bindValue(':id', $this->id, PDO::PARAM_INT);
-        return $updateUser->execute();
+        $updatePresentation->bindValue(':presentation' , $this->presentation, PDO::PARAM_STR);
+        $updatePresentation->bindValue(':image' , $this->image, PDO::PARAM_STR);
+        $updatePresentation->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $updatePresentation->execute();
     }
     /**
      * Function supprimant une présentation
@@ -93,11 +93,11 @@ class presentations {
      * @return bool
      */
     public function deletePresentation(){
-        $deleteLicense = $this->db->prepare(
+        $deletePresentation = $this->db->prepare(
             'DELETE FROM ' . $this->table .
             ' WHERE `id` = :id'
         );
-        $deleteLicense->bindValue(':id', $this->id, PDO::PARAM_INT);
-        return $deleteLicense->execute();
+        $deletePresentation->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $deletePresentation->execute();
     }
 }

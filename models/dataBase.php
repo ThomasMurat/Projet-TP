@@ -4,7 +4,7 @@ class dataBase {
     private static $instance = null;
     public function __construct(){
         try {
-            $this->db = new PDO('mysql:host=localhost;dbname=anymanga;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $this->db = new PDO('mysql:host='. SQL_HOST .';dbname=' . SQL_DBNAME . ';charset=utf8', SQL_USERNAME, SQL_PASSWORD, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         } catch (Exception $error) {
             die($error->getMessage());
         }

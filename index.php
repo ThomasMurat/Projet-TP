@@ -1,6 +1,7 @@
 <?php 
 session_start();
 //---------------------Inclusion du controller et des models associé à la page index 
+include 'config.php';
 include_once 'models/dataBase.php';
 include_once 'models/transaction.php';
 include_once 'models/universes.php';
@@ -26,7 +27,7 @@ include 'controllers/indexController.php';
                 <div id="menu" class="row">
                 <!-------------------------Button SWITCH UNIVERSE --------------------------->
                     <div class="float-left d-flex align-content-center col-3 col-lg-2 text-center" id="switchUniverseButton">
-                        <a class="mx-auto my-auto" href="http://anymanga.fr/index.php?universe=<?= (isset($universe) && $universe == 'anime') ? 'manga' : 'anime' ;?>&content=<?= $contentName ?>"><img src="assets/img/<?= isset($universe) ? $universe : 'manga'; ?>/switchButton.png" title="Changer d'univers" alt=""></a>
+                        <a class="mx-auto my-auto" href="http://anymanga.fr/index.php?universe=<?= (isset($universe) && $universe == 'anime') ? 'manga' : 'anime' ;?>&content=<?= $contentName ?><?= isset($_GET['title']) ? '&title=' . $_GET['title'] : ''; ?>"><img src="assets/img/<?= isset($_GET['universe']) ? $universe : 'manga'; ?>/switchButton.png" title="Changer d'univers" alt=""></a>
                     </div>
                 <!-------------------------FIN----------------------------------------------->
 
@@ -41,8 +42,8 @@ include 'controllers/indexController.php';
                                         <a class="text-white text-center w-100" href="#productsSubMenu" data-toggle="collapse"><?= (isset($universe) && $universe == 'anime') ? 'Animés' : 'Manga' ?></a>
                                     </div>
                                     <div class="collapse hide float-left w-100" id="productsSubMenu">
-                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universeLink ?>&content=productList&licenses=">Licenses</a>
-                                        <a class="float-left text-white text-center w-100" href="index.php?universe=<?= $universeLink ?>&content=productList&products=">Oeuvres</a>
+                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content=liste-licences">Licenses</a>
+                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content=productList&products=">Oeuvres</a>
                                     </div>
                                 </li> 
                             <!-------------------FIN du sous menu pour les produits----------------->
@@ -184,7 +185,7 @@ include 'controllers/indexController.php';
                                     <a href="#productsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white">Produits</a>
                                     <ul class="collapse list-unstyled" id="productsSubmenu">
                                         <li>
-                                            <a href="#" class="text-white">ajouter</a>
+                                            <a href="<?= $universeLink ?>&content=addProduct" class="text-white">ajouter</a>
                                         </li>
                                         <li>
                                             <a href="#" class="text-white">Liste</a>

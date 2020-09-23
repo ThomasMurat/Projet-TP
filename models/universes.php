@@ -40,15 +40,15 @@ class universes {
      *
      * @return string
      */
-    public function getUniverseName(){
+    public function getUniverseName($UQfield = 'id'){
         $getUniverseName = $this->db->prepare(
-            'SELECT `universe`
+            'SELECT `id`, `universe`
             FROM ' . $this->table .
-            ' WHERE `id` = :id'
+            ' WHERE `' . $UQfield . '` = :' . $UQfield
         );
-        $getUniverseName->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $getUniverseName->bindValue(':' . $UQfield, $this->$UQfield, ($UQfield == 'id') ? PDO::PARAM_INT : PDO::PARAM_STR);
         $getUniverseName->execute();
-        return $getUniverseName->fetch(PDO::FETCH_OBJ)->universe;
+        return $getUniverseName->fetch(PDO::FETCH_OBJ);
     }
 
 }

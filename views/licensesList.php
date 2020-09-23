@@ -3,7 +3,7 @@ include_once 'models/presentations.php';
 include_once 'models/licenses.php';
 include 'controllers/licensesListController.php';
 ?>
-<div id="usersList" class="content col-12 d-flex align-items-center justify-content-center"><?php
+<div id="licensesList" class="content col-12 d-flex align-items-center justify-content-center"><?php
     if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){ ?>
         <div class="row justify-content-center">
             <form class="col-10 mb-1 border border-dark text-center" method="POST" action="<?= $link ?>">
@@ -31,7 +31,7 @@ include 'controllers/licensesListController.php';
                 </div><?php
             }else { ?>
                 <table class="table col-10 table-striped text-center container">
-                    <title>Liste des Utilisateur</title>
+                    <title>Liste des Licences</title>
                     <thead>
                         <th>Titre</th>
                         <th>Date de création</th>
@@ -48,7 +48,8 @@ include 'controllers/licensesListController.php';
                                     if(!is_null($license->presId)){ ?>
                                         <button  type="button" class="btn btn-primary btn-sm"><a class="text-white" href="<?= $universeLink ?>&content=updateLicenses&id=<?= $license->presId ?>">modifier</a></button><?php
                                     } ?>
-                                    <button onclick="fillLicenseModal(<?= $license->licId ?>, <?= $license->presId ?>);" data-toggle="modal" data-target="#licensesAction" type="button" id="licenseDelete" class="btn btn-danger btn-sm">Supprimer</button>
+                                    <button onclick="fillLicenseModal(<?= $license->licId ?>, <?= $license->presId ?>);" data-toggle="modal" data-target="#licensesAction" 
+                                    type="button" id="licenseDelete" class="btn btn-danger btn-sm">Supprimer</button>
                                 </td>
                             </tr><?php
                         }  ?>  

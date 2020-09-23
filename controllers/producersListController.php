@@ -40,7 +40,7 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
     $categoriesList = $categories->getProducerTypesList();
     //----------------------------Vérification de la recherche----------------------//
     $searchInput = array();
-    if(isset($_POST['searchPrroducers'])){
+    if(isset($_POST['searchProducers'])){
         if(!empty($_POST['name'])){
             $searchInput['name'] = '%' . htmlspecialchars($_POST['name']) . '%';
         }
