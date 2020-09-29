@@ -2,7 +2,7 @@
 class producerTypes {
     public $id = 0;
     public $name = '';
-    private $table = '`42pmz96_producertypes`';
+    private $table = '`42pmz96_producerTypes`';
     private $db = null;
     public function __construct(){
         $this->db = dataBase::getInstance();

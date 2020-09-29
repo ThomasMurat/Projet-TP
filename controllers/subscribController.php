@@ -1,9 +1,12 @@
 <?php 
-$subscribFormErrors = array();
+//----------------Paramètres d'affichages pour le mode administrateur---------------//
 if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){
     $roles = new roles();
     $rolesList = $roles->getRolesList();  
 }
+//------------------------Fin paramètre d'affichage Admin---------------------------//
+
+//----------------Inclusion des éléments externes requis pour l'AJAX----------------//
 if(isset($_POST['field'])){
     include '../config.php'; 
     include '../models/dataBase.php';
@@ -22,6 +25,10 @@ if(isset($_POST['field'])){
         return $response;   
     }
 }
+//----------------------Fin pramètres requis AJAX----------------------------------//
+
+//---------------Vérification du formulaire d'ajout--------------------------------//
+$subscribFormErrors = array();
 if(isset($_POST['postSubscribe'])) {
     $newUser = new users();
     //----------------------Vérification du pseudo------------------//
@@ -58,10 +65,10 @@ if(isset($_POST['postSubscribe'])) {
                 chmod($fileFullPath, 0644);
                 $newUser->image = $fileFullPath;
             } else {
-                $subscribFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement';
+                $subscribFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement.';
             }
         } else {
-        $subscribFormErrors['file'] = 'Votre fichier n\'est pas du format attendu';
+            $subscribFormErrors['file'] = 'Les fomats autorisés sont jpg,jpeg,png ou svg.';
         }
     } else {
         $newUser->image = 'assets/img/iconUser.png';
@@ -74,13 +81,13 @@ if(isset($_POST['postSubscribe'])) {
             if(birthDateLimit($_POST['birthDate'])){
                 $newUser->birthDate = htmlspecialchars($_POST['birthDate']);
             }else {
-                $subscribFormErrors['birthDate'] = 'Vous devez avoir entre 0 et 100 ans pour vous inscrire';
+                $subscribFormErrors['birthDate'] = 'Vous devez avoir entre 0 et 100 ans pour vous inscrire.';
             }
         }else{
-            $subscribFormErrors['birthDate'] = 'Cette date n\'est pas valide ';
+            $subscribFormErrors['birthDate'] = 'Cette date n\'est pas valide.';
         }
     }else{
-        $subscribFormErrors['birthDate'] = 'Vous n\'avez renseigner votre date de naissance';
+        $subscribFormErrors['birthDate'] = 'Vous n\'avez pas renseigné votre date de naissance.';
     }
     //---------------------Fin vérification date de naissance----------------//
 
@@ -88,15 +95,15 @@ if(isset($_POST['postSubscribe'])) {
     $ismailOk = true;
     if(!empty($_POST['mail'])){
         if(!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)){
-            $subscribFormErrors['mail'] = 'Adresse mail non valide';
+            $subscribFormErrors['mail'] = 'Adresse mail non valide.';
             $ismailOk = false;
         }
     }else {
-        $subscribFormErrors['mail'] = 'Veuillez renseigner votre adresse mail';
+        $subscribFormErrors['mail'] = 'Veuillez renseigner votre adresse mail.';
         $ismailOk = false;
     }
     if(empty($_POST['mailConfirm'])){
-        $subscribFormErrors['mailConfirm'] = 'Vous n\'avez pas confirmé votre adresse mail';
+        $subscribFormErrors['mailConfirm'] = 'Vous n\'avez pas confirmé votre adresse mail.';
         $ismailOk = false;
     }
     //Si les vérifications des mails sont ok
@@ -105,7 +112,7 @@ if(isset($_POST['postSubscribe'])) {
             //On hash le mot de passe avec la méthode de PHP
             $newUser->mail = htmlspecialchars($_POST['mail']);
         }else{
-            $subscribFormErrors['mail'] = $subscribFormErrors['mailConfirm'] = 'Votre adresse mail et l\'adresse mail de confirmation ne correspondes pas';
+            $subscribFormErrors['mail'] = $subscribFormErrors['mailConfirm'] = 'Votre adresse mail et l\'adresse mail de confirmation ne correspondes pas.';
         }
     }
     //-------------------Fin vérification du mail----------------------//
@@ -114,14 +121,14 @@ if(isset($_POST['postSubscribe'])) {
     $isPasswordOk = true;
     if(!empty($_POST['password'])){
         if(strlen($_POST['password']) < 8){
-            $subscribFormErrors['password'] = 'Le mot de passe doit contenir au moins 8 caractères';
+            $subscribFormErrors['password'] = 'Le mot de passe doit contenir au moins 8 caractères.';
         }
     }else{
-        $subscribFormErrors['password'] = 'Veuillez renseigner votre mot de passe';
+        $subscribFormErrors['password'] = 'Veuillez renseigner votre mot de passe.';
         $isPasswordOk = false;
     }
     if(empty($_POST['passwordConfirm'])){
-        $subscribFormErrors['passwordConfirm'] = 'Vous n\'avez pas confirmé votre mot de passe';
+        $subscribFormErrors['passwordConfirm'] = 'Vous n\'avez pas confirmé votre mot de passe.';
         $isPasswordOk = false;
     }
     //Si les vérifications des mots de passe sont ok
@@ -130,7 +137,7 @@ if(isset($_POST['postSubscribe'])) {
             //On hash le mot de passe avec la méthode de PHP
             $newUser->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         }else{
-            $subscribFormErrors['password'] = $subscribFormErrors['passwordConfirm'] = 'Votre mot de passe et le mot de passe de confirmation ne correspondes pas';
+            $subscribFormErrors['password'] = $subscribFormErrors['passwordConfirm'] = 'Votre mot de passe et le mot de passe de confirmation ne correspondes pas.';
         }
     }
     //---------------------Fin vérification du mot de passe-------------//
@@ -141,7 +148,7 @@ if(isset($_POST['postSubscribe'])) {
         if($roles->checkRoleExistByID()){
             $newUser->id_42pmz96_roles = $roles->id;
         }else {
-            $subscribFormErrors['role'] = 'Le rang choisie n\'existe pas';
+            $subscribFormErrors['role'] = 'Le rang choisi n\'existe pas.';
         }
     }else {
         $newUser->id_42pmz96_roles = 2;
@@ -154,36 +161,38 @@ if(isset($_POST['postSubscribe'])) {
         $isOk = true;
         //On vérifie si le pseudo est libre
         if($newUser->checkUserValueUnavailability()){
-            $subscribFormErrors['username'] = 'Ce pseudo est déjà utilisé';
+            $subscribFormErrors['username'] = 'Ce pseudo est déjà utilisé.';
             $isOk = false;
         }
         //On vérifie si le mail est libre
         if($newUser->checkUserValueUnavailability('mail')){
-            $subscribFormErrors['mail'] = 'Ce mail est déjà utilisé';
+            $subscribFormErrors['mail'] = 'Ce mail est déjà utilisé.';
             $isOk = false;
         }
         //Si c'est bon on ajoute l'utilisateur
         if($isOk && $newUser->addUser()){
             $message = 'Votre compte a bien été enregistré.';
         }else {
-            $message = 'Votre compte n\'a pas pu être créé';
+            if($newUser->image != 'assets/img/iconUser.png'){
+                unlink($newUser->image);
+            }
+            $message = 'Votre compte n\'a pas pu être créé.';
         }
     }
     //----------------------Fin de validation----------------------------//
 
     //--------------------------AJAX----------------------------//
     if(isset($_POST['field'])){
-        $field = $_POST['field'];
-        $newUser->$field = $_POST[$_POST['field']];
-        if($_POST['field'] == 'username' && $newUser->checkUserValueUnavailability()){
-            $subscribFormErrors['username'] = 'Ce pseudo est déjà utilisé';
+        $field = htmlspecialchars($_POST['field']);
+        $newUser->$field = htmlspecialchars($_POST[$field]);
+        if($field == 'username' && $newUser->checkUserValueUnavailability()){
+            $subscribFormErrors['username'] = 'Ce pseudo est déjà utilisé.';
         }
-        //On vérifie si le mail est libre
-        if($_POST['field'] == 'mail' && $newUser->checkUserValueUnavailability('mail')){
-            $subscribFormErrors['mail'] = 'Ce mail est déjà utilisé';
+        if($field == 'mail' && $newUser->checkUserValueUnavailability('mail')){
+            $subscribFormErrors['mail'] = 'Ce mail est déjà utilisé.';
         } 
-        if(isset($subscribFormErrors[$_POST['field']])){
-            echo $subscribFormErrors[$_POST['field']];
+        if(isset($subscribFormErrors[$field])){
+            echo $subscribFormErrors[$field];
         }
     }
     //----------------------FIN AJAX-----------------------------//

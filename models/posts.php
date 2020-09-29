@@ -33,7 +33,7 @@ class posts {
         $getWelcomeContentQuery = $this->db->prepare(
             'SELECT `content`
             FROM ' . $this->table . ' AS `pos`
-                INNER JOIN `42pmz96_poststypes` AS `pot` ON `pos`.`id_42pmz96_postsTypes` = `pot`.`id`
+                INNER JOIN `42pmz96_postsTypes` AS `pot` ON `pos`.`id_42pmz96_postsTypes` = `pot`.`id`
                 INNER JOIN `42pmz96_users` AS `use` ON `pos`.`id_42pmz96_users` = `use`.`id`
                 INNER JOIN `42pmz96_universes` AS `uni` ON `pos`.`id_42pmz96_universes` = `uni`.`id`
             WHERE `name` = \'accueil\' AND `id_42pmz96_universes` = :id_42pmz96_universes'
@@ -51,7 +51,7 @@ class posts {
         $getPostInfo = $this->db->prepare(
             'SELECT `pos`.`id` AS `postId`, `title`, `pos`.`image` AS `postImg`, `content`, `lastEditDate`, `username`, `name`, `universe`
             FROM ' . $this->table . ' AS `pos`
-                INNER JOIN `42pmz96_poststypes` AS `pot` ON `pos`.`id_42pmz96_postsTypes` = `pot`.`id`
+                INNER JOIN `42pmz96_postsTypes` AS `pot` ON `pos`.`id_42pmz96_postsTypes` = `pot`.`id`
                 INNER JOIN `42pmz96_users` AS `use` ON `pos`.`id_42pmz96_users` = `use`.`id`
                 INNER JOIN `42pmz96_universes` AS `uni` ON `pos`.`id_42pmz96_universes` = `uni`.`id`
             WHERE `pos`.`id` = :id'

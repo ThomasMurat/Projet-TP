@@ -38,7 +38,7 @@ class universes {
     /**
      * Fonction récupérant le nom de l'univer correspondant à l'id envoyer
      *
-     * @return string
+     * @return object
      */
     public function getUniverseName($UQfield = 'id'){
         $getUniverseName = $this->db->prepare(

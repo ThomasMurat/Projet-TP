@@ -7,80 +7,93 @@ if(isset($_SESSION['userProfile'])) {
 
     //---------------------------------Formulaire modification image------------------------------//
     if(isset($_POST['editImage'])){
+        //-------------------------Vérification de l'image---------------------------//
         if (!empty($_FILES['file']) && $_FILES['file']['error'] == 0) {
-            // On stock dans $fileInfos les informations concernant le chemin du fichier.
             $fileInfos = pathinfo($_FILES['file']['name']);
-            // On crée un tableau contenant les extensions autorisées.
             $fileExtension = ['jpg', 'jpeg', 'png', 'svg'];
-            // On verifie si l'extension de notre fichier est dans le tableau des extension autorisées.
             if (in_array(strtolower($fileInfos['extension']) , $fileExtension)) {
-                //On définit le chemin vers lequel uploader le fichier
                 $path = 'assets/img/users/';
-                //On crée une date pour différencier les fichiers
                 $date = date('Y-m-d_H-i-s');
-                //On crée le nouveau nom du fichier (celui qu'il aura une fois uploadé)
                 $fileNewName = $_SESSION['userProfile']['username'] . '_' . $date;
-                //On stocke dans une variable le chemin complet du fichier (chemin + nouveau nom + extension une fois uploadé) Attention : ne pas oublier le point
                 $fileFullPath = $path . $fileNewName . '.' . $fileInfos['extension'];
-                //move_uploaded_files : déplace le fichier depuis son emplacement temporaire ($_FILES['file']['tmp_name']) vers son emplacement définitif ($fileFullPath)
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $fileFullPath)) {
-                    //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
                     chmod($fileFullPath, 0644);
                     $user->image = $fileFullPath;
-                    if($user->updateUser(['image'])){
-                        unlink($_SESSION['userProfile']['image']);
-                        $_SESSION['userProfile']['image'] = $fileFullPath;
-                        $message = 'Votre image de profil a bien été mis à jour';
-                    }else {
-                        $message = 'La mise à jour de votre image de profil a échoué';
-                    }
                 } else {
-                    $editProfileFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement';
+                    $editProfileFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement.';
                 }
             } else {
-            $editProfileFormErrors['file'] = 'Votre fichier n\'est pas du format attendu';
+            $editProfileFormErrors['file'] = 'Les fomats autorisés sont jpg,jpeg,png ou svg.';
             }
         } else {
             $user->image = 'assets/img/iconUser.png';
         }
+        //---------------------------Fin vérification de l'image-------------------//
+        
+        //---------------------------Validation du formulaire----------------------//
+        if(empty($editProfileFormErrors)){
+            if($user->updateUser(['image'])){
+                if($_SESSION['userProfile']['image'] != 'assets/img/iconUser.png'){
+                    unlink($_SESSION['userProfile']['image']);
+                }
+                $_SESSION['userProfile']['image'] = $user->image;
+                $message = 'Votre image de profil a bien été mis à jour.';
+            }else {
+                if($user->image != 'assets/img/iconUser.png'){
+                    unlink($user->image); 
+                }
+                $message = 'La mise à jour de votre image de profil a échoué.';
+                
+            }         
+        }
+        //-------------------------Fin validation du formulaire--------------------//
     }
-    //---------------------------------------------------Fin formulaire modification image-----------------------//
+    //------------------------Fin formulaire modification image------------------------------------//
 
     //----------------------------------Formulaire Edition de mail---------------------------------//
     if(isset($_POST['editMail'])){
         $ismailOk = true;
+        //--------------------Vérification du mail--------------------//
         if(!empty($_POST['mail'])){
             if(!filter_var($_POST['mail'], FILTER_VALIDATE_EMAIL)){
-                $editProfileFormErrors['mail'] = 'Adresse mail non valide';
+                $editProfileFormErrors['mail'] = 'Adresse mail non valide.';
                 $ismailOk = false;
             }
         }else {
-            $editProfileFormErrors['mail'] = 'Veuillez renseigner votre adresse mail';
+            $editProfileFormErrors['mail'] = 'Veuillez renseigner votre adresse mail.';
             $ismailOk = false;
         }
+        //-------------------Fin vérification du mail------------------//
+
+        //--------------------Vérification du mail de confirmation--------------------//
         if(empty($_POST['mailConfirm'])){
-            $editProfileFormErrors['mailConfirm'] = 'Vous n\'avez pas confirmé votre adresse mail';
+            $editProfileFormErrors['mailConfirm'] = 'Vous n\'avez pas confirmé votre adresse mail.';
             $ismailOk = false;
         }
-        //Si les vérifications des mails sont ok
+        //-------------------Fin vérification mail de confirmation--------------------//
+
+        //------------------Vérification correspondance des mails---------------------//
         if($ismailOk){
             if($_POST['mailConfirm'] == $_POST['mail']){
-                //On hash le mot de passe avec la méthode de PHP
                 $user->mail = htmlspecialchars($_POST['mail']);
             }else{
-                $editProfileFormErrors['mail'] = $editProfileFormErrors['mailConfirm'] = 'Votre adresse mail et l\'adresse mail de confirmation ne correspondes pas';
+                $editProfileFormErrors['mail'] = $editProfileFormErrors['mailConfirm'] = 'Votre adresse mail et l\'adresse mail de confirmation ne correspondes pas.';
             }
         }
+        //-----------------------Fin vérification des mails--------------------------//
+
+        //-----------------------Validation du formulaire----------------------------//
         if(empty($editProfileFormErrors)){
             if($user->checkUserValueUnavailability('mail')){
                 if($user->updateUser(['mail'])){
-                    $message = 'Votre mail a bien était mis à jour';
+                    $message = 'Votre mail a bien était mis à jour.';
                     $_SESSION['userProfile']['mail'] = $user->mail;
                 }else {
-                    $message = 'votre mail n\'a pas pu être mis à jour';
+                    $message = 'votre mail n\'a pas pu être mis à jour.';
                 }
             }
         }
+        //---------------------Fin validation du formulaire--------------------------//
     }
     //-----------------------------------Fin formulaire edition de mail--------------------------//
 

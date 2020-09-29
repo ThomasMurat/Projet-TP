@@ -1,7 +1,7 @@
 <?php
 if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'administrateur'){
-    $universe = new universes();
-    $universesList = $universe->getUniversesList();
+    $univers = new universes();
+    $universesList = $univers->getUniversesList();
     $categorie = new postsTypes();
     $categoriesList = $categorie->getCategoriesList();
     $post = new posts();
@@ -59,9 +59,10 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
         //------------------------Vérification de l'univer----------------------//
         $isUniverse = false;
         if(!empty($_POST['universe'])){
-            $universe->id = htmlspecialchars($_POST['universe']);
-            if($universe->universeExist()){
-                $post->id_42pmz96_universes = $universe->id;
+            $univers->id = htmlspecialchars($_POST['universe']);
+            if($univers->universeExist()){
+                $post->id_42pmz96_universes = $univers->id;
+                $universeName = $univers->getUniverseName()->universe;
                 $isUniverse = true;
             }else {
                 $updatePostFormErrors['universe'] = 'Cet univer n\'éxiste pas.';
@@ -81,7 +82,7 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                 // On verifie si l'extension de notre fichier est dans le tableau des extension autorisées.
                 if (in_array(strtolower($fileInfos['extension']), $fileExtension)) {
                     //On définit le chemin vers lequel uploader le fichier
-                    $path = 'assets/img/' . (($universe->getUniverseName() == 'global') ? '': $universe->getUniverseName() . '/') . 'posts/';
+                    $path = 'assets/img/' . (($universeName == 'global') ? '': $universeName . '/') . 'posts/';
                     $date = date('Y-m-d');
                     //On crée le nouveau nom du fichier (celui qu'il aura une fois uploadé)
                     $fileNewName = $post->title . '_' . $date;
@@ -92,7 +93,9 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                         //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
                         chmod($fileFullPath, 0644);
                         $post->image = $fileFullPath;
-                        unlink($postInfo->postImg);
+                        if($post->image != $postInfo->postImg){
+                            unlink($postInfo->postImg);
+                        }
                     } else {
                         $updatePostFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement';
                     }
@@ -100,9 +103,9 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                 $updatePostFormErrors['file'] = 'Votre fichier n\'est pas du format attendu';
                 }
             } else {
-                if($postInfo->title != $post->title || $postInfo->universe != $universe->getUniverseName($post->id_42pmz96_universes)){
+                if($postInfo->title != $post->title || $postInfo->universe != $universeName){
                     strtok($postInfo->postImg, '.');
-                    $post->image = 'assets/img/' . (($universe->getUniverseName() == 'global') ? '': $universe->getUniverseName() . '/') . 'posts/' . $post->title . '_' . date('Y-m-d') . '.' . strtok('.');
+                    $post->image = 'assets/img/' . (($universeName == 'global') ? '': $universeName . '/') . 'posts/' . $post->title . '_' . date('Y-m-d') . '.' . strtok('.');
                     rename($postInfo->postImg, $post->image);
                 }else {
                     $post->image = $postInfo->postImg;

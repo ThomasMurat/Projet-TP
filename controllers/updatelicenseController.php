@@ -26,24 +26,18 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
             
                 //---------------------Vérification de l'image-------------------//
                 if (!empty($_FILES['file']) && $_FILES['file']['error'] == 0) {
-                    // On stock dans $fileInfos les informations concernant le chemin du fichier.
                     $fileInfos = pathinfo($_FILES['file']['name']);
-                    // On crée un tableau contenant les extensions autorisées.
                     $fileExtension = ['jpg', 'jpeg', 'png', 'svg'];
-                    // On verifie si l'extension de notre fichier est dans le tableau des extension autorisées.
                     if (in_array(strtolower($fileInfos['extension']), $fileExtension)) {
-                        //On définit le chemin vers lequel uploader le fichier
                         $path = 'assets/img/' . $presentationProfile->universe . '/licenses/';
-                        //On crée le nouveau nom du fichier (celui qu'il aura une fois uploadé)
                         $fileNewName = $presentationProfile->name;
-                        //On stocke dans une variable le chemin complet du fichier (chemin + nouveau nom + extension une fois uploadé) Attention : ne pas oublier le point
                         $fileFullPath = $path . $fileNewName . '.' . $fileInfos['extension'];
-                        //move_uploaded_files : déplace le fichier depuis son emplacement temporaire ($_FILES['file']['tmp_name']) vers son emplacement définitif ($fileFullPath)
                         if (move_uploaded_file($_FILES['file']['tmp_name'], $fileFullPath)) {
-                            //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
                             chmod($fileFullPath, 0644);
                             $presentation->image = $fileFullPath;
-                            unlink($presentationProfile->image);
+                            if($presentation->image != $presentationProfile->image){
+                                unlink($presentationProfile->image);
+                            }
                         } else {
                             $updatelicenseFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement';
                         }
@@ -90,9 +84,10 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                             $presentation->updatePresentation();
                             $licenses->updateLicense();
                             $transaction->commit();
-                            $message = 'Le profile a bien été mis à jour';
+                            $message = 'La licence a bien été mise à jour.';
                         }catch(Exception $e) {
                             $transaction->rollBack();
+                            $message = 'La licence n\'a pas pu être mise à jour.';
                         }
                     }
                 }

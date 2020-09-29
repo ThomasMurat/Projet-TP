@@ -43,13 +43,21 @@ include 'controllers/indexController.php';
                                     </div>
                                     <div class="collapse hide float-left w-100" id="productsSubMenu">
                                         <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content=liste-licences">Licenses</a>
-                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content=productList&products=">Oeuvres</a>
+                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content=liste-oeuvres">Oeuvres</a>
                                     </div>
                                 </li> 
                             <!-------------------FIN du sous menu pour les produits----------------->
 
                             <!-------------------Sous menu pour les producteurs--------------------->
-                                <li class="nav-item col-lg-3 d-flex"><a class="text-white text-center w-100" href="<?= $universeLink ?>&content=producerList">Studios</a></li>
+                                <li class="nav-item col-lg-3 text-center">
+                                    <div class="float-left w-100">
+                                        <a class="text-white text-center w-100" href="#producersSubMenu" data-toggle="collapse">Producteurs</a>
+                                    </div>
+                                    <div class="collapse hide float-left w-100" id="producersSubMenu">
+                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content="><?= (isset($universe) && $universe == 'anime') ? 'Studio' : 'Magazine' ?></a>
+                                        <a class="float-left text-white text-center w-100" href="<?= $universeLink ?>&content="><?= (isset($universe) && $universe == 'anime') ? 'Animateurs' : 'Mangaka' ?></a>
+                                    </div>
+                                </li>
                             <!-------------------Fin du sous menu des producteur-------------------->
 
                             <!-------------------Sous menu pour les listes Découverte--------------->

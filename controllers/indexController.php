@@ -28,9 +28,9 @@ function birthDateLimit($date){
     return $response;   
 }
 /**
- * fonction permmettant de formater la date en français avec le mois en toute lettre
+ * fonction permettant de formater la date en français avec le mois en toute lettre
  *
- * @param [string] $date
+ * @param [string] $date date non formaté
  * @return string
  */
 function formatDateFr($date){
@@ -81,8 +81,8 @@ if(isset($_POST['login'])){
     include_once '../models/dataBase.php';
     include_once '../models/users.php';
 }
-
 //----------------------Vérification du formulaire de connexion
+
 //On vérifie qu'une demande de connexion a été envoyé
 if(isset($_POST['login'])){
     $user = new users();

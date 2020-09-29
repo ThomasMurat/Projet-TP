@@ -11,44 +11,12 @@
 }
 /*--------- Fin ------------*/
 
-/*------ Footer STYLE --------*/
-footer {
-    height: 100px;
-    background-color: rgb(60, 66, 71);
-}
-/*--------- Fin ------------*/
-
-/*------ Welcome STYLE --------*/
-#welcomeContainer {
-    z-index: 1;
-    color: white;
-    position: absolute;
-    background-color: rgba(60, 66, 71, 0.7);
-    border-radius: 20px;
-}
-/*--------- Fin ------------*/
-#userProfileImage, #licenseImage {
-    max-height: 300px;
-    max-width: 300px;
-}
-.mangacolor2 {
-    background-color: rgb(189, 42, 71);
-}
-.animecolor2 {
-    background-color: rgb(49, 98, 204);
-}
-#licImg {
-    height: 400px;
-}
-#presentation img {
-    height: 600px;
-}
+/*-----Menu administrateur-----*/
 .wrapper {
     display: flex;
     width: 100%;
     align-items: stretch;
 }
-
 #sidebar {
     z-index: 1;
     margin-left: -250px;
@@ -67,6 +35,45 @@ footer {
 #sidebar.active {
     margin-left: -15px;
 }
+/*-------FIN------*/
+
+/*------ Footer STYLE --------*/
+footer {
+    height: 100px;
+    background-color: rgb(60, 66, 71);
+}
+/*--------- Fin ------------*/
+
+/*------ Welcome STYLE --------*/
+#welcomeContainer {
+    z-index: 1;
+    color: white;
+    position: absolute;
+    background-color: rgba(60, 66, 71, 0.7);
+    border-radius: 20px;
+}
+/*--------- Fin ------------*/
+
+/*------Licenses Style------*/
+.mangacolor2 {
+    background-color: rgb(189, 42, 71);
+}
+.animecolor2 {
+    background-color: rgb(49, 98, 204);
+}
+#licImg {
+    height: 400px;
+}
+#presentation img {
+    height: 600px;
+}
+/*--------Fin--------*/
+
+#userProfileImage, #licenseImage {
+    max-height: 300px;
+    max-width: 300px;
+}
+
 @media screen and (min-width:991px) {
 #mainMenuList {
     width: 100%;

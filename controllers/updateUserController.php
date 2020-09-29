@@ -47,6 +47,9 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                             //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
                             chmod($fileFullPath, 0644);
                             $user->image = $fileFullPath;
+                            if($user->image != $userProfile->image && $userProfile->image != 'assets/img/iconUser.png'){
+                                unlink($userProfile->image);
+                            }
                         } else {
                             $updateUserFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement';
                         }

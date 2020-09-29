@@ -60,6 +60,9 @@ if(isset($_SESSION['userProfile']) && $_SESSION['userProfile']['role'] == 'admin
                     //On définit les droits du fichiers uploadé (Ici : écriture et lecture pour l'utilisateur apache, lecture uniquement pour le groupe et tout le monde)
                     chmod($fileFullPath, 0644);
                     $producer->picture = $fileFullPath;
+                    if($producer->picture != $producerProfile->picture){
+                        unlink($producerProfile->picture);
+                    }
                 } else {
                     $updateProducerFormErrors['file'] = 'Votre fichier ne s\'est pas téléversé correctement';
                 }

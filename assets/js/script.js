@@ -1,9 +1,7 @@
 //Function permettant de fixer la taille minimal de la div content de sorte que le contenue remplisse toujour la page
-pageResize();
 function pageResize() {
     var screenHeight = window.innerHeight;
     var headerHeight = document.getElementById('menu').clientHeight;
-    var footerHeight = document.getElementById('footer').clientHeight;
     var content = document.getElementsByClassName('content')[0];
     content.style.minHeight = screenHeight - (headerHeight + 100) + 'px';
     content.style.marginTop = headerHeight + 'px';
@@ -48,7 +46,7 @@ function fillmodal(action, id){
     userActivateTitle = 'Activer le compte';
     userDesactivateText = 'Êtes vous certain de vouloir desactiver ce compte';
     userDesactivateTitle = 'Desactiver le compte';
-    userDeleteTexte = 'Êtes vous sûre de vouloir supprimer ce compte? Cela entrainera la suppression de tout les élements liés à cet utilisateur';
+    userDeleteText = 'Êtes vous sûre de vouloir supprimer ce compte? Cela entrainera la suppression de tout les élements liés à cet utilisateur';
     userDeleteTitle = 'Supprimer le compte';
     document.getElementById('userActionText').innerHTML = eval(action.id + 'Text');
     document.getElementById('actionTitle').innerHTML = eval(action.id + 'Title');
@@ -70,15 +68,14 @@ function fillModalId(id){
 }
 
 //--------------------------------AJAX----------------------------------------//
+
 //Function permettant l'affichage dynamique des message d'erreur du formulaire d'inscription
 function checkFieldValidity(input){
-    //Instanciation de l'objet XMLHttpRequest permettant de faire de l'AJAX
     var request = new XMLHttpRequest();
     //Les données sont envoyés en POST et c'est le controlleur qui va les traiter
     request.open('POST', 'controllers/subscribController.php', true);
     //Au changement d'état de la demande d'AJAX
     request.onreadystatechange = function () {
-        //Si on a bien fini de recevoir la réponse de PHP (4) et que le code retour HTTP est ok (200)
         if (request.readyState == 4 && request.status == 200) {
             document.getElementById(input.name + 'Error').innerHTML = this.responseText;
             if(this.responseText == ''){
@@ -92,7 +89,6 @@ function checkFieldValidity(input){
     }
     // Pour dire au serveur qu'il y a des données en POST à lire dans le corps
     request.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-    //Les données envoyées en POST. Elles sont séparées par un &
     request.send('postSubscribe=&field='+ input.name + '&' + input.name + '=' + input.value);
 }    
 
